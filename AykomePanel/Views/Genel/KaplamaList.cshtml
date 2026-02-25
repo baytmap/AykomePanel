@@ -1,0 +1,246 @@
+﻿@model AykomePanel.ClassHome._Response.AykGiydirmeDataOut
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    ViewData["Title"] = "Genel/Kaplama Listesi";
+    var yil = HttpContextAccessor.HttpContext.Request.Query["yil"].ToString();
+}
+
+
+
+@section Styles {
+    <style>
+        .chckLst {
+            background-color: #00987933;
+            padding: 5px;
+            border-radius: 8px;
+            height: 110px;
+            overflow: auto;
+        }
+    </style>
+}
+
+<div class="cerceve">
+    <h1 class="baslik1">Kaplama Listesi</h1>
+    <div class="row">
+        @*     <input type="number" id="txtYil" min="1995" max="2035" value="@yil" class="form-control" />
+        <a href="/Genel/KaplamaList?Yil=">Göster</a> *@
+        <div class="col-4">
+            <form id="yilForm" action="/Genel/KaplamaList" method="get" class="d-flex gap-1">
+                <input type="number" id="txtYil" name="Yil" min="1995" max="2035" value="@yil" class="form-control" />
+                <noscript>
+                    <button type="submit" class="btn btn-primary">Göster</button>
+                </noscript>
+            </form>
+        </div>
+        <div class="col-8 text-end">
+            <button type="button" class="btn btn-sm btn-outline-info opnModal" id="btnMdlWfs" data-ref="#mdlEdit" data-temizle="true"><i class="bx bx-map-pin"></i>Yeni Kaplama Ekle</button> |
+            <button type="button" class="btn btn-sm btn-outline-danger opnModal" data-ref="#mdlCogalt1"><i class="bx bx-map-pin"></i>@Model.MinYil İçin Çoğalt</button>
+            <button type="button" class="btn btn-sm btn-outline-success opnModal" data-ref="#mdlCogalt2"><i class="bx bx-map-pin"></i>@Model.MaxYil İçin Çoğalt</button>
+        </div>
+    </div>
+    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+        <thead class="tblhead">
+            <tr>
+                @if (Model != null && Model.AykGiydirmeOuts != null)
+                {
+                    <th class="wdt-kucuk">@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].id)</th>
+                    <th class="wdt-kucuk">@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Sira)</th>
+                    <th>@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].GiydirmeRef)</th>
+                    <th class="wdt-kucuk">@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Yil)</th>
+                    <th>@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Tanim)</th>
+                    <th>@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].BrmFyt)</th>
+                    <th class="wdt-kucuk">@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Birim)</th>
+                    <th>@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Yogunluk)</th>
+                    <th>@Html.DisplayNameFor(model => model.AykGiydirmeOuts[0].Aktif)</th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+    </table>
+    <div class="position-relative">
+        <div class="overflow-auto tblbotsty">
+            <table class="table fixtbl">
+                <tbody id="tblData">
+                    @if (Model != null && Model.AykGiydirmeOuts != null)
+                        @foreach (var item in Model.AykGiydirmeOuts)
+                        {
+                            <tr data-id="@item.id">
+                                <td class="wdt-kucuk">@item.id</td>
+                                <td class="wdt-kucuk">@item.Sira</td>
+                                <td>@item.GiydirmeRef</td>
+                                <td class="wdt-kucuk">@item.Yil</td>
+                                <td>@item.Tanim</td>
+                                <td>@item.BrmFyt</td>
+                                <td class="wdt-kucuk">@item.Birim</td>
+                                <td>@item.Yogunluk</td>
+                                <td>
+                                    @if (item.Aktif == true)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input chbvgf" checked="checked" type="checkbox">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input chbvgf" type="checkbox">
+                                        </div>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <a class="btn btn-danger btn-sm btnSil">
+                                        <i class="bx bx-x"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-sm btn-ackapa">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+        <div class="tblload" hidden="hidden">
+            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mdlEdit" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kaplama Yönetimi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="lblDiv">
+                            <div class="lbll">Sıra</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="number" class="form-control form-control-sm" id="txtSira" data-validate-hint="Zorunlu Alan!" data-validate-func="required">
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="lblDiv">
+                            <div class="lbll">Tanım</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtTanim" data-validate-hint="Zorunlu Alan!" data-validate-func="required">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="lblDiv">
+                            <div class="lbll">Birim Fiyat</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtBirimFyt" data-validate-hint="Zorunlu Alan!" data-validate-func="required">
+                        </div>
+                    </div>
+                    @*   </div>
+                    <div class="row"> *@
+                    <div class="col-4">
+                        <div class="lblDiv">
+                            <div class="lbll">Birim</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtBirim" data-validate-hint="Zorunlu Alan!" data-validate-func="required">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="lblDiv">
+                            <div class="lbll">Yoğunluk</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtYogunluk" data-validate-hint="Zorunlu Alan!" data-validate-func="required">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="lblDiv">
+                            <div class="lbll">Durum</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="form-check">
+                                <input class="form-check-input chbvgf" id="txtDurum" checked="checked" type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnKaydet" class="btn btn-success btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Kaydet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mdlSil" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kayıt Silmek</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu Kayıt Tamamen Silinsin mi?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSil" class="btn btn-danger btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Sil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mdlCogalt1" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>@Model.MinYil Yılı İçin Kaplama Listesi Oluşturulsun mu?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOlustur1" class="btn btn-success btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Oluştur</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mdlCogalt2" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>@Model.MaxYil Yılı İçin Kaplama Listesi Oluşturulsun mu?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOlustur2" class="btn btn-success btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Oluştur</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/_genel/kaplamajs.js"></script>
+}

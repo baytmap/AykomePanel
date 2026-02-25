@@ -1,0 +1,325 @@
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aykome Panel</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/mobile.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-details">
+            <img src="~/img/konya_büyükşehir_belediyesi_logosu.png" />
+        </div>
+        <ul class="nav-links">
+            <li class="sli">
+                <a asp-controller="Home" asp-action="Panel">
+                    <i class='bx bx-grid-alt bi bi-search'></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">UKOME</a></li>
+                </ul>
+            </li>
+
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bxs-map-pin'></i>
+                        <span class="link_name">Aykome</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#"></a></li>
+                    <li><a href="#" onclick="fncCalismaYili()">Çalışma Yılı <span id="aktYil"></span></a></li>
+                    <li><a asp-controller="Aykome" asp-action="PasifProjeler">Pasif Proje Listesi</a></li>
+                    <li><a asp-controller="Aykome" asp-action="ProjeListesi">Proje Listesi</a></li>
+                    <li><a href="#">KOSKİ Arızaları</a></li>
+                    <li><a asp-controller="Aykome" asp-action="KacakKazilar">Kaçak Kazılar</a></li>
+                    <li><a asp-controller="Aykome" asp-action="Ayarlar">Ayarlar</a></li>
+                    <li><a asp-controller="Aykome" asp-action="KaziRaporu">Raporlar/Kazı Raporu2</a></li>
+                    <li><a asp-controller="Aykome" asp-action="OrtakKazilar">Raporlar/Ortak Kazılar</a></li>
+                    <li><a asp-controller="Aykome" asp-action="AykomeAnaliz">Raporlar/Aykome Analiz</a></li>
+                </ul>
+            </li>
+
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-map-alt'></i>
+                        <span class="link_name">Abs</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Posts</a></li>
+                    <li><a asp-controller="Abs" asp-action="AdaParselPafta">Ada/Parsel/Pafta</a></li>
+                    <li><a asp-controller="Abs" asp-action="Mahalle">Mahalle</a></li>
+                    <li><a asp-controller="Abs" asp-action="TasinmazBb">Taşınmaz/BB</a></li>
+                    <li><a asp-controller="Abs" asp-action="CaddeSokak">Cadde/Sokak</a></li>
+                    <li><a asp-controller="Abs" asp-action="BasvuranKisi">Başvuran Kişi Bilgisi</a></li>
+                </ul>
+            </li>
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-map'></i>
+                        <span class="link_name">Harita</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#"></a></li>
+                    <li><a asp-controller="Harita" asp-action="HaritaPg">Harita</a></li>
+                    <li><a asp-controller="Harita" asp-action="KentRehperi">Kent Rehberi</a></li>
+                </ul>
+            </li>
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bxs-map-alt'></i>
+                        <span class="link_name">Altyapı</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Analytics</a></li>
+                    <li><a asp-controller="AltYapi" asp-action="FirmaBaglantiSebeke">Firmalar</a></li>
+                    <li><a href="#">Bağlantı Tipleri İptal</a></li>
+                    <li><a href="#">Şebeke Tipleri İptal</a></li>
+                </ul>
+            </li>
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-plug'></i>
+                        <span class="link_name">Ukome</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Analytics</a></li>
+                    <li><a asp-controller="Ukome" asp-action="OtoparkListesi">Otopark Listesi</a></li>
+                    <li><a asp-controller="Ukome" asp-action="UkomeKararGiris">UKOME Kararları Giriş</a></li>
+                </ul>
+            </li>
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-book-alt'></i>
+                        <span class="link_name">İmar</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Posts</a></li>
+                    <li><a asp-controller="Imar" asp-action="YapiRuhsatSorgulama">Yapı Ruhsat Sorgulama</a></li>
+                    <li><a asp-controller="Imar" asp-action="YapiKullanmaIzni">Yapı Kullanma İzni</a></li>
+                </ul>
+            </li>
+            <li class="sli">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-cog'></i>
+                        <span class="link_name">Genel</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#"></a></li>
+                    <li><a asp-controller="Genel" asp-action="KurumYonetimi">Kurum Yönetimi</a></li>
+                    <li><a asp-controller="Genel" asp-action="KatmanYonetimi">Katman Yönetimi</a></li>
+                    <li><a asp-controller="Genel" asp-action="KullaniciYonetimi">Kullanıcı Yönetimi</a></li>
+                    <li><a asp-controller="Genel" asp-action="KaplamaList" asp-route-Yil="@DateTime.Now.Year">Kaplama Listesi</a></li>
+                    <li><a asp-controller="Genel" asp-action="LogListesi">Kullanıcı Logları</a></li>
+                    <li><a asp-controller="Genel" asp-action="HataListesi">Hata Logları</a></li>
+                    <li><a href="#">Mesajlaşma</a></li>
+                    <li><a href="#">Güncelleme</a></li>
+                    <li><a href="#">Ayarlar</a></li>
+                    <li><a asp-controller="Genel" asp-action="Hakkinda">Hakkında</a></li>
+                </ul>
+            </li>
+
+            @*   <li class="sli">
+            <a href="#">
+            <i class='bx bx-cog'></i>
+            <span class="link_name">Ayarlar</span>
+            </a>
+            <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Setting</a></li>
+            </ul>
+            </li>
+            <li class="sli">
+            <div class="iocn-link">
+            <a href="#">
+            <i class='bx bx-collection'></i>
+            <span class="link_name">Test</span>
+            </a>
+            <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+            <li><a class="link_name" href="#">UKOME</a></li>
+            <li> <a asp-area="" asp-controller="Test" asp-action="Tema">Tema</a></li>
+
+            </ul>
+            </li>
+            *@
+
+            @*  <li class="sli">
+            <div class="profile-details">
+            <div class="profile-content">
+            <!--<img src="image/profile.jpg" alt="profileImg">-->
+            </div>
+            <div class="name-job">
+            <img src="https://sepet.konya.bel.tr/kbb//kbb/resim/baskan_fotograf/3/e227cb3bbacf3b98afb506b806994a5b.jpg" />
+            <div>
+            <div class="profile_name">Login Olan Kişi</div>
+            <div class="job">Login Ünvan</div>
+            </div>
+            </div>
+            <i class='bx bx-log-out text-white'></i>
+            </div>
+            </li> *@
+        </ul>
+    </div>
+
+    <section class="home-section">
+        <div class="home-content">
+            <i class='bx bx-menu mob-hidden' data-open="false"></i>
+            <div class="ms-md-auto">
+                <div class="dropdown-center pe-4">
+                    <div class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if (User.Identity.IsAuthenticated && User.Claims.FirstOrDefault(c => c.Type == "UserName") != null)
+                        {
+                            @if (User.Claims.FirstOrDefault(c => c.Type == "UserPhoto") != null)
+                            {
+                                <img id="imgPer" src="@User.Claims.FirstOrDefault(c => c.Type == "UserPhoto").Value" />
+                            }
+                            @*   *@
+                            <div>
+                                <div> <span class="kkrm4">@User.Claims.FirstOrDefault(c => c.Type == "UserName").Value</span></div>
+                                <div class="gbt56">
+                                    <span class="kkrm1">@User.Claims.FirstOrDefault(c => c.Type == "Kurum").Value</span>/
+                                    <span class="kkrm3">@User.Claims.FirstOrDefault(c => c.Type == "Birim").Value</span>
+                                </div>
+                                <div class="gbt56"> <span class="kkrm2">@User.Claims.FirstOrDefault(c => c.Type == "BirimUstGrupAd").Value</span></div>
+                            </div>
+                        }
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-controller="Genel" asp-action="SifreDegistir">Şifre Değiştir</a></li>
+                        <li><a asp-controller="Home" asp-action="GuvenliCikis" class="dropdown-item">Çıkış Yap</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            @*      <div class="profile-details">
+            <div class="profile-content">
+            <!--<img src="image/profile.jpg" alt="profileImg">-->
+            </div>
+            <div class="name-job">
+            <img src="https://sepet.konya.bel.tr/kbb//kbb/resim/baskan_fotograf/3/e227cb3bbacf3b98afb506b806994a5b.jpg" />
+            <div>
+            <div class="profile_name">Login Olan Kişi</div>
+            <div class="job">Login Ünvan</div>
+            </div>
+            </div>
+            <i class='bx bx-log-out text-white'></i>
+            </div> *@
+
+        </div>
+        <div class="p-4 mobpadding">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </section>
+    <div class="bce" onclick="fncModImgCls()"></div>
+    <div class="imgMod" onclick="fncModImgCls()">
+        <img alt="Alternate Text" />
+    </div>
+    <div class="one">
+    </div>
+    <div class="toast-container position-fixed p-3 bottom-0 end-0" style=" z-index:2000">
+        <div id="liveToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex  align-items-center ps-2">
+                <i class="bi bi-search"></i>
+                <div class="toast-body" id="toastmes">
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlCalismaYili" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Çalışma Yılı Yönetimi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username">Çalışma Yılı Değeri</label>
+                        <input type="number" class="form-control" name="txtCalismaYili" id="txtCalismaYili">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="fncCalismaYiliSet()" class="btn btn-success btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdlOnay" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                @*    <div class="modal-header">
+                <h5 class="modal-title">Dosyalar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> *@
+                <div class="modal-body">
+                    <div id="lblOnayMesaj"></div>
+                </div>
+
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                        <i class='bx bx-x'></i>
+                        <span>İptal</span>
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" id="btnonayEvnt">
+                        <i class='bx bx-check'></i>
+                        <span>Evet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/amcharts/3.21.15/plugins/export/libs/FileSaver.js/FileSaver.min.js"></script>
+    <script src="/js/xlsx.full.min.js"></script>
+
+    <script src="~/js/zxc.js"></script>
+    <script src="~/js/genelJs.js" asp-append-version="true"></script>
+    <script>
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

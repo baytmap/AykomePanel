@@ -1,0 +1,1103 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "İmar/Yapı Ruhsat Sorgulama";
+}
+@section Styles {
+    <link href="~/css/leaflet.css" rel="stylesheet" />
+    <style>
+        #map {
+            width: 100%;
+            height: 550px;
+        }
+    </style>
+}
+<div class="cerceve">
+    <h1 class="baslik1">Yapı Ruhsat Sorgulama</h1>
+    <div class="tblsearch">
+        <div class="row">
+            <div class="col">
+                <h2 class="altbaslik">Genel</h2>
+                <div class="form-root">
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">İlçe</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcIlce" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Mahalle</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcMahalle" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Cadde/Sokak Adı</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcCaddeSoka" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ruhsat Veriliş Amacı</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcRuhsatVerAmc" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ruhsat Veren Kurum</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcRuhsatVerKurm" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yapı Sahibi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtYapiSahibi" type="text" class="form-control form-control-sm inputIslem" placeholder="Yapı Sahibi" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yapı Müteahhidi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtYapiMuteahhidi" type="text" class="form-control form-control-sm inputIslem" placeholder="Yapı Müteahhidi" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Pafta</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtPafta" type="text" class="form-control form-control-sm inputIslem" placeholder="Pafta" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ada</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtAda" type="text" class="form-control form-control-sm inputIslem" placeholder="Ada" data-tip="enter" data-ref="#btnVeriAra" />
+
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Parsel</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtParsel" type="text" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+
+                        </div>
+                    </div>
+                </div>
+                @*  <h2 class="altbaslik">Yapının Teknik Özellikleri</h2>
+                <div class="form-root">
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Isıtma Sistemi</div>
+                </div>
+                <div class="ltxt">
+                <select id="slcIsitmaSistemi" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                <option value="-1">Seç</option>
+                </select>
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Yakıt Cinsi</div>
+                </div>
+                <div class="ltxt">
+                <select id="slcYakitCinsi" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                <option value="-1">Seç</option>
+                </select>
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Taşıyıcı Sistem</div>
+                </div>
+                <div class="ltxt">
+                <select id="slcTasiyiciSitem" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                <option value="-1">Seç</option>
+                </select>
+                </div>
+                </div>
+                </div>
+                <h2 class="altbaslik">Yapı Denetim Kuruluşu</h2>
+                <div class="form-root">
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">YDK Adı</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtYDKAdi" type="text" class="form-control form-control-sm inputIslem" placeholder="YDK Adı" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">YDK Yetkilisi Adı</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtYDKYetkilisiAdi" type="text" class="form-control form-control-sm inputIslem" placeholder="YDK Yetkilisi Adı" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                </div> *@
+            </div>
+
+            <div class="col">
+
+                <h2 class="altbaslik">Ruhsat Bilgileri</h2>
+                <div class="form-root">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Onay Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtOnayTarihi" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll"></div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtOnayTarihi2" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">İnşaata Başlama Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtInsBasTar" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">İnşaata Bitirme Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtInsBitTar" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ruhsat Geçerlilik Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtRuhGecTar" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Parsel Kullanımı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtParselKullanimi" type="text" class="form-control form-control-sm inputIslem" placeholder="Parsel Kullanımı" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                </div>
+
+                @*
+                <h2 class="altbaslik">Yapı Projeleri</h2>
+                <div class="form-root">
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Proje Müellifi Mimar</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtPrMuMimar" type="text" class="form-control form-control-sm inputIslem" placeholder="Proje Müellifi Mimar" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Proje Müellifi Statik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtPrMuStatik" type="text" class="form-control form-control-sm inputIslem" placeholder="Proje Müellifi Statik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Proje Müellifi Elektirik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtPrMuElektirik" type="text" class="form-control form-control-sm inputIslem" placeholder="Proje Müellifi Elektirik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Proje Müellifi Mekanik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtPrMuMekanik" type="text" class="form-control form-control-sm inputIslem" placeholder="Proje Müellifi Mekanik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                </div>
+                <h2 class="altbaslik">Yapı Denetimi</h2>
+                <div class="form-root">
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Fenni Mes'ul Mimar</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtFenniMesMimar" type="text" class="form-control form-control-sm inputIslem" placeholder="Fenni Mes'ul Mimar" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Fenni Mes'ul Statik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtFenniMesStatik" type="text" class="form-control form-control-sm inputIslem" placeholder="Fenni Mes'ul Statik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Fenni Mes'ul Elektirik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtFenniMesElektirik" type="text" class="form-control form-control-sm inputIslem" placeholder="Fenni Mes'ul Elektirik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                <div class="bcol">
+                <div class="lblDiv">
+                <div class="lbll">Fenni Mes'ul Mekanik</div>
+                </div>
+                <div class="ltxt">
+                <input id="txtFenniMesMekanik" type="text" class="form-control form-control-sm inputIslem" placeholder="Fenni Mes'ul Mekanik" data-tip="enter" data-ref="#btnVeriAra" />
+                </div>
+                </div>
+                </div> *@
+            </div>
+
+            <div class="col">
+                <h2 class="altbaslik">Yapının İlgili Özellikler</h2>
+                <div class="form-root">
+                    @* <div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam Yapı Sayısı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtToplamYapiSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam Yapı Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam BB Sayısı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtToplamBBSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam BB Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam Daire Sayısı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtToplamDaireSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam Daire Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam Taban Alanı Ağırlığı</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtToplamTalan1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtToplamTalan2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam Yapı İnş. Alanı Ağırlığı</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtToplamYapi1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtToplamYapi2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Yapının Sınıf/Grubu</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtToplamYapiSnf1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtToplamYapiSnf2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Kot Üstü Kat Yüksekliği</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtKotUstYuksek" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Toplam Kat Yüksekliği</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtToplamKatYuk1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtToplamKatYuk2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">M2 Maliyeti</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtToplM21" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtToplM22" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Yapının Maliyeti</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtYapiMalyt1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtYapiMalyt2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">FDK Maliyeti</div>
+                            </div>
+                            <div class="ltxt">
+                                <div class="row">
+                                    <div class="col"> <input id="txtYapiFDKMalyt1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                    <div class="col"> <input id="txtYapiFDKMalyt2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rdkIskan" id="rdyIskan1">
+                            <label class="form-check-label" for="rdyIskan1">
+                                İskanı Olanlar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rdkIskan" id="rdyIskan2" checked>
+                            <label class="form-check-label" for="rdyIskan2">
+                                İskanı Olmayanlar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rdkIskan" id="rdyIskan3" checked>
+                            <label class="form-check-label" for="rdyIskan3">
+                                Tüm Ruhsatlar
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="d-flex gap-2 bg-white p-1 justify-content-between mb-2">
+                        <button type="button" class="btn btn-sm btn-outline-warning w-50" id="btnTarDlnRuhs">Tarihi Dolan Ruhsatlar</button>
+                        <button type="button" class="btn btn-sm btn-outline-warning w-50" id="btnIkiYilDolRuh">2 Yılı Dolan Ruhsatlar</button>
+                    </div>
+                    <div class="d-flex gap-2 bg-white p-1 justify-content-between">
+                        <button type="button" class="btn btn-sm btn-outline-warning w-50" id="btnFenniMes">Fenni Mes'uliyet'</button>
+                        <button type="button" class="btn btn-sm btn-outline-warning w-50" id="btnJeoloji">Jeoloji Sorgu</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h2 class="altbaslik">Seçili Ada Parsel Ruhsatları</h2>
+                <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                    <thead class="tblhead">
+                        <tr>
+                            <th>Ada No</th>
+                            <th>Parsel No</th>
+                            <th>Kurum Kimlik No</th>
+                            <th>Numarataj Kimlik No</th>
+                            <th>XXX</th>
+                            <th>XXX</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="position-relative bg-white">
+                    <div class="overflow-auto tblbotsty">
+                        <table class="table fixtbl">
+                            <tbody id="tblData2">
+                                <tr>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                </tr>
+                                <tr>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                </tr>
+                                <tr>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                </tr>
+                                <tr>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                </tr>
+                                <tr>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                    <td>XXX</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tblload" hidden="hidden">
+                        <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 d-flex justify-content-between">
+            <div><button type="button" class="btnFiltreClear btn btn-secondary btn-sm "><i class="bx bx-square"></i>Temizle</button></div>
+            <div class="d-flex gap-1">
+                @* <button id="btnExcel" disabled="disabled" type="button" class="btn btn-success btn-sm" title="Excel"><i class='bx bxs-file-export'></i>Excel</button> *@
+                <button id="btnVeriAra" type="button" class="btnSearch btn btn-warning btn-sm"><i class="bx bx-search"></i><span>Ara</span></button>
+            </div>
+        </div>
+    </div>
+    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+        <thead class="tblhead">
+            <tr>
+                <th>Kayit No</th>
+                <th>Kurum Ref</th>
+                <th>Numarataj Ref</th>
+                <th>Ada No</th>
+                <th>Parsel No</th>
+                <th>Ruhsat No</th>
+                <th>Ruhsat Tarihi</th>
+                <th>Ruhsat Amaci</th>
+                <th>Inşaat Bitirme Tarihi</th>
+                <th>Yapı Sahibi</th>
+                <th>İlçe</th>
+                <th>Mahalle</th>
+                <th>Cadde Sokak</th>
+                <th>Diş Kapı No</th>
+                <th>İskan Durumu</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="position-relative">
+        <div class="overflow-auto tblbotsty">
+            <table class="table fixtbl">
+                <tbody id="tblData">
+                </tbody>
+            </table>
+        </div>
+        <div class="tblload" hidden="hidden">
+            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yapı Ruhsatı</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-3">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ruhsat Takip No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtRuhsatTakipNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Numarataj Ref</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtNumaratajRef" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İl</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtIl" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İlçe</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtIlce" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Bucak</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtBucak" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Köy</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtKoy" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Belediye</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtBelediye" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Mahalle</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtMahalle" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Cadde Sokak</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtCaddeSokak" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Bina No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtBinaNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Blok No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtBlokNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ada No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtAdaNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Parsel No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtParselNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Zemin Emniyet Sayısı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtZeminEmniyetSayisi" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Yatak Kat Sayısı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtYatakKatSayisi" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Zemin Grubu</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtZeminGrubu" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Zemin Sınıfı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtZeminSinifi" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Güncelleyen Adı Soyad</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtGuncelleyenAdiSoyad" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Güncelleyen Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtGuncelleyenTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ruhsat Veren Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtRuhsatVerenKurum" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ruhsat No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtRuhsatNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Onay Kodu</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtOnayKodu" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Veriliş Amacı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtVerilisAmaci" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ruhsat Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtRuhsatOnayTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İlk Ruhsat No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtIlkRuhsatNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İlk Ruhsat Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtIlkRuhsatTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Imar Planı Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtImarPlaniOnayTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Parselasyon Planı Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtParselasyonPlaniOnayTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İmar Durum No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtImarDurumNo" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">İmar Durum Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtImarDurumTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Parselin Kullanma Amacı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtParselinKullanmaAmaci" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Parselin Alanı M2</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtParselinAlaniM2" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tapu Tescil Belegesi Veren Kurum ID</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcTapuTescilBelegesiVerenKurumID" class="form-select form-select-sm">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tapu Tescil Belegesi Veren Kurum ID</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTapuTescilBelegesiVerenKurumID" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tapu Tescil Belegesi No Yevmiye</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTapuTescilBelegesiNoYevmiye" type="text" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tapu Tescil Belegesi Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTapuTescilBelegesiTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Zemin Etüdu Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtZeminEtuduOnayTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ced Raporu Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtCedRaporuOnyaTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Planlanan İnşaat Bitirme Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtPlanlananInsaatBitirmeTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ruhsat Geçerlilik Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtRuhsatGecerlilikTarihi" type="date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri2" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ruhsat-Jeoloji Rapor Sorgu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="altbaslik">Sorgu Kriterleri</h2>
+                    <div class="row">
+                        <div class="col-3">
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg1">
+                                    <label class="form-check-label" for="chbxSrg1">
+                                        Jeoloji Rapor Tarihi
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg2" checked>
+                                    <label class="form-check-label" for="chbxSrg2">
+                                        Taban Alanı
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg3" checked>
+                                    <label class="form-check-label" for="chbxSrg3">
+                                        Blok Sayısı
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg3" checked>
+                                    <label class="form-check-label" for="chbxSrg3">
+                                        Kat Adedi
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg4" checked>
+                                    <label class="form-check-label" for="chbxSrg4">
+                                        Bodrum Adedi
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="chbxSrg5" checked>
+                                    <label class="form-check-label" for="chbxSrg5">
+                                        Bina Yüksekliği
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="row row-cols-2">
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Tarih 1</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtrhsjeTarih1" type="date" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Tarih 2</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtrhsjeTarih2" type="date" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Değer 1</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtrhsjeDeger1" type="datetime" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Değer 2</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtrhsjeDeger2" type="datetime" class="form-control form-control-sm" />
+                                    </div>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-warning btn-sm w-100">Sorgula</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="altbaslik mt-3" ">Sorgu Sonuçları</h2>
+                    <table class="fixtbl cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>XXX</th>
+                                <th>XXX</th>
+                                <th>XXX</th>
+                                <th>XXX</th>
+                                <th>XXX</th>
+                                <th>XXX</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div class="position-relative bg-white">
+                        <div class="overflow-auto tblbotsty">
+                            <table class="table fixtbl">
+                                <tbody id="tblData3">
+                                    <tr>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                        <td>XXX</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tblload" hidden="hidden">
+                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="~/js/LeafletJS/leaflet-src.js"></script>
+        <script src="~/js/_imar/yapiruhsatsorgulama.js"></script>
+    }
+</div>

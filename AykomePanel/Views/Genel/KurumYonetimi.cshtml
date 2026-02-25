@@ -1,0 +1,317 @@
+﻿@* @model AykomePanel.ClassHome._Response.KurumBirimSonucOut *@
+
+
+@{
+    ViewData["Title"] = "Genel/Kurum Yönetimi";
+}
+@section Styles {
+    <style>
+        .bbgt {
+            height: 350px;
+            overflow-x: scroll;
+        }
+
+        .chckLst {
+            background-color: #00987933;
+            padding: 5px;
+            border-radius: 8px;
+            height: 110px;
+            overflow: auto;
+        }
+
+        .nocls {
+            background-color: #00987933;
+        }
+
+        .fnvredw {
+            width: 100px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: end;
+        }
+
+            .fnvredw .form-check-input {
+                margin-top: 10px;
+                margin-right: 10px;
+            }
+
+        #txtTitKurumAd {
+            color: orangered;
+            margin-right: 10px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+        }
+
+            #txtTitKurumAd::after {
+                position: absolute;
+                background-color: #ff00002e;
+                width: calc(100% - 40%);
+                height: 27px;
+                content: "";
+                left: -5px;
+                z-index: 0;
+                top: 0px;
+                border-radius: 0 17px 17px 0;
+                border: 1px solid #ff00002e;
+            }
+    </style>
+}
+
+<div class="cerceve">
+    <h1 class="baslik1">Kurum Yönetimi</h1>
+    <div class="text-end">
+        <a class="btn btn-outline-info btn-sm opnModal" id="btnynkrm" data-ref="#mdlKrmEdt" data-temizle="true"><i class='bx bx-plus'></i>Yeni Kurum Ekle</a>
+    </div>
+    <div class="accordion mt-2" id="accordionExample">
+        <div class="text-center">Kurum Listesi Yükleniyor...</div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlSil" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kayıt Silmek</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu Kayıt Tamamen Silinsin mi?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSil" class="btn btn-danger btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Sil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlKrmEdt" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kurum Yönetimi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>Kurum Adı</div>
+                <input type="type" class="form-control" id="txtKurumAd" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnKrmEdt" class="btn btn-success btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Kaydet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlBrmEdt" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kurum Birim Yönetimi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>Üst Grup Birim</div>
+                <select class="form-select" id="slcUstGrupBirim"></select>
+                <div class="mt-2">Birim Adı</div>
+                <input type="text" class="form-control" id="txtBirimAd" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnBrmEdt" class="btn btn-success btn-sm">
+                    <i class='bx bx-check'></i>
+                    <span>Kaydet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" id="mdlEdit" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="txtTitKurumAd"></span>Birim Yönetimi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="BirimPnl-tab" data-bs-toggle="pill" data-bs-target="#BirimPnl" type="button" role="tab" aria-controls="BirimPnl" aria-selected="true">Temel Bilgi</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="RolPnl-tab" data-bs-toggle="pill" data-bs-target="#RolPnl" type="button" role="tab" aria-controls="RolPnl" aria-selected="false">Rol Yönetimi</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="IlceMahallePnl-tab" data-bs-toggle="pill" data-bs-target="#IlceMahallePnl" type="button" role="tab" aria-controls="IlceMahallePnl" aria-selected="false">İlçe/Mahalle Onay Yönetimi</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ProjeTipPnl-tab" data-bs-toggle="pill" data-bs-target="#ProjeTipPnl" type="button" role="tab" aria-controls="ProjeTipPnl" aria-selected="false">Proje Tip İlişkisi</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="YolAdiyetPnl-tab" data-bs-toggle="pill" data-bs-target="#YolAdiyetPnl" type="button" role="tab" aria-controls="YolAdiyetPnl" aria-selected="false">Yol Aidiyet Yönetimi</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade" id="BirimPnl" role="tabpanel" aria-labelledby="BirimPnl-tab" tabindex="0">
+                        <div>
+                            <div class="row">
+                                <div class="col">
+                                    <div>Üst Grup Birim</div>
+                                    <select class="form-select" id="slcUstGrupBirim2"></select>
+                                </div>
+                                <div class="col">
+                                    <div>Birim Adı</div>
+                                    <input type="text" class="form-control" id="txtBirimAd2" />
+                                </div>
+                            </div>
+                            <div class="text-end mt-2">
+                                <button type="button" id="btnBrmEdtSil" class="btn btn-danger">
+                                    <i class='bx bx-x'></i>
+                                    <span>Birimi Sil</span>
+                                </button>
+                                <button type="button" id="btnBrmEdt2" class="btn btn-success">
+                                    <i class='bx bx-check'></i>
+                                    <span>Temel Bilgiyi Kaydet</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="RolPnl" role="tabpanel" aria-labelledby="RolPnl-tab" tabindex="0">
+                        <div>
+                            <h3 class="altbaslik bbg1">Rol İlişkisi</h3>
+                            <div class="bbgt">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Seç</th>
+                                            <th>Tanım</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblRolBrm"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" id="btnRolBrmKaydet" class="btn btn-success">
+                                <i class='bx bx-check'></i>
+                                <span>Rollleri / Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="IlceMahallePnl" role="tabpanel" aria-labelledby="IlceMahallePnl-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-5">
+                                <h3 class="altbaslik bbg1">İlçe</h3>
+                                <div class="bbgt">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="wdt-100">Seç</th>
+                                                <th>İlçe</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblIlce"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <h3 class="altbaslik bbg2">Mahalle</h3>
+                                <div class="bbgt">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="fnvredw">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" id="chbht5" type="checkbox">
+                                                    </div>
+                                                    <span>Seç</span>
+                                                </th>
+                                                <th>İlçe</th>
+                                                <th>Malalle</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblMahalle">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" id="btnIlcMahKaydet" class="btn btn-success">
+                                <i class='bx bx-check'></i>
+                                <span>İlçe Mahalle Onay / Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="ProjeTipPnl" role="tabpanel" aria-labelledby="ProjeTipPnl-tab" tabindex="0">
+                        <div>
+                            <h3 class="altbaslik bbg1">Proje Tip İlişkisi</h3>
+                            <div class="bbgt">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="fnvredw">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" id="chbht6" type="checkbox">
+                                                </div>
+                                                <span>Seç</span>
+                                            </th>
+                                            <th>Tanım</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblProjeTip"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" id="btnPrjTipKaydet" class="btn btn-success">
+                                <i class='bx bx-check'></i>
+                                <span>Proje Tiplerini / Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="YolAdiyetPnl" role="tabpanel" aria-labelledby="YolAdiyetPnl-tab" tabindex="0">
+                        <div>
+                            <h3 class="altbaslik bbg1">Yol Aidiyet</h3>
+                            <div class="bbgt">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="fnvredw">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" id="chbht7" type="checkbox">
+                                                </div>
+                                                <span>Seç</span>
+                                            </th>
+                                            <th>Tanım</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblYolAidiyet"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" id="btnYolAidiyetKaydet" class="btn btn-success">
+                                <i class='bx bx-check'></i>
+                                <span>Yol Adiyetlerini / Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/_genel/kurum_yntm.js" asp-append-version="true"></script>
+}

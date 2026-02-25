@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Aykome/Ayarlar";
+}
+
+<div class="cerceve">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pnl-1-tab" data-bs-toggle="pill" data-bs-target="#pnl-1" type="button" role="tab" aria-controls="pnl-1" aria-selected="true">Yatırımcı Kurum\Birim Ayarları</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pnl-2-tab" data-bs-toggle="pill" data-bs-target="#pnl-2" type="button" role="tab" aria-controls="pnl-2" aria-selected="false">Yeni Doğan Bildirim Ayarları</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pnl-1" role="tabpanel" aria-labelledby="pnl-1-tab" tabindex="0">
+            <div class="tblsearch form-root">
+                <div class="row">
+                    <div class="col">
+                        <div class="dbcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Taslak Proje Tipi</div>
+                            </div>
+                            <div class="ltxt">
+                                <select type="text" class="form-select form-select-sm" id="slcTaslakProjeTipi">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="dbcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Son Proje Taslak Giriş Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="date" class="form-control form-control-sm" id="txtSonprjTasGrsTar" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <h2 class="altbaslik mt-3">Birimlere Göre Çizgi ve Renk Ayarı</h2>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="dbcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <select type="text" class="form-select form-select-sm" id="slcKurum">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="dbcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Birim</div>
+                            </div>
+                            <div class="ltxt">
+                                <select type="text" class="form-select form-select-sm" id="slcBirim">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end mt-3">
+                    <button type="button" class="btn btn-warning" id="btnKaydet1">Ekle</button>
+                </div>
+            </div>
+            <div class="mt-3">
+                <h2 class="altbaslik">Liste</h2>
+                <div class="position-relative">
+                    <div class="overflow-auto tblbotsty2">
+                        <table class="table">
+                            <thead class="tblhead2">
+                                <tr>
+                                    <th>Birim</th>
+                                    <th>Taslak Stil</th>
+                                    <th>Proje Stil</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataBg">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pnl-2" role="tabpanel" aria-labelledby="pnl-2-tab" tabindex="0">
+            <div class="tblsearch form-root">
+            <h2 class="altbaslik">Bağlantı Tipi Yönetme</h2>
+            <div class="dbcol">
+                <div class="lblDiv">
+                    <div class="lbll">Yeni Doğanları Doğduğu Tarihten Şu Gün Sonraya Kadar Bildir</div>
+                </div>
+                <div class="ltxt">
+                    <input type="number" min="1" value="1" class="form-control form-control-sm" id="txtGunSayi" />
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-warning" id="btnKaydet2">Kaydet</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/_aykome/ayarlar.js"></script>
+}

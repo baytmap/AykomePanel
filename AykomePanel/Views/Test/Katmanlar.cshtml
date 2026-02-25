@@ -1,0 +1,670 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AykomePanel</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/leaflet.css" />
+    <link rel="stylesheet" href="~/css/leafletdraw.css" />
+    <style>
+        .logo-details {
+            width: 100%;
+            display: flex;
+            padding-top: 20px;
+            justify-content: center;
+        }
+
+            .logo-details img {
+                min-width: 60px;
+                max-width: 74%;
+            }
+
+        .home-content {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+        }
+
+            .home-content .bx-menu,
+            .home-content .text {
+                color: #11101d;
+                font-size: 35px;
+            }
+
+            .home-content .bx-menu {
+                margin: 0 15px;
+                cursor: pointer;
+            }
+
+            .home-content .text {
+                font-size: 26px;
+                font-weight: 600;
+            }
+
+      
+        .toast-container {
+            z-index: 1550;
+        }
+
+        .spnkord {
+            font-size: .7rem;
+            display: block;
+        }
+
+        .katmLan {
+            display: flex;
+        }
+
+            .katmLan .katmanPnl {
+                width: 230px;
+                background-color: #fff;
+            }
+
+                .katmLan .katmanPnl h1 {
+                    font-size: 1rem;
+                    color: #0a9b7e;
+                    line-height: 31px;
+                    background-color: #cce0e0;
+                    margin-top: 10px;
+                    margin-bottom: 0;
+                    text-align: center;
+                }
+
+                .katmLan .katmanPnl ul {
+                    list-style: none;
+                    padding: 0;
+                }
+
+                    .katmLan .katmanPnl ul li:nth-child(2n+1) {
+                        background-color: #d7e6dd5e;
+                    }
+
+            .katmLan .map {
+                width: calc(100% - 230px);
+            }
+
+                .katmLan .map #map {
+                    height: calc(100vh - 60px);
+                }
+
+
+        .fobvre {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 7px;
+            margin-bottom: 1px;
+            cursor: pointer;
+            justify-content: space-between;
+        }
+
+            .fobvre .bbhd1 {
+                overflow: hidden;
+            }
+
+                .fobvre .bbhd1 .ktmLbl {
+                    font-size: .8rem;
+                }
+
+                    .fobvre .bbhd1 .ktmLbl:hover {
+                        color: #ff2c2c;
+                    }
+
+            .fobvre .bbhd2 a, .btnKtmnShow {
+                background-color: #6da4aa46;
+                color: #009879;
+                width: 25px;
+                display: inline-block;
+                text-align: center;
+            }
+
+                .fobvre .bbhd2 a, .btnKtmnShow.aktiv {
+                    background-color: #309136;
+                    color: #fff;
+                }
+
+                    .fobvre .bbhd2 a i {
+                        position: relative;
+                        top: 2px;
+                    }
+
+        .bbhd2 a:hover, .bbhd2 a.active {
+            background-color: #dc3545a1;
+            color: #751821a1;
+        }
+
+        .leaflet-touch .leaflet-bar a {
+            background-color: #23d9b4;
+            color: #647d78;
+        }
+
+        .widt100 {
+            width: 100px;
+        }
+
+        .renk1 {
+            background-color: #FED976;
+        }
+
+        .renk2 {
+            background-color: #7AE2E9;
+        }
+
+        .renk3 {
+            background-color: #F7A278;
+        }
+
+        .renk4 {
+            background-color: #9BE37A;
+        }
+
+        .renk5 {
+            background-color: #D18CF2;
+        }
+
+        .renk6 {
+            background-color: #6ED5A1;
+        }
+
+        .renk7 {
+            background-color: #F392E3;
+        }
+
+        .renk8 {
+            background-color: #8BE0B6;
+        }
+
+        .renk9 {
+            background-color: #E8A88F;
+        }
+
+        .renk10 {
+            background-color: #A2E4C7;
+        }
+
+        .renk11 {
+            background-color: #F3C98A;
+        }
+
+        .renk12 {
+            background-color: #78E5D2;
+        }
+
+        .renk13 {
+            background-color: #E694B2;
+        }
+
+        .renk14 {
+            background-color: #B5E995;
+        }
+
+        .renk15 {
+            background-color: #E38AC7;
+        }
+
+        .renk16 {
+            background-color: #96E3B7;
+        }
+
+        .renk17 {
+            background-color: #F0A9D4;
+        }
+
+        .renk18 {
+            background-color: #7DE4A9;
+        }
+
+        .renk19 {
+            background-color: #D9A6F2;
+        }
+
+        .renk20 {
+            background-color: #A7E7BC;
+        }
+    </style>
+</head>
+<body>
+    <div class="katmLan">
+        <div class="katmanPnl">
+            <div class="logo-details">
+                <img src="/img/konya_büyükşehir_belediyesi_logosu.png">
+            </div>
+            <div>
+                <h1>Katmanlar</h1>
+                <ul id="lstKatman">
+                    @*        <li>
+                    <div class="fobvre">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:aqua"></span>
+                    <span class="ktmLbl">Kaski Arıza</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="fobvre">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:brown"></span>
+                    <span class="ktmLbl">Akedaş Kazı</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="fobvre">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:chartreuse"></span>
+                    <span class="ktmLbl">Armadaş Gaz</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="fobvre active">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:darkviolet"></span>
+                    <span class="ktmLbl">Uykome</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="fobvre">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:mediumaquamarine"></span>
+                    <span class="ktmLbl">Taşınmaz</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li>
+                    <li>
+                    <div class="fobvre">
+                    <div class="bbhd1">
+                    <span class="rnkKod" style="background-color:blue"></span>
+                    <span class="ktmLbl">Mahalle Sınırları</span>
+                    </div>
+                    <div class="bbhd2">
+                    <a class="btnKtmnShow" data-indirme="false"><i class='bx bxs-show'></i></a>
+                    <a class="btnKtmCenter"><i class='bx bx-horizontal-center'></i></a>
+                    <a class="btnKtmTbl"><i class='bx bx-table'></i></a>
+                    </div>
+                    </div>
+                    </li> *@
+                </ul>
+                @*  <div class="renk1">Renk 1</div>
+                <div class="renk2">Renk 2</div>
+                <div class="renk3">Renk 3</div>
+                <div class="renk4">Renk 4</div>
+                <div class="renk5">Renk 5</div>
+                <div class="renk6">Renk 6</div>
+                <div class="renk7">Renk 7</div>
+                <div class="renk8">Renk 8</div>
+                <div class="renk9">Renk 9</div>
+                <div class="renk10">Renk 10</div>
+                <div class="renk11">Renk 11</div>
+                <div class="renk12">Renk 12</div>
+                <div class="renk13">Renk 13</div>
+                <div class="renk14">Renk 14</div>
+                <div class="renk15">Renk 15</div>
+                <div class="renk16">Renk 16</div>
+                <div class="renk17">Renk 17</div>
+                <div class="renk18">Renk 18</div>
+                <div class="renk19">Renk 19</div>
+                <div class="renk20">Renk 20</div> *@
+            </div>
+        </div>
+        <div class="map">
+            <div class="home-content">
+                <div class="ms-md-auto">
+                    <div class="dropdown-center pe-4">
+                        <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img id="imgPer" src="/img/Konya_Büyükşehir_Belediyesi_logosu.png">
+                            <span>Salman ARSLAN</span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Ayarlarım</a></li>
+                            <li><a class="dropdown-item" href="#">Şifre Değiştir</a></li>
+                            <li><a class="dropdown-item" href="/Home/GuvenliCikis">Çıkış Yap</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="map"></div>
+        </div>
+
+
+    </div>
+
+    <div class="modal" id="mdlVeri" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdlBaslik">Modal Başlık</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-2" id="mdlKatBad">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Kaplama Cinsi<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtAdiSoyadi" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Birimi<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcvalue1" class="form-select" data-validate-hint="Zorunlu Alan!" data-validate-func="selectbox">
+                                    <option value="-1">Seç</option>
+                                    <option value="1">m2</option>
+                                    <option value="2">mt</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Standart Hesap<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtMinLength"
+                                       data-validate-hint="En az 3 Karakterden oluşmalıdır !"
+                                       data-validate-func="minlength" data-validate-arg="3" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tredaş vb. Uygulanan Hesap<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtMaxLength" data-validate-hint="En fazla 6 karakterden oluşmalıdır !" data-validate-func="maxlength" data-validate-arg="6" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">KOSKI Uygulanan Hesap<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtMinTipi"
+                                       data-validate-hint="20 den büyük bir değer olmalıdır !"
+                                       data-validate-func="min" data-validate-arg="20" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Hesap Yılı<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtMaxTipi"
+                                       data-validate-hint="50'den küçük bir değer olmalıdır !" data-validate-func="max" data-validate-arg="50" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Kaplama Kodu<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' id="txtEposta"
+                                       data-validate-hint="<%= Resources.dil.eposta%> <%= Resources.dil.hatali %>"
+                                       data-validate-func="email" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Web Adresi<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtWebAdresi"
+                                       data-validate-hint="Zorunlu Alan!"
+                                       data-validate-func="url" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tarih<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="date" class='form-control ' value="" id="txtTarih"
+                                       data-validate-hint="Zorunlu Alan!"
+                                       data-validate-func="date" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Saat<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="time" class='form-control ' value="" id="txtSaat"
+                                       data-validate-hint="Zorunlu Alan!"
+                                       data-validate-func="time" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Tarih ve Saat<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="datetime-local" class='form-control ' value="" id="txtTarihVeSaat" data-validate-hint="Zorunlu Alan!" data-validate-func="datetime" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Yüzde<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtYuzdesi" data-validate-hint="<%= Resources.dil.yuzdesi%> , <%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-func="number" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Yaş<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtYas"
+                                       data-validate-hint="<%= Resources.dil.yas%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-func="digits" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Renk<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="color" class='form-control ' value="" id="txtColor"
+                                       data-validate-hint="<%= Resources.dil.yas%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-func="hexcolor" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">TC. Numarası<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class='form-control ' value="" id="txtTcNo" data-validate-hint="<%= Resources.dil.tcno%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-arg="^[1-9]{1}[0-9]{9}[02468]{1}$"
+                                       data-validate-func="pattern" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Ek Dosya<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="file" class="form-control  fileUpload" data-validate-hint="<%= Resources.dil.dosya%>, <%= Resources.dil.icinbelirlenendegergecersiz %>" data-validate-func="filedialog" />
+                            </div>
+                            <div class="progressupl">
+                                <div class="progressuplic"></div>
+                            </div>
+                            <div class="yukimsd" id="fileDosya" runat="server"></div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Fotoğraf<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="file" class="form-control  imageUpload"
+                                       data-validate-hint=" <%= Resources.dil.resim%>, <%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-func="filedialog">
+                            </div>
+                            <div class="progressupl">
+                                <div class="progressuplic"></div>
+                            </div>
+                            <div class="yukimsd" id="imgResim"></div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Açıklama <span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <textarea id="txtMesaj" class='form-control'
+                                          data-validate-hint="Mesaj ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                          data-validate-func="required"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Şifre<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="password" class='form-control ' value="" id="txtSifre"
+                                       data-validate-hint="<%= Resources.dil.sifre%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                       data-validate-func="required" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Durum<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <label class="switch" style="line-height: 25px;">
+                                    <input checked="checked" type="checkbox" id="txtAktif" /><span class="check"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">SMS Dönüşü<span class="szr">*</span></div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="radio" id="txtSms" /><span class="check"></span>
+                                <span class="caption"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th class="widt100">No</th>
+                                <th>Enlem</th>
+                                <th>Boylam</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div id="dvCustomers" class="overflow-auto tblbotsty" style="height:150px;">
+                        <table class="table fixtbl">
+                            <tbody id="txtkordlst">
+                                <tr data-lat="39.707186656826565" data-lng="-60.68847656250001">
+                                    <td>1</td>
+                                    <td>39.707186656826565</td>
+                                    <td>-60.68847656250001</td>
+                                </tr>
+                                <tr data-lat="39.707186656826565" data-lng="-60.68847656250001"><td>2</td><td>39.707186656826565</td><td>-60.68847656250001</td></tr>
+                                <tr data-lat="34.52466147177175" data-lng="-46.09863281250001"><td>3</td><td>34.52466147177175</td><td>-46.09863281250001</td></tr>
+                                <tr data-lat="34.52466147177175" data-lng="-46.09863281250001"><td>4</td><td>34.52466147177175</td><td>-46.09863281250001</td></tr>
+                                <tr data-lat="39.977120098439634" data-lng="-34.67285156250001"><td>5</td><td>39.977120098439634</td><td>-34.67285156250001</td></tr>
+                                <tr data-lat="42.032974332441405" data-lng="-51.28417968750001"><td>6</td><td>42.032974332441405</td><td>-51.28417968750001</td></tr>
+                                <tr data-lat="42.032974332441405" data-lng="-51.28417968750001"><td>7</td><td>42.032974332441405</td><td>-51.28417968750001</td></tr>
+                                <tr data-lat="42.48830197960227" data-lng="-55.76660156250001"><td>8</td><td>42.48830197960227</td><td>-55.76660156250001</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger " data-bs-dismiss="modal">
+                        <span class="ph ph-plus  me-1"></span>
+                        İptal
+                    </button>
+                    <button type="button" id="btnInsert" class="btn btn-primary">
+                        <span class="ph ph-checks me-1"></span>
+                        Kaydet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed p-3 start-50 translate-middle-x" style="top: 25px;">
+        <div id="liveToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex  align-items-center ps-2">
+                <i class="bi bi-search"></i>
+                <div class="toast-body" id="toastmes">
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/zxc.js"></script>
+    <script src="~/js/genelJs.js" asp-append-version="true"></script>
+
+    <script src="~/js/LeafletJS/leaflet-src.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+    <script src="~/js/_katmaneditjs.js" asp-append-version="true"></script>
+</body>
+</html>

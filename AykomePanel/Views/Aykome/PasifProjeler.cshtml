@@ -1,0 +1,101 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Aykome/Pasif Projeler";
+}
+
+@section Styles {
+    <style>
+        #lstProjeNo, #lblAciklama {
+            overflow: auto;
+        }
+
+            #lstProjeNo .lblProjeId {
+                border-bottom: 1px solid #efefef;
+                padding: 2px 5px;
+                cursor: pointer;
+            }
+
+                #lstProjeNo .lblProjeId:hover {
+                    color: #b79a9a;
+                    background-color: #efefef;
+                }
+
+                #lstProjeNo .lblProjeId.active {
+                    color: #009879;
+                    background-color: #0098797d;
+                }
+    </style>
+}
+
+<h1 class="baslik1">Pasif Projeler</h1>
+
+<div class="row">
+    <div class="col-1">
+        <div class="cerceve">
+            <h2 class="altbaslik">Proje Listesi</h2>
+            <div id="lstProjeNo">
+            </div>
+        </div>
+    </div>
+    <div class="col-10 ps-0">
+        <div class="cerceve">
+            <button type="button" id="btnPasifYap" hidden="hidden" class="btn btn-sm btn-success float-end">Aktif Yap</button>
+            <h2 class="altbaslik">Proje Bilgileri</h2>
+            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                <thead class="tblhead">
+                    <tr>
+                        <th>Yil</th>
+                        <th>Ilçe Adı</th>
+                        <th>Yol Aidiyet</th>
+                        <th>Proje No</th>
+                        <th>Proje Tipi</th>
+                        <th>Talep Eden Kurum</th>
+                        <th>Mahalle</th>
+                        <th>Cadde/Sokak</th>
+                        <th>Ruh. Kap. Tipi</th>
+                        <th>Ruh. En</th>
+                        <th>Ruh. Alan</th>
+                        <th>Sah. Kap. Tipi</th>
+                        <th>Ölç. Uzunluk</th>
+                        <th>Ölç. Alan</th>
+                        <th>Yol Yıp. Birim Fiy.</th>
+                        <th>Yol Yıp. Bedeli</th>
+                        <th>Kap. Birim Fiy.</th>
+                        <th>Kap. Bedeli</th>
+                        <th>Alt Yapi Kazi İzin Harcı</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="position-relative">
+                <div class="overflow-auto tblbotsty">
+                    <table class="table fixtbl">
+                        <tbody id="tblData">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tblload" hidden="hidden">
+                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-1 ps-0">
+        <div class="cerceve">
+            <h2 class="altbaslik">Açıklama</h2>
+            <div id="lblAciklama"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+@section Scripts {
+    <script src="~/js/_aykome/pasifprojeler.js"></script>
+}

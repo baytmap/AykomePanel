@@ -1,0 +1,63 @@
+﻿@media (max-width: 576px) {
+    .sidebar {
+        top: 61px;
+    }
+
+    .half .contents, .half .bg {
+        width: 100%;
+    }
+
+    .p-4.mobpadding {
+        padding: 40px 5px 5px !important;
+    }
+
+    .mobful, #btnynkrm {
+        width: 100%;
+    }
+
+    .cerceve {
+        padding: 5px;
+    }
+
+    .accordion-button {
+        font-size: .8rem;
+    }
+
+    #accordionExample .accordion-item .accordion-body {
+        width: 100%;
+        overflow: scroll;
+    }
+
+    #accordionExample .accordion-collapse .accordion-body {
+        padding: .5rem .55rem;
+    }
+
+    #accordionExample .accordion-collapse .text-end .btn {
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    .tblhead tr th {
+        padding: 4px 5px;
+        font-size: 12px;
+    }
+
+    .fixtbl {
+        table-layout: auto;
+    }
+
+    .sidebar.close ~ .home-section, .home-section {
+        left: 0px;
+        width: 100%;
+    }
+
+    .sidebar.close {
+        width: auto;
+        margin-left: -350px;
+    }
+
+    #imgPer {
+        display: none;
+    }
+    #charProjeTipi
+}

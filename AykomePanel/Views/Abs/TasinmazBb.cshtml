@@ -1,0 +1,1292 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Abs/Taşınmaz BB";
+}
+
+@section Styles {
+    <link href="~/css/leaflet.css" rel="stylesheet" />
+    <style>
+        #map {
+            width: 100%;
+            height: 550px;
+        }
+
+        .ayrc {
+            background-color: #c3ddd7;
+            padding: 11px;
+        }
+    </style>
+}
+<div class="cerceve">
+    <h1 class="baslik1">Abs>Taşınmaz / Bağımsız Bölüm Yönetimi</h1>
+    <div class="tblsearch">
+        <div class="row">
+            <div class="col">
+                <div class="gcol d-flex justify-content-between">
+                    <div class="form-check">
+                        <input class="form-check-input flvcdh" type="radio" checked="checked" name="flvcdh" id="flvcd1">
+                        <label class="form-check-label" for="flvcd1">
+                            Taşınmaz
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input flvcdh" type="radio" name="flvcdh" id="flvcd2">
+                        <label class="form-check-label" for="flvcd2">
+                            Bağımsız Bölüm
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input flvcdh" type="radio" name="flvcdh" id="flvcd3">
+                        <label class="form-check-label" for="flvcd3">
+                            Eski Verileri Sorgula
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>İlçe Adı</label>
+                        <select id="slcIlce" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Mahalle Adı</label>
+                        <select id="slcMahalle" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>Cadde/Solak Adı</label>
+                        <select id="slcCadde" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Kapı No</label>
+                        <input id="txtKapiNo" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Kapı No" data-tip="enter" data-ref="#btnVeriAra" />
+                    </div>
+
+                    <div class="col">
+                        <label>Mahalle Kodu</label>
+                        <input id="txtMahalleKodu" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Mahalle Kodu" data-tip="enter" data-ref="#btnVeriAra" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <label>Türü</label>
+                        <select id="slcTuru" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Barkodu</label>
+                        <input id="txtBarkodu" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Barkodu" data-tip="enter" data-ref="#btnVeriAra" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label>Taşınmaz Kodu</label>
+                        <input id="txtTasinmazKodu" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Taşınmaz Kodu" data-tip="enter" data-ref="#btnVeriAra" />
+                    </div>
+                    <div class="col">
+                        <label>Taşınmaz Adı</label>
+                        <input id="txtTasinmazAdi" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Taşınmaz Adı" data-tip="enter" data-ref="#btnVeriAra" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="ayrc">
+                    <h2><i class='bx bx-lock-alt text-danger' id="bblock1"></i><span>Bağımsız Bölüm</span></h2>
+                    <div class="row">
+                        <div class="col">
+                            <label>Barkodu</label>
+                            <input id="txtBagimsizBarkodu" type="text" disabled="disabled" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Barkodu" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                        <div class="col">
+                            <label>BB No</label>
+                            <input id="txtBagimsizBbNo" type="text" disabled="disabled" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="BB No" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>İşyeri İsmi</label>
+                            <input id="txtIsYeriIsmi" type="text" disabled="disabled" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="İşyeri İsmi" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+
+                        <div class="col">
+                            <label>Kullanım Tipi</label>
+                            <select id="slcBagimsizKullTipi" disabled="disabled" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Su Abone No</label>
+                            <input id="txtBagimsizSuAboneNo" disabled="disabled" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Su Abone No" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+
+                        <div class="col">
+                            <label>Elektirik No</label>
+                            <input id="txtBagimsizElektirikNo" disabled="disabled" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Elektirik No" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <label>İlçe Adı</label>
+                            <select id="slcIlce2" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Eski Mahalle</label>
+                            <select id="slcMahalle2" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Ada</label>
+                            <input id="txtAda" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Ada" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                        <div class="col">
+                            <label>Parsel</label>
+                            <input id="txtParsel" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                        <div class="col">
+                            <label>Pafta</label>
+                            <input id="txtPafta" type="text" class="form-control form-control-sm form-control form-control-sm-sm inputIslem" placeholder="Pafta" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="ayrc">
+                    <h2><i class='bx bx-lock-alt text-danger' id="bblock2"></i><span>Eski Verileri Sorgula</span></h2>
+                    <div class="gcol">
+                        <label>Eski İlçe Adı</label>
+                        <select id="slcEskiIlce2" disabled="disabled" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="dcol">
+                        <label>Eski Mahalle</label>
+                        <select id="slcEskiMahalle2" disabled="disabled" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="dcol">
+                        <label>Eski Cadde Sokak</label>
+                        <select id="slcEskiCaddeSokak2" disabled="disabled" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                    <div class="dcol">
+                        <label>Eski Kapı Numarasi</label>
+                        <select id="slcEskiKapiNumarasi2" disabled="disabled" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                            <option value="-1">Seç</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-3 d-flex justify-content-between">
+            <div><button type="button" class="btnFiltreClear btn btn-secondary btn-sm "><i class="bx bx-square"></i>Temizle</button></div>
+            <div class="d-flex gap-1">
+                <button id="btnExcel" disabled="disabled" type="button" class="btn btn-success btn-sm" title="Excel"><i class='bx bxs-file-export'></i>Excel</button>
+                <button id="btnVeriAra" type="button" class="btnSearch btn btn-warning btn-sm"><i class="bx bx-search"></i><span>Ara</span></button>
+            </div>
+
+        </div>
+    </div>
+
+    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+        <thead class="tblhead">
+            <tr>
+                <th>Taşınmaz Referans</th>
+                <th>Tipi</th>
+                <th>Mahalle</th>
+                <th>Eski Mahalle</th>
+                <th>Belediye</th>
+                <th>İlçe</th>
+                <th>Cadde/Sokak Adı</th>
+                <th>Eski Cadde/Sokak Adı</th>
+                <th>Site Adı</th>
+                <th>Blok Adı</th>
+                <th>Yeni Kapı Numarası</th>
+                <th>N.Tipi</th>
+                <th>Eski Kapı Numarası</th>
+                <th>Pafta Numarası</th>
+                <th>Ada Numarası</th>
+                <th>Parsel Numarası</th>
+                <th>Barkodu</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="position-relative">
+        <div class="overflow-auto tblbotsty">
+            <table class="table fixtbl">
+                <tbody id="tblData">
+                </tbody>
+            </table>
+        </div>
+        <div class="tblload" hidden="hidden">
+            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ps-3 pe-3">Mahalle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pnl-1-tab" data-bs-toggle="pill" data-bs-target="#pnl-1" type="button" role="tab" aria-controls="pnl-1" aria-selected="true">Taşınmaz</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnl-2-tab" data-bs-toggle="pill" data-bs-target="#pnl-2" type="button" role="tab" aria-controls="pnl-2" aria-selected="false">Bilgi</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnl-3-tab" data-bs-toggle="pill" data-bs-target="#pnl-3" type="button" role="tab" aria-controls="pnl-3" aria-selected="false">Resim</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnl-4-tab" data-bs-toggle="pill" data-bs-target="#pnl-4" type="button" role="tab" aria-controls="pnl-4" aria-selected="false">Kamulaştırma</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnl-5-tab" data-bs-toggle="pill" data-bs-target="#pnl-5" type="button" role="tab" aria-controls="pnl-5" aria-selected="false">Gaznet</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnl-6-tab" data-bs-toggle="pill" data-bs-target="#pnl-6" type="button" role="tab" aria-controls="pnl-6" aria-selected="false">Yapı Ruhsatları</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pnl-1" role="tabpanel" aria-labelledby="pnl-1-tab" tabindex="0">
+                            <div class="row">
+                                <div class="col">
+                                    <h2>Taşınmaz Bilgileri</h2>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Taşınmaz Kodu</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtTasinmazKodu" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Adı Numarasaı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtAdiNumarasi" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Site Adı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtSiteAdi" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Blok Adı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtBlokAdi" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Notlar</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <textarea class="form-control form-control-sm" rows="4" id="txtNotlar"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kaydeden</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtKaydeden" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kayıt Tarihi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="datetime-local" class="form-control form-control-sm" id="txtKayitTarihi" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h2>Özellikleri</h2>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kullanım Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKullanimTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kullanım Türü</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKullanimTuru" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kullanım Amacı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKullanimAmaci" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Mülkiyet Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcMulkiyetTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Yakıt Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcYakitTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Isınma Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcIsinmaTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">İnşaat Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcInsaatTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Bina Durumu</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcBinaDurumu" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Çatı Tipi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcCatiTipi" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Cephe Durum</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcCepheDurum" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Cephe Durum Açıklama</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtCepheDurumAciklama" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Cephe Renk</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtCepheRenk" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Su Saati Konum</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcSuSaatiKonum" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kot Üstü Kat Adedi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtKotUstu" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kot Altı Kat Adedi</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtKotAlti" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kat Adedi Açıklma</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtCepheRenk" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <h2>Yapı Tipi</h2>
+                                            <div class="d-flex gap-1 mb-3">
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="flvcd1">
+                                                        <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                                        <span>Apartman</span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="flvcd1">
+                                                        <input class="form-check-input nnhyr" type="checkbox" name="flvcdh">
+                                                        <span>Müstakil</span>
+                                                    </label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="flvcd1">
+                                                        <input class="form-check-input nnhyr" type="checkbox" name="flvcdh">
+                                                        <span>İnşaat</span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="flvcd1">
+                                                        <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                                        <span>İşhanı</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Çatı Katı Oturum</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcCatiKatiOturum" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Yangın Merdiveni</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcYanginMerdiveni" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Sığınak</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcSiginak" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kapalı Otopark</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKapaliOtopark" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kuyu</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKuyu" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Kablo Tv</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcKabloTv" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Ankastra</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcAnkastra" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Tabela/Reklam</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <select id="slcTabeleReklam" class="form-select form-select-sm">
+                                                        <option value="-1">Seç</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">Asansör Sayısı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtAsansorSayisi" />
+                                                </div>
+                                            </div>
+                                            <div class="bcol">
+                                                <div class="lblDiv">
+                                                    <div class="lbll">İmar Kullanımı</div>
+                                                </div>
+                                                <div class="ltxt">
+                                                    <input type="text" class="form-control form-control-sm" id="txtImarKullanimi" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <h2>Kullanım Türleri</h2>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Arsa
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Konut
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Ticari
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Arsa
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Konut
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Ticari
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Arsa
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Konut
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Ticari
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Arsa
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Konut
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Ticari
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Arsa
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Konut
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input nnhyr" type="checkbox" checked="checked" name="flvcdh">
+                                            <label class="form-check-label" for="flvcd1">
+                                                Ticari
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnl-2" role="tabpanel" aria-labelledby="pnl-2-tab" tabindex="0">
+                            <div>
+                                <h2>Numarataj Bilgisi</h2>
+                                <div>
+                                    <div class="position-relative">
+                                        <div class="overflow-auto tblbotsty2">
+                                            <table class="table">
+                                                <thead class="tblhead2">
+                                                    <tr>
+                                                        <th>Nuamarataj Referans</th>
+                                                        <th>Tipi</th>
+                                                        <th>Kapı No</th>
+                                                        <th>J.Rapor Yapı ID</th>
+                                                        <th>Açıklama</th>
+                                                        <th>Eski Kapı No</th>
+                                                        <th>Mahalle Adı</th>
+                                                        <th>Yeni Mahalle Adı</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblDataNumarataj">
+                                                    <tr>
+                                                        <td>Nuamarataj Referans</td>
+                                                        <td>Tipi</td>
+                                                        <td>Kapı No</td>
+                                                        <td>J.Rapor Yapı ID</td>
+                                                        <td>Açıklama</td>
+                                                        <td>Eski Kapı No</td>
+                                                        <td>Mahalle Adı</td>
+                                                        <td>Yeni Mahalle Adı</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2>Bağımsız Bölüm Bilgisi</h2>
+                                <div>
+                                    <div class="position-relative">
+                                        <div class="overflow-auto tblbotsty2">
+                                            <table class="table">
+                                                <thead class="tblhead2">
+                                                    <tr>
+                                                        <th>Barkodu</th>
+                                                        <th>Kapı No</th>
+                                                        <th>Kat</th>
+                                                        <th>Kat Açıklama</th>
+                                                        <th>İş Yeri Ticari İsim</th>
+                                                        <th>Su No</th>
+                                                        <th>Elektirik No</th>
+                                                        <th>Gaz No</th>
+                                                        <th>Kullanım Tipi</th>
+                                                        <th>Açıklama</th>
+                                                        <th>Bt Adı</th>
+                                                        <th>Bt Tarih</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblBagimsizBolum">
+                                                    <tr>
+                                                        <td>Barkodu</td>
+                                                        <td>Kapı No</td>
+                                                        <td>Kat</td>
+                                                        <td>Kat Açıklama</td>
+                                                        <td>İş Yeri Ticari İsim</td>
+                                                        <td>Su No</td>
+                                                        <td>Elektirik No</td>
+                                                        <td>Gaz No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Açıklama</td>
+                                                        <td>Bt Adı</td>
+                                                        <td>Bt Tarih</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Barkodu</td>
+                                                        <td>Kapı No</td>
+                                                        <td>Kat</td>
+                                                        <td>Kat Açıklama</td>
+                                                        <td>İş Yeri Ticari İsim</td>
+                                                        <td>Su No</td>
+                                                        <td>Elektirik No</td>
+                                                        <td>Gaz No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Açıklama</td>
+                                                        <td>Bt Adı</td>
+                                                        <td>Bt Tarih</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Barkodu</td>
+                                                        <td>Kapı No</td>
+                                                        <td>Kat</td>
+                                                        <td>Kat Açıklama</td>
+                                                        <td>İş Yeri Ticari İsim</td>
+                                                        <td>Su No</td>
+                                                        <td>Elektirik No</td>
+                                                        <td>Gaz No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Açıklama</td>
+                                                        <td>Bt Adı</td>
+                                                        <td>Bt Tarih</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Barkodu</td>
+                                                        <td>Kapı No</td>
+                                                        <td>Kat</td>
+                                                        <td>Kat Açıklama</td>
+                                                        <td>İş Yeri Ticari İsim</td>
+                                                        <td>Su No</td>
+                                                        <td>Elektirik No</td>
+                                                        <td>Gaz No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Açıklama</td>
+                                                        <td>Bt Adı</td>
+                                                        <td>Bt Tarih</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2>Ada ve Parsel Bilgisi</h2>
+                                <div>
+                                    <div class="position-relative">
+                                        <div class="overflow-auto tblbotsty2">
+                                            <table class="table">
+                                                <thead class="tblhead2">
+                                                    <tr>
+                                                        <th>Pafta Adı</th>
+                                                        <th>Adı</th>
+                                                        <th>Tapu Yüz Ölçümü</th>
+                                                        <th>Alanı</th>
+                                                        <th>Kadastro Mahalle</th>
+                                                        <th>Tapu Mahalle</th>
+                                                        <th>Parsel Tip</th>
+                                                        <th>Parsel Nitelik</th>
+                                                        <th>Ada Numarası</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblBagimsizBolum">
+                                                    <tr>
+                                                        <td>Pafta Adı</td>
+                                                        <td>Adı</td>
+                                                        <td>Tapu Yüz Ölçümü</td>
+                                                        <td>Alanı</td>
+                                                        <td>Kadastro Mahalle</td>
+                                                        <td>Tapu Mahalle</td>
+                                                        <td>Parsel Tip</td>
+                                                        <td>Parsel Nitelik</td>
+                                                        <td>Ada Numarası</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnl-3" role="tabpanel" aria-labelledby="pnl-3-tab" tabindex="0">
+                            <div id="cccr2" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="https://images.pexels.com/photos/209266/pexels-photo-209266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://images.pexels.com/photos/7931/pexels-photo-7931.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://images.pexels.com/photos/1463917/pexels-photo-1463917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100" alt="...">
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#cccr2" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#cccr2" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnl-4" role="tabpanel" aria-labelledby="pnl-4-tab" tabindex="0">
+                            <div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Kamulaştırma Aşamasında</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" class="form-control form-control-sm" id="txtKamAsamas" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Muvaffak Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="datetime-local" class="form-control form-control-sm" id="txtMuvaffakTarihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Anlaşma Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="datetime-local" class="form-control form-control-sm" id="txtAnlasmaTArihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Kamulaştırma Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="datetime-local" class="form-control form-control-sm" id="txtKamTarihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Teslim Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="datetime-local" class="form-control form-control-sm" id="txtTeslimarihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Yıkım Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="datetime-local" class="form-control form-control-sm" id="txtYikimTarihi" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnl-5" role="tabpanel" aria-labelledby="pnl-5-tab" tabindex="0">
+                            <div>
+                                <h2>Adres Numarataj Bilgileri</h2>
+                                <div>
+                                    <div class="position-relative">
+                                        <div class="overflow-auto tblbotsty2">
+                                            <table class="table">
+                                                <thead class="tblhead2">
+                                                    <tr>
+                                                        <th>İlçe Adı</th>
+                                                        <th>Mahalle Adı</th>
+                                                        <th>Cadde Sokak Adı</th>
+                                                        <th>Dışkapı No</th>
+                                                        <th>Site Adı</th>
+                                                        <th>Blok Adı</th>
+                                                        <th>Taşınmaz Ref</th>
+                                                        <th>Numarataj Ref</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblDataNumarataj">
+                                                    <tr>
+                                                        <td>İlçe Adı</td>
+                                                        <td>Mahalle Adı</td>
+                                                        <td>Cadde Sokak Adı</td>
+                                                        <td>Dışkapı No</td>
+                                                        <td>Site Adı</td>
+                                                        <td>Blok Adı</td>
+                                                        <td>Taşınmaz Ref</td>
+                                                        <td>Numarataj Ref</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tblload" hidden="hidden">
+                                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2>Adres Bilgileri</h2>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Tesisat No</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <input type="text" class="form-control form-control-sm" id="txtTesisatNo" />
+                                            </div>
+                                        </div>
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Kot Üstü Kat Adeti</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <input type="text" class="form-control form-control-sm" id="txtTab4Kot" />
+                                            </div>
+                                        </div>
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Bağımsız Bçlüm Sayısı</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <input type="text" class="form-control form-control-sm" id="txtTab4bags" />
+                                            </div>
+                                        </div>
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Binadakı Konut Sayısı</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <input type="text" class="form-control form-control-sm" id="txtTab4Bisgf" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Kullanım Şekli</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <select id="txttap4kulsek" class="form-select form-select-sm">
+                                                    <option value="-1">Seç</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="bcol">
+                                            <div class="lblDiv">
+                                                <div class="lbll">Isınma Şekli</div>
+                                            </div>
+                                            <div class="ltxt">
+                                                <select id="txttap4IsinmaSekli" class="form-select form-select-sm">
+                                                    <option value="-1">Seç</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2>Bağımsız Bölüm Bilgisi</h2>
+                                <div>
+                                    <div class="position-relative">
+                                        <div class="overflow-auto tblbotsty2">
+                                            <table class="table">
+                                                <thead class="tblhead2">
+                                                    <tr>
+                                                        <th>Daire No</th>
+                                                        <th>Kullanım Tipi</th>
+                                                        <th>Gaz Abobe No</th>
+                                                        <th>Isınma Tipi </th>
+                                                        <th>Yakıt Tipi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblBagimsizBolum">
+                                                    <tr>
+                                                        <td>Daire No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Gaz Abobe No</td>
+                                                        <td>Isınma Tipi </td>
+                                                        <td>Yakıt Tipi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Daire No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Gaz Abobe No</td>
+                                                        <td>Isınma Tipi </td>
+                                                        <td>Yakıt Tipi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Daire No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Gaz Abobe No</td>
+                                                        <td>Isınma Tipi </td>
+                                                        <td>Yakıt Tipi</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Daire No</td>
+                                                        <td>Kullanım Tipi</td>
+                                                        <td>Gaz Abobe No</td>
+                                                        <td>Isınma Tipi </td>
+                                                        <td>Yakıt Tipi</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="pnl-6" role="tabpanel" aria-labelledby="pnl-6-tab" tabindex="0">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Ruhsat Onay Tarihi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi1" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Zemin Etüdü Onay Tarihi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi2" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Planlanan İnşaata Başlama Tarihi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi3" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Sahibinin Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi4" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Müteahhidin Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi5" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapının Taban Alanı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi6" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Toplam Yapı Inşaat Alani</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi7" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Isıtma Sistemi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi8" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col">
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Döşeme</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi9" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapının Taşıyıcı Sistemi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi10" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Duvar Dolgu Malzemesi</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi11" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Projeleri Mimar Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi12" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Projeleri Statik Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi13" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Projeleri Mekanik Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi14" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Projeleri Elektrik Adı Soyadı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi15" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">Yapı Denetim Kuruluşu Adı</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi16" />
+                                        </div>
+                                    </div>
+                                    <div class="bcol">
+                                        <div class="lblDiv">
+                                            <div class="lbll">İskan Durumu</div>
+                                        </div>
+                                        <div class="ltxt">
+                                            <input type="text" class="form-control form-control-sm" id="txtTabYapi17" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri2" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ps-3 pe-3">Mahalle Haritası</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/js/LeafletJS/leaflet-src.js"></script>
+        <script src="~/js/_abs/tasinmazbb.js"></script>
+    }
+</div>

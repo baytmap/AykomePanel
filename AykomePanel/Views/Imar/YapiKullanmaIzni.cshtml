@@ -1,0 +1,312 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "İmar/Yapı Kullanma İzni";
+}
+@section Styles {
+    <link href="~/css/leaflet.css" rel="stylesheet" />
+    <style>
+        #map {
+            width: 100%;
+            height: 550px;
+        }
+    </style>
+}
+<div class="cerceve">
+    <h1 class="baslik1">Yapı Kullanma İzni</h1>
+    <div class="tblsearch">
+        <div class="row">
+            <div class="col">
+                <h2 class="altbaslik">Genel</h2>
+                <div class="form-root">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">İlçe</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcIlce" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Mahalle</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcMahalle" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Cadde/Sokak Adı</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcCaddeSoka" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Belge Veriliş Amacı</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcBelgeVer" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yapı Sahibi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtYapiSahibi" type="text" class="form-control form-control-sm inputIslem" placeholder="Yapı Sahibi" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ruhsat Veren Kurum</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcRuhsatVerKurm" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Pafta</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtPafta" type="text" class="form-control form-control-sm inputIslem" placeholder="Pafta" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Ada</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtAda" type="text" class="form-control form-control-sm inputIslem" placeholder="Ada" data-tip="enter" data-ref="#btnVeriAra" />
+
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Parsel</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtParsel" type="text" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h2 class="altbaslik">Yapının Teknik Özellikleri</h2>
+                <div class="form-root">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Isıtma Sistemi</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcIsitmaSistemi" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yakıt Cinsi</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcYakitCinsi" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Taşıyıcı Sistem</div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcTasiyiciSitem" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="altbaslik">Ruhsat Bilgileri</h2>
+                <div class="form-root">
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Onay Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtOnayTarihi" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll"></div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtOnayTarihi2" type="date" class="form-control form-control-sm inputIslem" placeholder="Parsel" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Parsel Kullanımı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtParselKullanimi" type="text" class="form-control form-control-sm inputIslem" placeholder="Parsel Kullanımı" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h2 class="altbaslik">Yapının Özellikleri</h2>
+                <div class="form-root">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam Yapı Sayısı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtToplamYapiSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam Yapı Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam BB Sayısı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtToplamBBSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam BB Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam Daire Sayısı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input id="txtToplamDaireSayisi" type="text" class="form-control form-control-sm inputIslem" placeholder="Toplam Daire Sayısı" data-tip="enter" data-ref="#btnVeriAra" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam Taban Alanı Ağırlığı</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtToplamTalan1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtToplamTalan2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam Yapı İnş. Alanı Ağırlığı</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtToplamYapi1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtToplamYapi2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yapının Sınıf/Grubu</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtToplamYapiSnf1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtToplamYapiSnf2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Toplam Kat Yüksekliği</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtToplamKatYuk1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtToplamKatYuk2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">M2 Maliyeti</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtToplM21" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtToplM22" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Yapının Maliyeti</div>
+                        </div>
+                        <div class="ltxt">
+                            <div class="row">
+                                <div class="col"> <input id="txtYapiMalyt1" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                                <div class="col"> <input id="txtYapiMalyt2" type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnVeriAra" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 d-flex justify-content-between">
+            <div><button type="button" class="btnFiltreClear btn btn-secondary btn-sm "><i class="bx bx-square"></i>Temizle</button></div>
+            <div class="d-flex gap-1">
+                <button id="btnExcel" disabled="disabled" type="button" class="btn btn-success btn-sm" title="Excel"><i class='bx bxs-file-export'></i>Excel</button>
+                <button id="btnVeriAra" type="button" class="btnSearch btn btn-warning btn-sm"><i class="bx bx-search"></i><span>Ara</span></button>
+            </div>
+        </div>
+    </div>
+    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+        <thead class="tblhead">
+            <tr>
+                <th>KurumRef</th>
+                <th>Numarataj Ref</th>
+                <th>Ada No</th>
+                <th>Parsel No</th>
+                <th>Belge No</th>
+                <th>Belge Tarihi</th>
+                <th>Yapı Sahibi</th>
+                <th>İlçe</th>
+                <th>Mahalle</th>
+                <th>Cadde Sokak</th>
+                <th>Dıs Kapı No</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="position-relative">
+        <div class="overflow-auto tblbotsty">
+            <table class="table fixtbl">
+                <tbody id="tblData">
+                </tbody>
+            </table>
+        </div>
+        <div class="tblload" hidden="hidden">
+            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="~/js/LeafletJS/leaflet-src.js"></script>
+        <script src="~/js/_imar/yapikullanimizni.js"></script>
+    }
+</div>

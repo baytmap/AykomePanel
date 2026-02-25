@@ -1,0 +1,111 @@
+﻿enerya_aykome
+
+   imzaConfig = {
+            imzaDataString: `${slcProjeID} projesi için inceleme notu ekleme imzası.`,
+            islem_tipi: "IncelemeNotuEklemek",
+            refid: slcProjeID
+        }
+        imzaRefModal = "#mdlIncelemeGst";
+        zxc('#btnCadesImzala').html(' ');
+        fncModalAc("#mdlImza");
+
+ ---------------------------------------------- ---------------------------------------------- ---------------------------------------------- --------
+ @{
+                                int cnt = 0;
+                                List<ContosoUniversity.Data.SchoolViewModels.AssignedCourseData> courses = ViewBag.Courses;
+
+                                foreach (var course in courses)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedCourses"
+                                               value="@course.CourseID"
+                                               @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
+                                        @course.CourseID @:  @course.Title
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+ ---------------------------------------------- ---------------------------------------------- ---------------------------------------------- --------
+                            @section Scripts {
+
+    <script>
+        // Student nesnesini oluştur
+        var studentData = {
+            ID: 1,
+            LastName: "Doe",
+            FirstMidName: "John",
+            EnrollmentDate: "2023-01-01"
+        };
+
+        // ASP.NET Core tarafından otomatik olarak sağlanan anti-forgery belirtecini al
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+        // Student nesnesini form verisi haline getir
+        var formData = new FormData();
+        for (var key in studentData) {
+            formData.append(key, studentData[key]);
+        }
+
+        // Anti-forgery belirtecini de form verisine ekle
+        formData.append("__RequestVerificationToken", antiForgeryToken);
+
+        // JavaScript fetch API'sini kullanarak POST isteği gönder
+        fetch('/Students/Create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(formData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Sunucudan gelen cevabı işle
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+---------------------------------------------- ---------------------------------------------- ---------------------------------------------- --------
+
+
+    exel
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/amcharts/3.21.15/plugins/export/libs/FileSaver.js/FileSaver.min.js"></script>
+<script src="/Client/Js/xlsx.full.min.js"></script>
+
+ <button id="btnExcel" type="button" class="btn btn-success btn-sm" hidden title="Excel"><i class="bx bxs-file-export"></i>Excel</button>
+
+
+
+-------------------------------------------------------------
+zxc('#btnExcel').attrSil('hidden');
+----------------
+zxc('#btnExcel').attr('hidden', 'hidden');
+--------------------
+zxc('#btnExcel').click(() => {
+        if (excData.length > 0)
+            fncExcel1("Adı", excData);
+});
+
+----------------
+  excData = [];
+  // Kolonlar
+  var ar2 = [lngLst.urunid, lngLst.urunadi, lngLst.stoktakibi, lngLst.fotograf];
+  excData.push(ar2);
+  // Veriler
+  uruns.forEach(function (q) {
+      var ar = [q.UrunID, q.UrunAdi, q.StokTakibi, q.Fotograf];
+      excData.push(ar)
+  })
+
+  -------------------------------------------------------------
+
+     <input type="text" class='form-control inputfiltre inputIslem' data-tip="enter" data-ref="#btnVeriAra" value="" id="txturunadifil" />
+
+  <select class="form-select inputIslem" id="slckategori" data-tip="select" data-ref="#btnVeriAra">
+  </select>

@@ -1,0 +1,363 @@
+﻿<div class="modal fade" id="mdlEImzaShow" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">E-İmza Sonucu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="accordion" id="accordion">
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                İmzalar
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="table-responsive">
+                                    <select multiple class="form-control" id="imzalar" style="background: transparent; font-size: 15px;">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                İmza Bilgileri
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>İmza Türü:</th>
+                                            <td id="spnImzaTuru"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>İmzalama Zamanı:</th>
+                                            <td id="spnImzalamaZamani"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>İmza Doğrulaması:</th>
+                                            <td>
+                                                <div id="divImzaDogrulandi">
+                                                    <img id="sign-signature-valid" src="resources/images/grid-dot-icon-32x32.png" alt="signature-valid" style="width: 32px; height: 32px;" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <h4 class="panel-title">
+                                                    Doğrulama Sonuçları
+                                                </h4>
+                                            </th>
+                                            <td>
+                                                <table class="table" id="verificationTable">
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                İmzalayan Bilgileri
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Ad Soyad:</th>
+                                            <td id="spnAdSoyad"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>TCKN:</th>
+                                            <td id="spnSeriNumarasi"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ülke Kodu:</th>
+                                            <td id="spnImzalayanUlkeKodu"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Üretilme Tarihi:</th>
+                                            <td id="spnUretilmeTarihi"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Geçerlilik Tarihi:</th>
+                                            <td id="spnGecerlilikTarihi"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header" id="headingThree2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                Sertifikayı Tahsis Eden Bilgileri
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="headingThree2" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Ad Soyad:</th>
+                                            <td id="spnEshsAdi"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>TCKN:</th>
+                                            <td id="spnEshsYetkilisiAdi"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ülke Kodu:</th>
+                                            <td id="spnEshsUlkeKodu"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // zxc.baslarken(function () {
+    //   zxc('.btnimzgor').click(fncImzaBilgisiGor);
+    // });
+
+    var  signatures
+    function fncImzaBilgisiGor(qw) {
+        var imzFile = qw.getAttribute('data-path');
+        var url1;
+        if (window.location.hostname === 'localhost') {
+            url1 = 'https://localhost:44330/GetImzaDogrulama?imzFile=' + imzFile;
+        }
+        else {
+            url1 = 'https://aykome.konya.bel.tr/ApiImza/GetImzaDogrulama?imzFile=' + imzFile;
+        }
+        fetch(url1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(resultData => {
+                console.log("resultData=>", resultData);
+
+             signatures = resultData.Model.VERIFICATION_RESULTS;
+
+                $("#collapse1").collapse("hide");
+                $("#collapse2").collapse("hide");
+                $("#collapse3").collapse("hide");
+                $("#collapse4").collapse("hide");
+
+                // Dosya üzerindeki imzaları listeleyelim.
+                if (signatures != null || signatures.length > 0) {
+                    EmptyAllVerifyHtml();
+                    $.each(signatures, function (i, signature) {
+                        if (i == 0) {
+                            // ilk kartın ilk sertifikasını seçelim
+                            $('#imzalar').append('<option value="0" selected>' + signature.signer[0].commonName + '</option>');
+                        }
+                        else {
+                            $('#imzalar').append($('<option>', {
+                                value: i,
+                                text: signature.signer[0].commonName
+                            }));
+                        }
+                    });
+
+                    $("#imzalar").change(function () {
+                        var signatureID = $(this).val();
+                        EmtyIgnoreImzalar();
+                        console.log("Selected ID : " + signatureID);
+                        showSignatureDetailsExtract(signatureID);
+
+                    });
+
+                    showSignatureDetailsExtract(0);
+                    $("#collapse1").collapse("show");
+                    $("#collapse2").collapse("show");
+                    $('#collapse3').collapse("show");
+                    $('#collapse4').collapse("show");
+                }
+                else {
+                    var imageReject = '<div> <p style="font-size:15px; color:red;"><img  src="resources/images/red.png" alt="Başarısız" style="width: 16px;" /> Bu belge imzalı değildir! </p>  </div>';
+                    var parent = $('#imzalar').parent(".table-responsive");
+                    parent.empty();
+                    parent.append(imageReject);
+                    $("#collapse1").collapse("show");
+                    toastr.info("Bu belge imzalı değildir!");
+                }
+                fncModalAc("#mdlEImzaShow");
+                $("#verifyPanel").show();
+
+            })
+            .catch(error => {
+                MesajVer(error.message, error);
+            });
+    }
+
+        function EmptyAllVerifyHtml() {
+        $('#imzalar').html('');
+        EmtyIgnoreImzalar();
+
+    }
+
+        function EmtyIgnoreImzalar() {
+        $("#spnImzalamaZamani").text('');
+        $("#divImzaDogrulandi").html('');
+        $('#verificationTable').empty();
+        $("#spnAdSoyad").text('');
+        $("#spnSeriNumarasi").text('');
+        $("#spnImzalayanUlkeKodu").text('');
+        $("#spnUretilmeTarihi").text('');
+        $("#spnGecerlilikTarihi").text('');
+        $("#spnEshsAdi").text('');
+        $("#spnEshsYetkilisiAdi").text('');
+        $("#spnEshsUlkeKodu").text('');
+    }
+
+    function showSignatureDetailsExtract(signatureID) {
+
+        var SIGNATURES = signatures[signatureID];
+
+        $("#spnImzalamaZamani").text(myFormatDate(SIGNATURES.SigningTime));
+        if (SIGNATURES.signatureValid == true) {
+            $("#divImzaDogrulandi").html('<img id="sign-signature-valid" src="resources/images/accept-icon-32x32.png" alt="signature-valid" style="width: 32px; height: 32px;" />');
+        } else {
+            $("#divImzaDogrulandi").html('<img id="sign-signature-valid" src="resources/images/reject-icon-32x32.png" alt="signature-valid" style="width: 32px; height: 32px;" />');
+        }
+        var imageAccept = '<div> <img  src="resources/images/accept-icon-32x32.png" alt="Başarılı" style="width: 16px;" /> </div>';
+        var imageReject = '<div> <img  src="resources/images/reject-icon-32x32.png" alt="Başarısız" style="width: 16px;" /> </div>';
+
+        for (var i = 0; i < SIGNATURES.VerificationResults.length; i++) {
+            var tableRow = "<tr>"
+                + "<th id='verificationResults" + i + "m'>" + SIGNATURES.VerificationResults[i].Message + "</th>"
+                + "<td id='verificationResults" + i + "'></td>" +
+                "</tr>";
+            $('#verificationTable').append(tableRow);
+            //$('#verificationResults' + i + '').text(SIGNATURES.VerificationResults[i].Message);
+
+            if (SIGNATURES.VerificationResults[i].Valid == true) {
+
+                $("#verificationResults" + i).html(imageAccept);
+                $("#verificationResults" + i + "m").attr('style', " color: green; font-size: 12px; font-style: italic;");
+            } else {
+                $("#verificationResults" + i + "m").attr('style', " color: red; font-size: 12px; font-style: italic;");
+
+                $("#verificationResults" + i).html(imageReject);
+
+            }
+        }
+        var spimzaTuru = SIGNATURES.signatureTypeId;
+        var imzaTuru;
+
+        if (spimzaTuru == 1) {
+            imzaTuru = "BES";
+        }
+        else if (spimzaTuru == 3) {
+            imzaTuru = "EST";
+        }
+        else if (spimzaTuru == 5) {
+            imzaTuru = "XL";
+        }
+        else if (spimzaTuru == 6) {
+            imzaTuru = "AV2";
+        }
+        else if (spimzaTuru == 7) {
+            imzaTuru = "LTV";
+        }
+        $("#spnImzaTuru").text(imzaTuru);
+
+        $("#spnAdSoyad").text(SIGNATURES.signer[0].commonName);
+        $("#spnSeriNumarasi").text(SIGNATURES.signer[0].serialNumber.substring(0, 4) + new Array(SIGNATURES.signer[0].serialNumber.length - 4 + 1).join('*'));
+        $("#spnImzalayanUlkeKodu").text(SIGNATURES.signer[0].countryCode);
+        $("#spnUretilmeTarihi").text(formatDate(SIGNATURES.signer[0].validAfter));
+        $("#spnGecerlilikTarihi").text(formatDate(SIGNATURES.signer[0].validBefore));
+        $("#spnEshsAdi").text(SIGNATURES.signer[0].issuer.organizationName);
+        $("#spnEshsYetkilisiAdi").text(SIGNATURES.signer[0].issuer.commonName);
+        $("#spnEshsUlkeKodu").text(SIGNATURES.signer[0].issuer.countryCode);
+    }
+        var formatDate = function (d) {
+        var p = '';
+        if (d != null) {
+            if (d.dayOfMonth < 10) {
+                p += '0' + d.dayOfMonth;
+            } else {
+                p += d.dayOfMonth;
+            }
+            ;
+            p += '/';
+            if (d.month < 10) {
+                p += '0' + d.month;
+            } else {
+                p += d.month;
+            }
+            ;
+            p += '/' + d.year + ' ';
+            if (d.hourOfDay < 10) {
+                p += '0' + d.hourOfDay;
+            } else {
+                p += d.hourOfDay;
+            }
+            ;
+            p += ':';
+            if (d.minute < 10) {
+                p += '0' + d.minute;
+            } else {
+                p += d.minute;
+            }
+            ;
+            p += ':';
+            if (d.second < 10) {
+                p += '0' + d.second;
+            } else {
+                p += d.second;
+            }
+            ;
+        } else {
+            p = '27/10/2017';
+        }
+        return p;
+    };
+        function myFormatDate(time) {
+        var date = time.split("T")[0];
+        date = date.split("-");
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var hour = time.split("T")[1];
+        hour = hour.split("+")[0];
+        return day + "/" + month + "/" + year + " " + hour;
+    }
+
+
+</script>

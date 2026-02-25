@@ -1,0 +1,95 @@
+﻿    <div class="modal fade" id="mdlSil" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kayıt Silmek</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bu Kayıt Tamamen Silinsin mi?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSil" class="btn btn-danger btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Sil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+----------------------------------- 
+zxc('#btnSil').click(fncVerDelete);
+
+---------------------------------
+
+<td class="wdt-kucuk text-end"><button input="button" class="btn btn-sm btn-danger btnSil"><span class="bx bxs-message-alt-x"></span></button></td>
+ zxc('.btnSil').click(fncOpnDeleteModal);
+---------------------------------
+
+function fncOpnDeleteModal() {
+    var q = this;
+    slcUnigID = zxc(q).ustElement(1).attr('data-id');
+    fncModalAc("#mdlSil");
+}
+--------------------------------
+function fncVerDelete() {
+    var q = this;
+    if (slcUnigID != null) {
+        GetJson('/api/Api_Genel/SetKullaniciDelete/' + slcUnigID, function (data) {
+            var html;
+            if (data.veri != null) {
+                veriList = data.veri;
+                fncTblYazdir(data.veri);
+                fncModalGizle();
+            }
+        }, function () {
+            zxc(q).attr('disabled', 'disabled')
+        }, function () {
+            zxc(q).attrSil('disabled')
+        })
+    }
+}
+---------------------------
+
+ [HttpGet]
+ [Route("SetKullaniciDelete/{slcUnigID}")]
+ public async Task<DefaultSonuc?> SetKullaniciDelete(int slcUnigID)
+ {
+     var jsonData = await _request.GetAsync("api/Genel/SetKullaniciDelete/" + slcUnigID);
+     DefaultSonuc? parseModel = JsonSerializer.Deserialize<DefaultSonuc>(jsonData);
+     return parseModel;
+ }
+---------------------------
+ [HttpGet]
+ [Route("SetKullaniciDelete/{slcUnigID}")]
+ public async Task<DefaultSonuc> SetKullaniciDelete(int slcUnigID)
+ {
+     DefaultSonuc defaultSonuc = new DefaultSonuc();
+     UserInfo? curData = _context.UserInfos.Where(q => q.id.Equals(slcUnigID)).FirstOrDefault();
+     if (curData != null)
+     {
+         _context.UserInfos.Remove(curData);
+         _context.SaveChanges(true);
+         UserInfo[] usersLst = _context.UserInfos.Include(u => u.AykBirim).OrderBy(q => q.birimid).OrderBy(a => a.adsoyad).ToArray();
+         defaultSonuc.veri = usersLst;
+         defaultSonuc.success = true;
+         defaultSonuc.message = new islemMesaj
+         {
+             Durum = true,
+             MesajMetni = "Kayıt Silindi...",
+             Tip = MesajDurumu.Info
+         };
+     }
+     else
+     {
+         defaultSonuc.success = false;
+         defaultSonuc.message = new islemMesaj
+         {
+             Durum = true,
+             MesajMetni = "Bir hata Oluştu!",
+             Tip = MesajDurumu.Alert
+         };
+     }
+     return defaultSonuc;
+ }
+---------------------------

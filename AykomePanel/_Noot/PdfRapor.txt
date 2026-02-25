@@ -1,0 +1,177 @@
+﻿<button id="btnVeriRapor" hidden="hidden" type="button" class="btnSearch btn btn-info btn-sm"><i class="bx bxs-file-pdf"></i><span>Rapor</span></button>
+
+
+
+<div class="modal" id="mdlRapor" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rapor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="canvas" class="text-center"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-sm" onclick="fncYazdir()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncPdfIndr()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncPdfopen()">
+                    <i class='bx bxs-show'></i>
+                    <span>Göster</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js" integrity="sha512-uVTNNXu6Z1rrgpMLuErTMferac7mGwfA7/oXfuGbpSmBqcopa8jCURWE1rBF3LMg7Zir+avOX807eGwHaL7akA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/vfs_fonts.min.js" integrity="sha512-EFlschXPq/G5zunGPRSYqazR1CMKj0cQc8v6eMrQwybxgIbhsfoO5NAMQX3xFDQIbFlViv53o7Hy+yCWw6iZxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.385/build/pdf.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  zxc('#btnVeriRapor').click(fnGetRapor);
+
+  zxc('#btnVeriRapor').attrSil('hidden');
+
+ zxc('#btnVeriRapor').attr('hidden', 'hidden');
+
+
+function fnGetRapor() {
+    var adrsAry = [];
+
+    adrsAry.push([{ text: 'Yol Referans', bold: true, fontSize: 9 },
+    { text: 'Yol Ad', bold: true, fontSize: 9 },
+    { text: 'Birim Ad', bold: true, fontSize: 9 },
+    { text: 'Birim No', bold: true, fontSize: 9 },
+    { text: 'Proje No', bold: true, fontSize: 9 },
+    { text: 'Proje Referans', bold: true, fontSize: 9 },
+    { text: 'Durum', bold: true, fontSize: 9 }]);
+
+    veriLst.forEach(q => {
+        adrsAry.push([
+            { text: q.YolReferans, fontSize: 9 },
+            { text: q.YolAd, fontSize: 9 },
+            { text: q.BirimAd, fontSize: 9 },
+            { text: q.BirimNo, fontSize: 9 },
+            { text: q.ProjeNo, fontSize: 9 },
+            { text: q.ProjeReferans, fontSize: 9 },
+            { text: q.Durum, fontSize: 9 }
+        ])
+    });
+
+
+
+    pdfData = {
+        watermark: { text: 'Konya Büyükşehir Belediyesi', color: '#c08e2c', opacity: 0.1, italics: false },
+        header: function (currentPage, pageCount, pageSize) {
+            return
+            //currentPage.toString() + ' of ' + pageCount;
+            [
+                { text: 'simple text', alignment: (currentPage % 2) ? 'left' : 'right' },
+                { canvas: [{ type: 'rect', x: 170, y: 32, w: pageSize.width - 170, h: 40 }] }
+            ]
+        },
+        footer: function (currentPage, pageCount) {
+            return {
+                table: {
+                    widths: ['*', 100],
+                    body: [
+                        [
+                            { text: '', alignment: 'left', fontSize: 7, margin: [10, 0, 0, 0] },
+                            { text: 'Page ' + currentPage.toString() + '/' + pageCount, alignment: 'right', fontSize: 7, margin: [0, 0, 10, 0] }
+                        ]
+                    ]
+                }
+            };
+        },
+        content:
+            [
+                {
+                    table: {
+                        widths: ['100%'],
+                        body: [
+                            [
+                                {
+                                    text: 'YOL VE TALEP SAHİBİ BİRİM BAZINDA KAZI RAPORU',
+                                    style: 'header1',
+                                    alignment: 'center',
+                                    border: [false, false, false, false]
+                                }
+                            ]
+                        ],
+                    }
+                },
+                {
+                    layout: {
+                        fillColor: function (rowIndex, node, columnIndex) {
+                            return (rowIndex === 0) ? '#c2dec2' : null;
+                        }
+                    },
+                    /*  layout: 'noBorders',*/
+                    table: {
+                        headerRows: 1,
+                        widths: ['15%', '20%', '20%', '10%', '10%', '10%', '15%'],
+                        body: adrsAry,
+                        fontSize: 6
+                    },
+                    margin: [0, 0, 0, 10],
+                }
+            ]
+        , styles: {
+            header1: {
+                alignment: 'center',
+                fontSize: 16,
+                bold: true,
+                margin: [0, 0, 0, 5],
+                border: [true, true, true, true]
+            },
+            header2: {
+                color: '#012970',
+                fontSize: 10,
+                margin: [0, 0, 0, 10]
+            }
+            ,
+            header3: {
+                color: '#012970',
+                fontSize: 9,
+                bold: true,
+                alignment: 'center',
+                margin: [0, 0, 0, 10]
+            },
+            header4: {
+                width: '25%',
+                fontSize: 9,
+                alignment: 'left',
+                margin: [0, 0, 0, 10]
+            }
+        }
+    }
+    mypdf = pdfMake.createPdf(pdfData).getDataUrl(function (dataURL) {
+        renderPDF(dataURL, document.getElementById("canvas"));
+    });
+    fncModalAc("#mdlRapor");
+}

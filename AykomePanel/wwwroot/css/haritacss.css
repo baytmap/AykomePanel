@@ -1,0 +1,646 @@
+﻿#dvkat {
+    height: 76vh;
+    overflow-y: auto;
+}
+
+#domYukleniyor {
+    display: none;
+    position: fixed;
+    background-color: #ffffffdb;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1222;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.logo-details {
+    width: 100%;
+    display: flex;
+    padding-top: 20px;
+    justify-content: center;
+}
+
+    .logo-details img {
+        min-width: 40%;
+        max-width: 40%;
+    }
+
+.home-content {
+    height: 60px;
+    display: flex;
+    align-items: end;
+    background-color: #fff;
+}
+
+    .home-content .bx-menu,
+    .home-content .text {
+        color: #11101d;
+        font-size: 35px;
+    }
+
+    .home-content .bx-menu {
+        margin: 0 15px;
+        cursor: pointer;
+    }
+
+    .home-content .text {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.blinking-polyline {
+    animation: none; 
+}
+
+.toast-container {
+    z-index: 1550;
+}
+
+.sbbhd1 {
+    display: flex;
+    gap: 4px;
+    font-size: .8rem;
+    padding: 0 8px;
+    align-items: center;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.rns {
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    right: 0;
+}
+
+.katmLan {
+    display: flex;
+}
+
+
+    .katmLan .katmanPnl {
+        width: 230px;
+        background-color: #fff;
+    }
+
+    .katmLan .map {
+        width: calc(100% - 230px);
+    }
+
+        .katmLan .map #map {
+            height: calc(100vh - 60px);
+        }
+
+    .katmLan .katmanPnl ul {
+        list-style: none;
+        padding: 0;
+    }
+
+.fdsf {
+    color: #0a9b7e;
+    padding: 0 8px;
+}
+
+    .fdsf .vgsdf {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 0px;
+        background-color: #0a9b7e12;
+        line-height: 28px;
+        align-items: center;
+        border-bottom: 1px solid #0a9b7e05;
+    }
+
+        .fdsf .vgsdf .vg1 {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .fdsf .vgsdf .kataacs {
+            float: right;
+            color: #0a9b7e;
+            cursor: pointer;
+            padding: 0px 5px;
+            background-color: #0a9b7e24;
+            text-align: center;
+            margin: 1px 0;
+        }
+
+.kataacsall {
+    float: right;
+    color: #0a9b7e !important;
+    cursor: pointer;
+    background-color: #0a9b7e5e;
+    margin-right: 8px;
+    padding: 0px 5px;
+}
+
+.fvd.of {
+    height: 0px;
+    overflow: hidden;
+}
+
+.btnKtmnShow {
+    text-decoration: none;
+    color: #08382e;
+}
+
+.hesap-logo {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+    .hesap-logo img {
+    }
+
+.imgdfv {
+    display: inline-block;
+    background-color: #efefef6b;
+    position: relative;
+    margin: 3px;
+    border-radius: 7px;
+}
+
+    .imgdfv .imgresw {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+    }
+
+    .imgdfv a {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        background-color: #fff;
+        padding: 0 3px;
+        cursor: pointer;
+    }
+
+.dmodal {
+    background-color: #fff;
+    position: absolute;
+    display: none;
+    z-index: 1500;
+    padding: 10px 0;
+}
+
+    .dmodal ul {
+        background-color: #fff;
+        padding: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+.altmmnul {
+    left: 100%;
+    position: absolute;
+    display: none;
+    top: 0;
+    width: 150px;
+}
+
+.dmodal ul li a {
+    display: block;
+    font-size: 0.8rem;
+    padding: 3px 15px;
+    cursor: pointer;
+}
+
+    .dmodal ul li a:hover {
+        color: #0800ff !important;
+    }
+
+.dmodal ul li.position-relative:hover .altmmnul {
+    display: block;
+}
+
+.altbas {
+    font-size: .8em;
+    padding-left: 11px;
+    color: #a48a0d;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border-width: 0px;
+}
+
+.leaflet-control-layers label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 5px;
+    color: rgb(10, 155, 126);
+}
+
+.leaflet-draw-actions a {
+    background-color: #fed300 !important;
+    border-left: 1px solid #b69806 !important;
+    color: #4C431B !important;
+}
+
+/*.modal-xl {
+    max-width: calc(100% - 50px);
+    height: calc(100% - 100px) !important;
+}
+
+.modal-dialog-scrollable .modal-content {
+    height: calc(100vh - 100px) !important;
+    overflow: hidden;
+}*/
+.w40px {
+    width: 40px;
+}
+
+.w60px {
+    width: 60px;
+}
+
+.czg {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+    .czg .bbs {
+        color: #735050;
+        font-size: .7rem;
+        position: absolute;
+        left: 10px;
+        top: -5px;
+        background-color: #e1c63a;
+        padding: 5px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 87px;
+        text-align: center;
+    }
+
+    .czg .form-control {
+        border-color: #b5d0cc;
+        color: #859b98;
+    }
+
+#pnlPrj-2 .row .col .lbll {
+    font-size: 0.8rem;
+}
+
+.bbgt {
+    display: flex;
+    gap: 1px;
+    background-color: #dcf1ed;
+    padding-bottom: 8px;
+    border-radius: 8px;
+    padding-top: 8px;
+}
+
+.mt-3.bbgt {
+    margin-top: 3px !important;
+}
+
+.lstHama {
+    display: flex;
+    gap: 1px;
+}
+
+    .lstHama .scol {
+        flex: 1;
+        display: flex;
+        align-items: self-end;
+        min-width: 85px;
+    }
+
+        .lstHama .scol.mn70 {
+            min-width: 70px;
+        }
+
+        .lstHama .scol.mnau {
+            width: fit-content;
+        }
+
+        .lstHama .scol .bcol2 .lbll {
+            font-size: 0.65rem;
+        }
+
+        .lstHama .scol .bcol2 .form-control {
+            background-color: #0a9b7e24;
+            border-color: transparent;
+            color: #0a9b7e
+        }
+
+            .lstHama .scol .bcol2 .form-control:focus {
+                color: inherit;
+                background-color: #fff;
+                border-color: rgb(85, 196, 176);
+                outline: 0;
+                box-shadow: 0 0 0 .15rem rgba(34, 187, 160, 0.25);
+            }
+
+.my-label-class {
+    font-size: 0.1rem;
+}
+
+.aselsil {
+    color: #0a9b7e;
+    border-radius: 3px;
+    left: 6px;
+    background-color: #6dc4b2;
+    height: 17px;
+    top: 15px;
+    position: relative;
+    text-decoration: navajowhite;
+    cursor: pointer;
+    line-height: 0px;
+}
+
+.lstHama .form-control-sm {
+    font-size: 0.775rem;
+}
+
+#mdlCizSil .modal-header, #mdlCizSil modal-body, #mdlCizSil .modal-footer {
+    padding: 0.7rem;
+    border-bottom: 0px;
+    border-top: 0px;
+}
+
+#mdlCizSil .btn-close {
+    font-size: .7rem;
+}
+
+.vfre {
+    position: relative;
+    width: 65px
+}
+
+    .vfre .frgc {
+        position: relative;
+    }
+
+    .vfre .filupltrfpln {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+#mdlVeri .modal-header {
+    cursor: move;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+
+    75% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.modal.shake {
+    animation: shake 0.5s;
+    animation-iteration-count: 3;
+}
+
+.lblKoordinat {
+    position: absolute;
+    bottom: 0;
+    z-index: 1500;
+    font-size: 11px;
+    right: 50%;
+    background-color: #fed300;
+    padding: 0 4px;
+    left: 50%;
+    text-align: center;
+    display: flex;
+    width: 185px;
+}
+
+    .lblKoordinat .lblw {
+        width: 60px;
+    }
+
+.leaflet-control-custom-scale {
+ /*   background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+.leaflet-control-scale {
+    background: red;
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-backdrop {
+    background-color: transparent;
+}
+
+.csb {
+    width: 25px;
+    height: 25px;
+    /* background-image: url('images/spritesheet.png');
+    background-image: linear-gradient(transparent, transparent), url('https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/images/spritesheet.svg');
+    background-repeat: no-repeat;*/
+    border-width: 0;
+    cursor: pointer;
+    background-color: #0a9b7e24;
+    color: #0a9b7e93;
+    text-align: center;
+}
+
+.ayrc {
+    background-color: #0a9b7e;
+    width: 1px;
+    height: 30px;
+}
+
+#draw-polyline {
+    background-size: 270px 30px;
+}
+
+.leaflet-control-zoom, .leaflet-draw {
+    display: none;
+}
+
+.flsa {
+    height: 25px;
+    width: 81px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    background-color: #0d625191;
+    color: #333;
+    border-radius: 3px;
+}
+
+    .flsa .vwi {
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        font-size: 12px;
+    }
+
+    .flsa .ffile {
+        opacity: 0;
+    }
+
+.grps {
+    position: relative;
+    display: flex;
+    gap: 5px;
+    border: 1px solid #0a9b7e;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin-bottom: 4px;
+    height: 45px;
+    align-items: center;
+    min-width: 65px;
+}
+
+    .grps .bttn {
+        min-width: 25px;
+        height: 25px;
+        background-color: #0a9b7e24;
+        color: #0a9b7e93;
+        border-width: 0;
+        border-radius: 3px;
+    }
+
+    .grps .hnde {
+        position: absolute;
+        font-size: 11px;
+        top: -9px;
+        color: #087761;
+        background-color: #fff;
+    }
+
+.bttn.btna.act {
+    background-color: #caa61a;
+    color: #4f4008;
+}
+
+#btn-edtip {
+    background-color: #a81313;
+    color: #fff;
+}
+
+.btna {
+    font-size: 12px;
+    padding: 0 3px;
+}
+
+.koyu .katmLan .katmanPnl, .koyu .home-content {
+    background-color: #333
+}
+
+.koyu .btnKtmnShow {
+    color: #8c8c8c;
+}
+
+.koyu .grps .hnde {
+    background-color: #5351515e;
+    padding: 0 1px;
+    color: #efefef;
+}
+
+.koyu .grps .bttn, .koyu .csb, .koyu .flsa {
+    background-color: #535151;
+    color: #fff;
+}
+
+.koyu .katmanPnl .text-center .btn-primary {
+    color: #fff;
+}
+
+.koyu .fdsf {
+    color: #fff;
+}
+
+    .koyu .fdsf .vgsdf, .koyu .fdsf .vgsdf .kataacs, .koyu .kataacsall {
+        background-color: #535151;
+        color: #fff !important;
+    }
+
+.koyu .altbas, .koyu .dropdown-toggle span {
+    color: #efefef
+}
+
+
+
+
+.imgdfvv {
+    background-color: #ececec;
+    font-size: 14px;
+}
+
+    .imgdfvv .imgresww {
+        display: flex;
+    }
+
+        .imgdfvv .imgresww span {
+            max-width: 150px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .imgdfvv .imgresww .aslre {
+            background-color: #c8c2c2;
+            color: #333;
+            text-decoration: none;
+            margin-left: 3px;
+            padding: 0 3px;
+            cursor: pointer;
+        }
+
+.mesvrg {
+    font-weight: bold;
+}
+
+.scale-control {
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,93 @@
+﻿<script src="~/js/zxc.js"></script>
+<script src="~/js/apisigner/arksignerhelper.js"></script>
+<script src="~/js/apisigner/arksignerjs-2.1.0.5.min.js"></script>
+<script src="~/js/apisigner/arksignerlicence.js"></script>
+<script src="~/js/apisigner/arksignertextmessage.js"></script>
+<script src="~/js/apisigner/e-imzajs.js"></script>
+
+<style type="text/css">
+    .fv_fss {
+        text-align: right;
+    }
+
+        .fv_fss button {
+            font-size: 2rem;
+            width: 60px;
+            font-weight: bold;
+            margin-bottom: 8px !important;
+        }
+
+    #mdlImza .ffss {
+        width: 227px;
+    }
+</style>
+
+<div class="modal fade" id="mdlImza" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content fffss">
+            <div class="modal-header">
+                <h5 class="modal-title">E-İmza İşlemi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size: 12px;" aria-label="Close"></button>
+           
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                   @*      <div class="form-group">
+                            <div class="custom-group">
+                                @Html.Label("Cihaz")
+                                @Html.DropDownList("Cihaz_Id", new List<SelectListItem> { new SelectListItem { Text = "Seçiniz", Value = "0", Selected = true } }, new { @class = "form-control select2_demo_1" })
+                            </div>
+                        </div> *@
+
+                        <div class="form-group mt-3">
+                            <div class="custom-group">
+                                @Html.Label("Sertifika")
+                                @Html.DropDownList("Sertifika_Id", new List<SelectListItem> { new SelectListItem { Text = "Seçiniz", Value = "0", Selected = true } }, new { @class = "form-control select2_demo_1" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3" id="pnlrefimza">
+                            <div class="custom-group">
+                                <label>Yerine İmza Atılacak Kişi</label>
+                                @Html.DropDownList("slcRefEimza", new List<SelectListItem> { new SelectListItem { Text = "Seçiniz", Value = "0", Selected = true } }, new { @class = "form-control select2_demo_1" })
+                            </div>
+                        </div>
+                        <div id="statusArea" class="mt-3"></div>
+                    </div>
+                    <div class="col-auto ffss">
+                        <div class="form-group">
+                            @Html.Label("Şifre")
+                            @Html.Password("Sifre", "", new { @class = "form-control", placeholder = "Şifrenizi Giriniz", required = "required" })
+                        </div>
+                        <div class="numpad mt-1">
+                            <div class="fv_fss">
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(7)">7</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(8)">8</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(9)">9</button>
+
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(4)">4</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(5)">5</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(6)">6</button>
+
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(1)">1</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(2)">2</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="addNumber(3)">3</button>
+
+                                <button type="button" class="btn btn-secondary me-1 mb-1 www0" onclick="addNumber(0)">0</button>
+                                <button type="button" class="btn btn-secondary me-1 mb-1" onclick="clearPassword()">
+                                    <i class="bx bx-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="btnCadesImzala"></div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="tryToConnect()" class="btn btn-warning btn-sm w-100">Yenile</button>
+                <button type="button" id="btnImzalamaArks" class="btn btn-sm btn-primary w-100">İmzala</button>
+            </div>
+        </div>
+    </div>
+</div>

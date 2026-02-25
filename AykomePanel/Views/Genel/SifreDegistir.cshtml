@@ -1,0 +1,33 @@
+﻿@model AykomePanel.ClassHome._Request.SifreParam
+
+
+<div class="cerceve " style="width:350px; margin:0 auto;">
+    <h1 class="baslik1">Şifre Değiştirme</h1>
+
+    <form asp-action="SifreDegistir" method="post">
+        <div class="form-group">
+            <label asp-for="EskiSifre"></label>
+            <input asp-for="EskiSifre" type="password" class="form-control" />
+            <span asp-validation-for="EskiSifre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="YeniSifre"></label>
+            <input asp-for="YeniSifre" type="password" class="form-control" />
+            <span asp-validation-for="YeniSifre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="YeniSifreYeniden"></label>
+            <input asp-for="YeniSifreYeniden" type="password" class="form-control" />
+            <span asp-validation-for="YeniSifreYeniden" class="text-danger"></span>
+        </div>
+        @if (TempData["Mesaj"] != null)
+        {
+            <div class="alert alert-success my-2">@TempData["Mesaj"]</div>
+        }
+        @if (TempData["Hata"] != null)
+        {
+            <div class="alert alert-danger my-2">@TempData["Hata"]</div>
+        }
+        <button type="submit" class="btn btn-primary mt-2 w-100">Şifre Değiştir</button>
+    </form>
+</div>

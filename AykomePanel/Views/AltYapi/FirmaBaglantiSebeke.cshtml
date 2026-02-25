@@ -1,0 +1,285 @@
+﻿@{
+    ViewData["Title"] = "Altyapı/Firma/Bağ.Tipleri & Şeb.Tipleri";
+}
+
+<div class="cerceve">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pnl-1-tab" data-bs-toggle="pill" data-bs-target="#pnl-1" type="button" role="tab" aria-controls="pnl-1" aria-selected="true">Firmalar</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pnl-2-tab" data-bs-toggle="pill" data-bs-target="#pnl-2" type="button" role="tab" aria-controls="pnl-2" aria-selected="false">Bağlantı Tipleri</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pnl-3-tab" data-bs-toggle="pill" data-bs-target="#pnl-3" type="button" role="tab" aria-controls="pnl-3" aria-selected="false">Şebeke Tipleri</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pnl-1" role="tabpanel" aria-labelledby="pnl-1-tab" tabindex="0">
+            <h2 class="altbaslik">Firma Bilgisi Yönetme</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Firma Kod</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtFrKod" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Firma Tipi</div>
+                        </div>
+                        <div class="ltxt">
+                            <select type="text" class="form-select form-select-sm" id="txtFrTipi">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Firma Adı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtFrAdi" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-warning" id="btnFrKaydet">Kaydet</button>
+            </div>
+            <div class="mt-3">
+                <h2 class="altbaslik">Firmalar Listesi</h2>
+                <div class="position-relative">
+                    <div class="overflow-auto tblbotsty2">
+                        <table class="table">
+                            <thead class="tblhead2">
+                                <tr>
+                                    <th>Firma Kod</th>
+                                    <th>Firma Tipi</th>
+                                    <th>Firma Açıklama</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataBg">
+                                <tr>
+                                    <td>222</td>
+                                    <td>A Firma Tip</td>
+                                    <td>Firma Açıklama 1</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnFrSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnFrEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>222</td>
+                                    <td>B Firma Tip</td>
+                                    <td>Firma Açıklama 2</td>
+                                    <td class="text-end"> 
+                                        <button type="button" class="btn btn-danger btn-sm btnFrSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnFrEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pnl-2" role="tabpanel" aria-labelledby="pnl-2-tab" tabindex="0">
+            <h2 class="altbaslik">Bağlantı Tipi Yönetme</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Kod</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtBgKod" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Açıklama</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtBgAciklama" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Cinsi</div>
+                        </div>
+                        <div class="ltxt">
+                            <select type="text" class="form-select form-select-sm" id="txtBgCinsi">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-warning" id="btnBgKaydet">Kaydet</button>
+            </div>
+            <div class="mt-3">
+                <h2 class="altbaslik">Bağlantı Tipleri Listesi</h2>
+                <div class="position-relative">
+                    <div class="overflow-auto tblbotsty2">
+                        <table class="table">
+                            <thead class="tblhead2">
+                                <tr>
+                                    <th>Kod</th>
+                                    <th>Açıklama</th>
+                                    <th>Cinsi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataBg">
+                                <tr>
+                                    <td>222</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>A Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnBgSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnBgEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>122</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>B Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnBgSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnBgEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pnl-3" role="tabpanel" aria-labelledby="pnl-3-tab" tabindex="0">
+            <h2 class="altbaslik">Şebeke Tipi Yönetme</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Kod</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtSbKod" />
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Açıklama</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtSbAciklama" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Cinsi</div>
+                        </div>
+                        <div class="ltxt">
+                            <select type="text" class="form-select form-select-sm" id="txtSbCinsi">
+                                <option value="-1">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-warning" id="btnSbKaydet">Kaydet</button>
+            </div>
+            <div class="mt-3">
+                <h2 class="altbaslik">Şebeke Tipleri Listesi</h2>
+                <div class="position-relative">
+                    <div class="overflow-auto tblbotsty2">
+                        <table class="table">
+                            <thead class="tblhead2">
+                                <tr>
+                                    <th>Kod</th>
+                                    <th>Açıklama</th>
+                                    <th>Cinsi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataSb">
+                                <tr>
+                                    <td>222</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>A Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>122</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>B Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>222</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>A Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>122</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>B Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>222</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>A Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>122</td>
+                                    <td>Açıklama Açıklama Açıklama</td>
+                                    <td>B Cinsi</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm btnSbSil me-2">Sil</button>
+                                        <button type="button" class="btn btn-success btn-sm btnSbEdt">Düzenle</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

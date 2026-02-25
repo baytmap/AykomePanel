@@ -1,0 +1,562 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/leaflet.css" />
+    <link rel="stylesheet" href="~/css/haritacss.css" />
+    <style>
+        .tblbotsty {
+            height: 40vh;
+        }
+
+        .pnl1 {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: var(--radius);
+            margin-bottom: var(--margin-bottom);
+            display: inline-block;
+        }
+
+            .pnl1 .vgt {
+                display: flex;
+                align-items: center;
+            }
+
+                .pnl1 .vgt .bx {
+                    font-size: 2.5rem;
+                    background-color: #55c821;
+                    color: #fff;
+                    border-radius: 4px;
+                    margin-right: 6px;
+                }
+
+                .pnl1 .vgt .lsp {
+                    font-size: .9rem;
+                    color: #aea0a0
+                }
+
+            .pnl1 .ads {
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .pnl1 .vgt .lspd {
+                font-size: .7rem;
+                color: #312c2c
+            }
+
+        .katmLan .map {
+            width: calc(100% - 180px);
+        }
+
+            .katmLan .map #map, #dvkat {
+                height: 495px;
+            }
+
+        .lblKoordinat {
+            position: absolute;
+            bottom: 0;
+            z-index: 1500;
+            font-size: 11px;
+            right: 50%;
+            background-color: #fed300;
+            padding: 0 4px;
+            left: 50%;
+            text-align: center;
+            display: flex;
+            width: 185px;
+        }
+
+            .lblKoordinat .lblw {
+                width: 60px;
+            }
+
+        .katmLan .katmanPnl {
+            width: 180px;
+        }
+
+        .fdsf, .sbbhd1 {
+            padding-left: 0;
+        }
+
+        .ffvgd .cerceve {
+            transition: all 0.3s ease;
+        }
+
+        #fullscreenBtn {
+            position: absolute;
+            bottom: 8px;
+        }
+
+        .katmLan.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: white;
+            padding: 5px;
+        }
+
+            .katmLan.fullscreen .map #map, #dvkat {
+                height: 100%;
+            }
+    </style>
+}
+
+<div class="row">
+    <div class="col-8 mobful">
+        <div class="row">
+            <div class="col-12 ffvgd">
+                <div class="cerceve">
+                    <div class="katmLan" id="katmLanDiv">
+                        <div class="katmanPnl position-relative">
+                            <button id="fullscreenBtn" class="btn btn-primary btn-sm mb-2" type="button">Tam Ekran Aç/Kapa</button>
+                            <div id="dvkat">
+                                <ul>
+                                    <li>
+                                        <div class="fdsf">
+                                            <div class="fvd">
+                                               
+                                                <div class="altbas">Günlük Kazılar</div>
+                                                <div class="sbbhd1">
+                                                    <div class="rns" style="background-color: #159c5f; width: 13px; height: 13px; border-radius: 10px;"></div>
+                                                    <input class="form-check-input chbKatOnOf1" checked="checked" data-tip="1" data-renkkodu="#159c5f" type="checkbox">
+                                                    <a class="btnKtmnShow">Aktif Kazılar</a>
+                                                </div>
+                                                <div class="sbbhd1">
+                                                    <div class="rns" style="background-color:#fed300; width: 12px; height: 12px; border-radius: 10px;"></div>
+                                                    <input class="form-check-input chbKatOnOf1" data-tip="2" data-renkkodu="#fed300" type="checkbox">
+                                                    <a class="btnKtmnShow">Biten Kazılar</a>
+                                                </div>
+                                                <div class="sbbhd1">
+                                                    <div class="rns" style="background-color:#a8a8a8; width: 11px; height: 11px; border-radius: 10px;"></div>
+                                                    <input class="form-check-input chbKatOnOf1" data-tip="0" data-renkkodu="#a8a8a8" type="checkbox">
+                                                    <a class="btnKtmnShow">Pasif Kazılar</a>
+                                                </div>
+
+                                                <div class="sbbhd1">
+                                                    <div class="rns" style="background-color:#2779b6; width: 11px; height: 11px; border-radius: 10px;"></div>
+                                                    <input class="form-check-input chbKatOnOf1" data-tip="3" data-renkkodu="#2779b6" type="checkbox">
+                                                    <a class="btnKtmnShow">Başlanmayan Kazılar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="map position-relative">
+                            <div id="map"></div>
+                            <div class="lblKoordinat">
+                                <span>Enlem:</span>
+                                <div id="lblEnl" class="lblw"></div>
+                                <span>Boylam:</span>
+                                <div id="lblByl" class="lblw"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="cerceve">
+                    <h1 class="baslik1">Proje Tipi</h1>
+                    <div>
+                        <canvas id="charProjeTipi"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+
+                <div class="cerceve">
+                    <h1 class="baslik1">Kurum</h1>
+                    <div>
+                        <canvas id="charKurum"></canvas>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-4 mobful">
+
+        @*       <div class="pnl1">
+        <div class="vgt">
+        <i class="bx bx-menu"></i>
+        <div>
+        <div class="lsp">Yeni Proje Başvurusu</div>
+        <div class="vgt justify-content-center">
+        <div class="ads" id="lblSpnProjeAdet"></div>
+        <span class="lspd">Adet</span>
+        </div>
+        </div>
+        </div>
+        </div> *@
+
+        <div class="cerceve">
+            <h1 class="baslik1">Aylık Toplam Proje Miktarı</h1>
+            <div>
+                <canvas id="charAylik"></canvas>
+            </div>
+        </div>
+
+        <div class="cerceve">
+            <h1 class="baslik1">İlçe Bazlı Toplam Proje Miktarı</h1>
+            <div>
+                <canvas id="charIlce"></canvas>
+            </div>
+        </div>
+
+        <div class="cerceve">
+            <h1 class="baslik1">Durum</h1>
+            <div>
+                <canvas id="charDurumTipi"></canvas>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="mdlKaziInfo" tabindex="-1" data-bs-backdrop="static" style="z-index:1500;">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlKatmanBaslik"></h5>
+                <button type="button" class="btn-close" placeholder="+" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bgt64">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-8">
+                        <h2 class="altbaslik">Proje</h2>
+                        <div class="row">
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje No</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" class="form-control form-control-sm" readonly="readonly" id="txtmPrjNo" />
+                                    </div>
+                                </div>
+
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje Ref</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjref" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Talep Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTalepTarihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje Tipi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTip" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Yıl</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" class="form-control form-control-sm" readonly="readonly" id="txtvYil" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Aktif</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtvAktif" />
+                                    </div>
+                                </div>
+                                @*   <div class="bcol">
+                                <div class="lblDiv">
+                                <div class="lbll">Talep Tarihi</div>
+                                </div>
+                                <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTalepTarihi" />
+                                </div>
+                                </div>
+                                <div class="bcol">
+                                <div class="lblDiv">
+                                <div class="lbll">Proje Tipi</div>
+                                </div>
+                                <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTip" />
+                                </div>
+                                </div>
+                                *@
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv" style="width: 19.3%;">
+                                <div class="lbll">Proje Amacı</div>
+                            </div>
+                            <div class="ltxt" style="width: 81.7%;">
+                                <textarea class="form-control form-control-sm" readonly id="txtmPrjAmaci"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+
+
+                        <h2 class="altbaslik">Planlanan</h2>
+                        <div class="bcoll">
+                            <div class="lblDiv">
+                                <div class="lbll">Başlama Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtPrjBasTarihi" />
+                            </div>
+                        </div>
+
+                        <div class="bcoll mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">Bitiş Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtPrjBitTarihi" />
+                            </div>
+                        </div>
+
+                        <h2 class="altbaslik mt-2">Onay</h2>
+                        <div class="bcoll">
+                            <div class="lblDiv">
+                                <div class="lbll">Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtvOnaytarihi" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="altbaslik mt-3">Proje Başvuru Bilgileri</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Vatandaşın Başvuru Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtmPrjVatBasTar" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Dilekçe No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvDilekceno" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvKurum" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">T.C. No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvTcNo" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="col">
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Talep Sahibi Birim</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvBirim" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">İlgili Kişi</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvIlgilikisi" />
+                                </div>
+                            </div>
+
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Başvuru Yapan</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvBasvurusahibi" />
+                                </div>
+                            </div>
+
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Kapı No</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvKapiNo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="altbaslik mt-4">Kazı Bilgisi</h2>
+
+                <div>
+                    <table class="fixtbl mt-2" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>Kazı ID</th>
+                                <th>Uzunluk</th>
+                                <th>En</th>
+                                <th>Derinlik</th>
+                                <th>Alan</th>
+                                <th>Hacim</th>
+                                <th>İlçe</th>
+                                <th>Mahalle</th>
+                                <th>Cadde</th>
+                                <th>Yol Aidiyet</th>
+                                <th>Traf. Pln. ref</th>
+                                <th>Yol Mal.</th>
+                                <th>Yol Yap. Tar.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="position-relative">
+                        <div id="dvCustomers" class="overflow-auto tblbotsty" style="height:500px;">
+                            <table class="table fixtbl">
+                                <tbody id="tbdIstmm">
+                                    <tr>
+                                        <td><div class="bnh6">AAX</div></td>
+                                        <td><div class="bnh6">ADELAIDE</div></td>
+                                        <td>
+                                            <div class="tbl-prf-img">
+                                                <img class="imglarg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREI94hqIU4N7mcf-QQyBV4HLCISAqzSWSTrQ&amp;usqp=CAU">
+                                                <img class="imglarg" src="https://www.corporatephotographerslondon.com/wp-content/uploads/2021/07/LinkedIn_profile_photo_sample_3-300x300.jpg">
+                                                <img class="imglarg" src="https://res.cloudinary.com/demo/image/twitter/1330457336.jpg">
+                                                <div>+4</div>
+                                            </div>
+                                        </td>
+                                        <td>+0.01</td>
+                                        <td>+1.36%</td>
+                                        <td class="tbl-respd text-end oppop">
+                                            <i class="bx bx-dots-vertical-rounded btn btn-sm"></i>
+                                            <div class="tbl-resp">
+                                                <a class="btn btn-sm btnduzenle btndrowedt"> Edit</a>
+                                                <a class="btn btn-sm btndetay btnRowDet1">Details</a>
+                                                <a class="btn btn-sm btnsil btnRowDet3">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="bnh6">AAX</div></td>
+                                        <td><div class="bnh6">ADELAIDE</div></td>
+                                        <td>
+                                            <div class="tbl-prf-img">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREI94hqIU4N7mcf-QQyBV4HLCISAqzSWSTrQ&amp;usqp=CAU">
+                                                <img src="https://www.corporatephotographerslondon.com/wp-content/uploads/2021/07/LinkedIn_profile_photo_sample_3-300x300.jpg">
+                                                <img src="https://res.cloudinary.com/demo/image/twitter/1330457336.jpg">
+                                                <div>+2</div>
+                                            </div>
+                                        </td>
+                                        <td>+0.01</td>
+                                        <td>+1.36%</td>
+                                        <td class="tbl-respd text-end oppop">
+                                            <i class="bx bx-dots-vertical-rounded btn btn-sm"></i>
+                                            <div class="tbl-resp">
+                                                <a class="btn btn-sm btnduzenle btndrowedt">Edit</a>
+                                                <a class="btn btn-sm btndetay btnRowDet1">Details</a>
+                                                <a class="btn btn-sm btnsil btnRowDet3">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tblload" hidden="hidden">
+                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div id="dvKazInfPnl2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    <script src="~/js/LeafletJS/leaflet-src.js"></script>
+    <script src="~/js/yandex.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/_home/dasgboardjs.js" asp-append-version="true"></script>
+}
+

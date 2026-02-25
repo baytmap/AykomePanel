@@ -1,0 +1,326 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Katman Yönetimi";
+}
+@section Styles {
+    @*  <link href="~/css/leaflet.css" rel="stylesheet" /> *@
+    <style>
+        .arnk {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .alttbl {
+            background-color: #ffc1072b;
+            margin-bottom: 0;
+        }
+
+            .alttbl td {
+                font-size: .7rem !important;
+            }
+
+        #map {
+            width: 100%;
+            height: 550px;
+        }
+
+        .abirimSec {
+            text-decoration: none;
+            font-size: .8rem;
+            width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+}
+<div class="cerceve">
+    <h1 class="baslik1">Katman Yönetimi</h1>
+    <div class="text-end">
+        <button type="button" class="btn btn-outline-info btn-sm opnModal" id="btnMdlWfs" data-ref="#mdlVeri" data-temizle="false"><i class="bx bx-map-pin"></i> WFS Katman Ekle</button>
+        @* <button type="button" class="btn btn-outline-danger btn-sm opnModal" id="btnMdlWms" data-ref="#mdlVeri2" data-temizle="false"><i class="bx bx-map-alt"></i> WMS Katman Ekle</button> *@
+        @*         <button type="button" class="btn btn-outline-success btn-sm opnModal" id="btnMdlDB" data-ref="#mdlVeri3" data-temizle="false"><i class='bx bx-data'></i> DB Katman Ekle</button> *@
+    </div>
+
+    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+        <thead class="tblhead">
+            <tr>
+                <th>ID</th>
+                <th>Adı</th>
+                <th>Katman Tipi</th>
+                <th>Sıra</th>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="position-relative">
+        <div class="overflow-auto tblbotsty">
+            <table class="table fixtbl">
+                <tbody id="tblData">
+                </tbody>
+            </table>
+        </div>
+        <div class="tblload" hidden="hidden">
+            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wfs Katman Yönetimi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-2 mb-2">
+                        <div class="col-3">
+                            <div class="lblDiv">
+                                <div class="lbll">Adı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="Katman A" id="txtWfsAdi" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="lblDiv">
+                                <div class="lbll">Sıra</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="number" class="form-control form-control-sm" value="1" id="txtSira" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="lblDiv">
+                                <div class="lbll">Adres</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="http://kentrehberi.konya.bel.tr/wmsservis/w_aykome_wfs/ows" id="txtUrlAdres" data-validate-hint="Geçersiz Adres!" data-validate-func="url" />
+                            </div>
+                        </div>
+
+                        <div class="col mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">User Name</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="AYKOME_WFS" id="txtUserName" />
+                            </div>
+                        </div>
+                        <div class="col mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">User Password</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="W1905GS{t(vPB4b\VC" id="txtUserPassword" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" id="btnBaglan" class="btn btn-warning btn-sm">
+                            <i class='bx bxs-map-pin'></i>
+                            Bağlan
+                        </button>
+                    </div>
+                    <div>
+                        <h2>Katmanlar</h2>
+                        <div>
+                            <div class="position-relative">
+                                <div class="overflow-auto tblbotsty2">
+                                    <table class="table">
+                                        <thead class="tblhead2">
+                                            <tr>
+                                                <th><input type="checkbox" id="chbAllKat" name="name" /></th>
+                                                <th>Title</th>
+                                                <th>Sıra</th>
+                                                <th>Renk Kodu</th>
+                                                <th>Name</th>
+                                                <th>SRS</th>
+                                                <th>Zoom</th>
+                                                <th>Birim</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblDataRow">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnWfsInsert" disabled="disabled" class="btn btn-success btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlVeri2" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">WMS Katman Yönetimi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row row-cols-2 mb-2">
+                        <div class="col-3">
+                            <div class="lblDiv">
+                                <div class="lbll">Adı</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="Katman Wms" id="txtWfsAdi2" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="lblDiv">
+                                <div class="lbll">Sıra</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="number" class="form-control form-control-sm" value="1" id="txtSira2" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="lblDiv">
+                                <div class="lbll">Adres</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" id="txtUrlAdres2" value="http://31.223.16.7:7106/geoserver/ows" data-validate-hint="Geçersiz Adres!" data-validate-func="url" />
+                            </div>
+                        </div>
+
+                        <div class="col mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">User Name</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="" id="txtUserName2" />
+                            </div>
+                        </div>
+                        <div class="col mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">User Password</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" value="" id="txtUserPassword2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" id="btnBaglan2" class="btn btn-warning btn-sm">
+                            <i class='bx bxs-map-pin'></i>
+                            Bağlan
+                        </button>
+                    </div>
+                    <div>
+                        <h2>Katmanlar</h2>
+                        <div>
+                            <div class="position-relative">
+                                <div class="overflow-auto tblbotsty2">
+                                    <table class="table">
+                                        <thead class="tblhead2">
+                                            <tr>
+                                                <th><input type="checkbox" id="chbAllKat" name="name" /></th>
+                                                <th>Title</th>
+                                                <th>Sıra</th>
+                                                <th>Name</th>
+                                                <th>SRS</th>
+                                                <th>Zoom</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblDataRow2">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnWmsInsert" disabled="disabled" class="btn btn-success btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlBirim" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kurum/Birim</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select" id="slcKurum">
+                                <option value="">Seç</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-select" id="slcBirim">
+                                <option value="">Seç</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" id="btnKurBirIpt" class="btn btn-danger btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>İptal</span>
+                    </button>
+
+                    <button type="button" id="btnKurBir" disabled="disabled" class="btn btn-success btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Kaydet</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="mdlSil" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kullanıcı Silmek</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bu Kayıt Tamamen Silinsin mi?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSil" class="btn btn-success btn-sm">
+                        <i class='bx bx-check'></i>
+                        <span>Sil</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="custom-menu" style="display:none;">
+        <button onclick="alert('Tıklama 1')">Tıklama 1</button>
+        <button onclick="alert('Tıklama 2')">Tıklama 2</button>
+    </div>
+
+
+</div>
+@section Scripts {
+    @*    <script src="~/js/LeafletJS/leaflet-src.js"></script> *@
+    <script src="~/js/_katmanyonetimi/katmanyonetimi.js"></script>
+}
+

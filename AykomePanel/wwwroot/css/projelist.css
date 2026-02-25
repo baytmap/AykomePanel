@@ -1,0 +1,173 @@
+﻿
+#syfYuk {
+    background-color: #1987542e;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    z-index: 250;
+    color: #958b37;
+    font-size: 3rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 6px;
+    cursor: wait;
+}
+
+.mrdv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+    .mrdv .msrb {
+        box-shadow: 0 0 0 .25rem #ff000038;
+        border-radius: 7px;
+        border: 1px solid red;
+        text-align: center;
+        padding: 3px;
+    }
+
+        .mrdv .msrb .bx {
+            font-size: 1rem;
+            display: block;
+            color: red;
+        }
+
+        .mrdv .msrb .lnd {
+            color: darkred;
+        }
+
+.dvtolit {
+    font-size: .7rem;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+}
+
+    .dvtolit .dvtolit1 {
+        font-weight: bold;
+        width: 50%
+    }
+
+    .dvtolit .dvtolit2 {
+    }
+
+#dvCustomers .tbl-respd.oppop .tbl-resp {
+    width: 220px;
+}
+
+#mdlPrjAra .fixtbl {
+    table-layout: initial;
+}
+
+#txtProjeListesiAraDurumParams {
+    height: 134px;
+    overflow-x: scroll;
+}
+
+.tblbotsty {
+    height: 74vh;
+}
+
+.table tbody tr:hover {
+    background-color: #ffcb003b;
+}
+
+#lstDosya {
+    display: flex;
+    gap: 10px;
+    font-size: 16px;
+}
+
+.nnbd4 {
+    background-color: #1987541a;
+    padding: 6px;
+    color: #104f40;
+}
+
+#landControlForm .form-group {
+    background-color: #1987542e;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    padding: 10px;
+    color: #084428;
+}
+
+.imgresww {
+    width: 210px;
+    height: 210px;
+    background-color: #7a8882;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+}
+
+    .imgresww .arfimg {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        border-radius: 5px;
+    }
+
+    .imgresww .aslre {
+        position: absolute;
+        background-color: #3f4442;
+        bottom: 0;
+        left: 42%;
+        color: #fff;
+        font-size: 13px;
+        padding: 0 5px;
+    }
+
+.czg {
+    border: 1px solid #333;
+    padding: 10px;
+}
+
+.mds {
+}
+
+#pnlKurLstch {
+    height: 150px;
+    overflow: scroll;
+    background-color: #658e7a;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: .9rem;
+}
+
+#searchBox {
+    background-color: #658e7a;
+    color: #fff;
+    border-radius: 3px 3px 0 0;
+}
+
+.highlight {
+    background-color: #ee2121;
+}
+
+#pnlEkKaplamaLSt {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: .8rem;
+}
+
+.bgr4e {
+    padding: 3px;
+}
+
+    .bgr4e:nth-child(2n+1) {
+        background-color: #19875412;
+    }
+
+.imzldg {
+    background-color: rgba(238, 33, 33, 0.263) !important;
+}

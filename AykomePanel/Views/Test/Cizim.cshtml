@@ -1,0 +1,711 @@
+﻿@section Styles {
+    <link href="~/css/leaflet.css" rel="stylesheet" />
+    <link href="~/css/leaflet.draw.css" rel="stylesheet" />
+    <style>
+        #map {
+            width: 100%;
+            height: 550px;
+        }
+
+        .spnkord {
+            font-size: .7rem;
+            display: block;
+        }
+    </style>
+}
+<div class="cerceve">
+    <div id="map"></div>
+    <a onclick="fncKatmanKaldir()">Katmanı Kaldır</a>|
+    <a onclick="fncAddJson()">Json Yukle</a>|
+    <a onclick="fncAddJson2()">Json Yukle</a>
+</div>
+
+<div class="modal" id="mdlVeri" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ps-3 pe-3">Modal Başlık</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn btn-full"><i class="ph ph-frame-corners"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-cols-2 pe-3 ps-3">
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Kaplama Cinsi<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtAdiSoyadi" data-validate-hint="Zorunlu Alan!" data-validate-func="required" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Birimi<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <select id="slcvalue1" class="form-select" data-validate-hint="Zorunlu Alan!" data-validate-func="selectbox">
+                                <option value="-1">Seç</option>
+                                <option value="1">m2</option>
+                                <option value="2">mt</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Standart Hesap<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtMinLength"
+                                   data-validate-hint="En az 3 Karakterden oluşmalıdır !"
+                                   data-validate-func="minlength" data-validate-arg="3" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Tredaş vb. Uygulanan Hesap<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtMaxLength" data-validate-hint="En fazla 6 karakterden oluşmalıdır !" data-validate-func="maxlength" data-validate-arg="6" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">KOSKI Uygulanan Hesap<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtMinTipi"
+                                   data-validate-hint="20 den büyük bir değer olmalıdır !"
+                                   data-validate-func="min" data-validate-arg="20" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Hesap Yılı<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtMaxTipi"
+                                   data-validate-hint="50'den küçük bir değer olmalıdır !" data-validate-func="max" data-validate-arg="50" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Kaplama Kodu<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' id="txtEposta"
+                                   data-validate-hint="<%= Resources.dil.eposta%> <%= Resources.dil.hatali %>"
+                                   data-validate-func="email" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Web Adresi<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtWebAdresi"
+                                   data-validate-hint="Zorunlu Alan!"
+                                   data-validate-func="url" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Tarih<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="date" class='form-control ' value="" id="txtTarih"
+                                   data-validate-hint="Zorunlu Alan!"
+                                   data-validate-func="date" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Saat<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="time" class='form-control ' value="" id="txtSaat"
+                                   data-validate-hint="Zorunlu Alan!"
+                                   data-validate-func="time" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Tarih ve Saat<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="datetime-local" class='form-control ' value="" id="txtTarihVeSaat" data-validate-hint="Zorunlu Alan!" data-validate-func="datetime" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Yüzde<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtYuzdesi" data-validate-hint="<%= Resources.dil.yuzdesi%> , <%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-func="number" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Yaş<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtYas"
+                                   data-validate-hint="<%= Resources.dil.yas%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-func="digits" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Renk<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="color" class='form-control ' value="" id="txtColor"
+                                   data-validate-hint="<%= Resources.dil.yas%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-func="hexcolor" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">TC. Numarası<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class='form-control ' value="" id="txtTcNo" data-validate-hint="<%= Resources.dil.tcno%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-arg="^[1-9]{1}[0-9]{9}[02468]{1}$"
+                                   data-validate-func="pattern" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Ek Dosya<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="file" class="form-control  fileUpload" data-validate-hint="<%= Resources.dil.dosya%>, <%= Resources.dil.icinbelirlenendegergecersiz %>" data-validate-func="filedialog" />
+                        </div>
+                        <div class="progressupl">
+                            <div class="progressuplic"></div>
+                        </div>
+                        <div class="yukimsd" id="fileDosya" runat="server"></div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Fotoğraf<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="file" class="form-control  imageUpload"
+                                   data-validate-hint=" <%= Resources.dil.resim%>, <%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-func="filedialog">
+                        </div>
+                        <div class="progressupl">
+                            <div class="progressuplic"></div>
+                        </div>
+                        <div class="yukimsd" id="imgResim"></div>
+                    </div>
+
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Açıklama <span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <textarea id="txtMesaj" class='form-control'
+                                      data-validate-hint="Mesaj ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                      data-validate-func="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Şifre<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="password" class='form-control ' value="" id="txtSifre"
+                                   data-validate-hint="<%= Resources.dil.sifre%> ,<%= Resources.dil.icinbelirlenendegergecersiz %>"
+                                   data-validate-func="required" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">Durum<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <label class="switch" style="line-height: 25px;">
+                                <input checked="checked" type="checkbox" id="txtAktif" /><span class="check"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="lblDiv">
+                            <div class="lbll">SMS Dönüşü<span class="szr">*</span></div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="radio" id="txtSms" /><span class="check"></span>
+                            <span class="caption"></span>
+                        </div>
+                    </div>
+                </div>
+                <table class="fixtbl mt-2" cellpadding="0" cellspacing="0" border="0">
+                    <thead class="tblhead">
+                        <tr>
+                            <th>No</th>
+                            <th>Enlem</th>
+                            <th>Boylam</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="dvCustomers" class="overflow-auto tblbotsty" style="height:150px;">
+                    <table class="table fixtbl">
+                        <tbody id="txtkordlst">
+                            <tr data-lat="39.707186656826565" data-lng="-60.68847656250001">
+                                <td>1</td>
+                                <td>39.707186656826565</td>
+                                <td>-60.68847656250001</td>
+                            </tr>
+                            <tr data-lat="39.707186656826565" data-lng="-60.68847656250001"><td>2</td><td>39.707186656826565</td><td>-60.68847656250001</td></tr>
+                            <tr data-lat="34.52466147177175" data-lng="-46.09863281250001"><td>3</td><td>34.52466147177175</td><td>-46.09863281250001</td></tr>
+                            <tr data-lat="34.52466147177175" data-lng="-46.09863281250001"><td>4</td><td>34.52466147177175</td><td>-46.09863281250001</td></tr>
+                            <tr data-lat="39.977120098439634" data-lng="-34.67285156250001"><td>5</td><td>39.977120098439634</td><td>-34.67285156250001</td></tr>
+                            <tr data-lat="42.032974332441405" data-lng="-51.28417968750001"><td>6</td><td>42.032974332441405</td><td>-51.28417968750001</td></tr>
+                            <tr data-lat="42.032974332441405" data-lng="-51.28417968750001"><td>7</td><td>42.032974332441405</td><td>-51.28417968750001</td></tr>
+                            <tr data-lat="42.48830197960227" data-lng="-55.76660156250001"><td>8</td><td>42.48830197960227</td><td>-55.76660156250001</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger " data-bs-dismiss="modal">
+                    <span class="ph ph-plus  me-1"></span>
+                    İptal
+                </button>
+                <button type="button" id="btnInsert" class="btn btn-primary">
+                    <span class="ph ph-checks me-1"></span>
+                    Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#leaflet-0-7-examples">leaflet-draw-</a>
+
+@section Scripts {
+    <script src="~/js/LeafletJS/leaflet-src.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+    <script>
+        var yuklenenKatman, map;
+        zxc.baslarken(function () {
+            fncHaritaOlustur();
+            fncKatmanlariYukle();
+        })
+        var editableLayers;
+
+        function fncHaritaOlustur() {
+            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib });
+
+            map = new L.Map('map', { center: new L.LatLng(51.505, -0.04), zoom: 13 });
+            editableLayers = L.featureGroup().addTo(map);
+            L.control.layers({
+                'osm': osm.addTo(map),
+                "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+                    attribution: 'google'
+                })
+            },
+                { 'drawlayer': editableLayers },
+                { position: 'topright', collapsed: false }
+            ).addTo(map);
+
+            // var drawControl = new L.Control.Draw({
+            //     draw: {
+            //         polygon: {
+            //             allowIntersection: false,
+            //             showArea: true
+            //         }
+            //     },
+            //     edit: {
+            //         featureGroup: editableLayers,
+            //         edit: true
+            //     }
+            // });
+
+            // Draw false yapmak
+            // var drawControl = new L.Control.Draw({
+            //     draw: false,
+            //     edit: {
+            //         featureGroup: editableLayers
+            //     }
+            // });
+
+
+            var drawControl = new L.Control.Draw({
+                draw: {
+                    polyline: true,
+                    polygon: {
+                        allowIntersection: false,
+                        drawError: {
+                            color: '#e1e100', // Color the shape will turn when intersects
+                            message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+                        }
+                    },
+                    marker: true,
+                    rectangle: true,
+                    circle: true
+                },
+                // draw: {
+                //     position: "topright",
+                //     polygon: {
+                //         poly: {
+                //             allowIntersection: true
+                //         },
+                //         drawError: {
+                //             color: "#e1e100",
+                //             message: "<strong>Oh snap!<strong> you can't draw that!"
+                //         },
+                //         shapeOptions: {
+                //             color: "#bada55",
+                //             clickable: true
+                //         }
+                //         // showArea: true, //Çizilen çokgenin alanını m², ha veya km² cinsinden gösterin. Alan yalnızca yaklaşıktır ve çokgen büyüdükçe doğruluğu azalır.
+                //         // showLength: false, //Çizilen çizginin uzunluğunu gösterin. Alan yalnızca yaklaşıktır ve çokgen büyüdükçe doğruluğu azalır.
+                //         // metric: true,// Metrik ölçüm sistemini kullanın. Bir boole değeri olabileceği gibi hangi birimlerin kullanılacağını belirten bir dizi de olabilir. Olası birimler km (kilometre), ha (hektar), m (metre)'dir. Yani ['km', 'm'] değeri, uzunluğun metre cinsinden ve 1000 metreden fazla olduğunda kilometre cinsinden gösterileceği ve alanın m² veya km² cinsinden gösterileceği ve dönümün kullanılmayacağı anlamına gelir
+                //         // feet: true,//Metrik ölçüm sistemini kullanmadığınızda yarda ve mil yerine ayakları kullanın.
+                //         // nautic: false, //Metrik ölçüm sistemi veya feet kullanılmadığında yarda ve mil yerine deniz milini kullanın
+                //         // precision: { km: 2, ha: 2, m: 0, mi: 2, ac: 2, yd: 0, ft: 0, nm: 2 }//Her birim türünün sayıları için kullanılacak duyarlılığı tanımlar. Olası birimler km (kilometre), ha (hektar), m (metre), mi (mil), ac (akre), ya (yard), ft (fit), nm (deniz mili) şeklindedir. Örneğin, {km: 1} km ve km² için varsayılan hassasiyeti 1,53 km ve 15,01 km² yerine 1,5 km ve 15,0 km² gibi değerler verecek şekilde değiştirir.
+                //     }
+                //     ,
+                //     marker: false,
+                //     rectangle: false,
+                //     circle: false,
+                //     polyline: false,
+                //     circlemarker: true
+                // },
+                edit: {
+                    featureGroup: editableLayers,
+                    remove: true
+                }
+            });
+
+            map.addControl(drawControl);
+
+            // #region Cizim Yapildiginda
+            map.on(L.Draw.Event.CREATED, function (e) {
+                document.getElementById('txtkordlst').innerHTML = "";
+                var type = e.layerType,
+                    layer = e.layer;
+                if (type === 'polygon' || type === 'polyline') {
+                    editableLayers.addLayer(layer);
+                    console.log(layer.toGeoJSON());
+                    // var latlngLst = layer._latlngs[0];
+                    // var htmlKrd = '';
+
+                    // for (var i = 0; i < latlngLst.length; i++)
+                    //     htmlKrd = htmlKrd.concat(`<tr data-lat='${latlngLst[i].lat}' data-lng='${latlngLst[i].lng}'><td>${(i + 1)}</td><td>${latlngLst[i].lat}</td><td>${latlngLst[i].lng}</td></tr>`);
+
+                    // document.getElementById('txtkordlst').innerHTML = htmlKrd;
+                    // fncModalAc("#mdlVeri");
+
+                    var url = type === 'polygon' ? 'PostmyPolygon' : 'PostmyLinestring';
+
+                    fetch('/api/ApiTest/' + url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(layer.toGeoJSON())
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('API cevabı:', data);
+                        })
+                        .catch(error => {
+                            console.error('Hata:', error);
+                        });
+                }
+
+            });
+            // #endregion
+
+            // #region Cizim Düzenlendiğinde
+
+            map.on(L.Draw.Event.EDITED, function (e) {
+                var layers = e.layers;
+                layers.eachLayer(function (layer) {
+
+                    console.log("edited=", JSON.stringify(layer.toGeoJSON()));
+
+                    //ne istersen onu yap; büyük ihtimalle db'ye geri kaydet
+                });
+            });
+
+
+            // map.on('draw:edited', function (e) {
+            //     var layers = e.layers;
+            //     layers.eachLayer(function (layer) {
+            //         console.log("edited=", layer);
+            //         //ne istersen onu yap; büyük ihtimalle db'ye geri kaydet
+            //     });
+            // });
+            // #endregion
+
+        }
+
+
+        function fncKatmanlariYukle() {
+            var myStyle1 = {
+                "color": "#055160",
+                "weight": 2,
+                "opacity": 1
+            };
+            var myStyle2 = {
+                "color": "#ff7800",
+                "weight": 1,
+                "opacity": 0.65
+            };
+            fetch('/api/ApiTest/GetGisData', {
+                method: 'GET'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    yuklenenKatman = L.geoJSON(data,
+                        {
+                            onEachFeature: onEachFeature,
+                            style: function (feature) {
+                                // switch (feature.properties.party) {
+                                //     case 'test1': return myStyle2;
+                                //     case 'test2': return myStyle1;
+                                // }
+                                console.log("xxx", feature.properties.RenkKodu);
+                                return {
+                                    "color": feature.properties.RenkKodu,
+                                    "weight": 2,
+                                    "opacity": 0.65
+                                }
+                            }
+
+                            // style: {
+                            //     "color": "#055160",
+                            //     "weight": 2,
+                            //     "opacity": 1
+                            // }
+                        }
+                    ).addTo(map);
+                    map.fitBounds(yuklenenKatman.getBounds());
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+        }
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.party) {
+                editableLayers.addLayer(layer);
+                layer.bindPopup(feature.properties.party);
+            }
+        }
+
+
+
+
+
+
+        // map.addControl(new L.Control.Draw({
+        //     edit: {
+        //         featureGroup: editableLayers,
+        //         poly: {
+        //             allowIntersection: false
+        //         }
+        //     }
+        //     ,draw: {
+        //         polygon: {
+        //             allowIntersection: false,
+        //             showArea: true
+        //         }
+        //     }
+        // }));
+
+        // #region   draw: false
+        // var drawControl = new L.Control.Draw({
+        //     draw: false,
+        //     edit: {
+        //         featureGroup: editableLayers
+        //     }
+        // });
+        // map.addControl(drawControl);
+        // #endregion
+
+
+        // #region
+
+        // #endregion
+
+
+
+
+
+
+
+        // #region Cizim Diğer Eventler
+
+        // map.on('draw:markercontext', function (e) {
+        //     console.log("markercontext", e, e.layers);
+        // });
+        // map.on('draw:toolbarclosed', function (e) {
+        //     console.log("toolbarclosed ", e, e.layers);
+        // });
+        // map.on('draw:toolbaropened', function (e) {
+        //     console.log("toolbaropened", e, e.layers);
+        // });
+        // map.on('draw:deletestop', function (e) {
+        //     console.log("deletestop", e, e.layers);
+        // });
+        // map.on('draw:deletestart', function (e) {
+        //     console.log("deletestart", e, e.layers);
+        // });
+        // map.on('draw:editstop', function (e) {
+        //     console.log("editstop", e, e.layers);
+        // });
+        // map.on('draw:editvertex', function (e) {
+        //     console.log("editvertex", e, e.layers);
+        // });
+        // map.on('draw:editresize', function (e) {
+        //     console.log("editresize", e, e.layers);
+        // });
+        // map.on('draw:editmove', function (e) {
+        //     console.log("editmove", e, e.layers);
+        // });
+        // map.on('draw:editstart', function (e) {
+        //     console.log("editstart", e, e.layers);
+        // });
+        // map.on('draw:drawvertex', function (e) {
+        //     console.log("drawvertex", e, e.layers);
+        // });
+        // map.on('draw:drawstop', function (e) {
+        //     console.log("drawstop", e, e.layers);
+        // });
+        // map.on('draw:drawstart', function (e) {
+        //     console.log("drawstart", e, e.layers);
+        // });
+        // map.on('draw:deleted', function (e) {
+        //     console.log("deleted", e, e.layers);
+        // });
+
+        //#endregion
+
+        function fncHaritaDbKAydet() {
+            var q = document.querySelector('#txtkordlst').children,
+                w = [];
+
+            for (var i = 0; i < q.length; i++)
+                w.push({ lat: q[i].getAttribute('data-lat'), lng: q[i].getAttribute('data-lng') });
+            console.log(w);
+        }
+
+    </script>
+
+}
+
+@*         https://leaflet.github.io/Leaflet.draw/docs/leaflet-draw-latest.html#polygonoptions *@
+
+
+
+@*
+        let map = L.map("map").setView([51.505, -0.09], 13);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+map.on("click", function(e) {
+  console.log("map click");
+  console.log(e);
+});
+map.on("touchstart", function(e) {
+  console.log("map touchstart");
+  console.log(e);
+});
+
+let editableLayers = new L.FeatureGroup();
+
+editableLayers.on("click", function(e) {
+  console.log("editableLayers click");
+  console.log(e);
+});
+editableLayers.on("touchstart", function(e) {
+  console.log("editableLayers touchstart");
+  console.log(e);
+});
+
+map.addLayer(editableLayers);
+
+let drawControl = new L.Control.Draw({
+  position: "topright",
+  draw: {
+    polyline: false,
+    polygon: {
+      allowIntersection: false,
+      drawError: {
+        color: "#e1e100",
+        message: "<strong>
+    Oh snap!<strong>
+        you can't draw that!"
+        },
+        shapeOptions: {
+        color: "#333",
+        clickable: true
+        }
+        },
+        circle: false,
+        circlemarker: false,
+        rectangle: {
+        shapeOptions: {
+        clickable: true
+        }
+        },
+        marker: false
+        },
+        edit: {
+        featureGroup: editableLayers,
+        remove: true
+        }
+        });
+
+        map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function(e) {
+        let layer = e.layer;
+        editableLayers.addLayer(layer);
+        layer.on("click", function(e) {
+        console.log("layer click");
+        console.log(e);
+        });
+        layer.on("touchstart", function(e) {
+        console.log("layer touchstart");
+        console.log(e);
+        });
+        editableLayers.on("click", function(e) {
+        console.log("editableLayers2 click");
+        console.log(e);
+        });
+        editableLayers.on("touchstart", function(e) {
+        console.log("editableLayers2 touchstart");
+        console.log(e);
+        });
+        });
+ *@

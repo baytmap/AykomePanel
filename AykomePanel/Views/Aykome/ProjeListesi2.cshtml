@@ -1,0 +1,2897 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Aykome/Proje Listesi";
+}
+<link href="~/css/projelist.css" rel="stylesheet" asp-append-version="true" />
+
+
+
+
+
+<div id="syfYuk">
+    Sayfa Yükleniyor...
+</div>
+<div class="cerceve">
+    <h1 class="baslik1">Proje Listesi</h1>
+    <div class="row">
+        <div class="col-10 position-relative">
+
+            <div class="d-flex justify-content-between">
+                <div class="input-group mb-3" style="width:350px">
+                    <input type="text" class="form-control form-control-sm inputIslem" data-tip="enter" data-ref="#btnprjnoara" placeholder="Proje No Ara..." aria-label="Proje No Ara..." aria-describedby="btnprjnoara">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" id="btnprjnoara">Ara</button>
+                </div>
+                <div>
+
+                    <button type="button" class="btn btn-warning btn-sm" id="btnToplPny"><span class="bx bx-check"></span><span>Toplu Onayla</span></button>
+                    <button type="button" class="btn btn-success btn-sm" id="btnToplOlr" hidden="hidden"><span class="bx bx-check"></span><span>Toplu Olur Ver</span></button>
+                    <button type="button" class="btn btn-info btn-sm" id="btnAraModal"><span class="bx bx-search"></span><span>Ara</span></button>
+                    @*    <button type="button" id="btnPasifYap" hidden="hidden" class="btn btn-sm btn-danger">Pasif Yap</button> *@
+                </div>
+            </div>
+
+            <div>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="KendiProjelerimTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#KendiProjelerimTap" type="button" role="tab" aria-controls="KendiProjelerimTap" aria-selected="true">Kendi Projelerim</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="DagitimdanGelenTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#DagitimdanGelenTap" type="button" role="tab" aria-controls="DagitimdanGelenTap" aria-selected="false">Dağıtımla Gelen Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="YatirimcidanGelenTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#YatirimcidanGelenTap" type="button" role="tab" aria-controls="YatirimcidanGelenTap" aria-selected="false">Diğer Yatırımcı Kurumun Taslakları</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="TaslaklarimTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#TaslaklarimTap" type="button" role="tab" aria-controls="TaslaklarimTap" aria-selected="false">Taslaklarım</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="OlurVerilecekTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#OlurVerilecekTap" type="button" role="tab" aria-controls="OlurVerilecekTap" aria-selected="false">Olur Verilecekler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="OlurVerilenTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#OlurVerilenTap" type="button" role="tab" aria-controls="OlurVerilenTap" aria-selected="false">Olur Verilenler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="IncelenenTap-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#IncelenenTap" type="button" role="tab" aria-controls="IncelenenTap" aria-selected="false">İncelenen Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ReddEdilen-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#ReddEdilen" type="button" role="tab" aria-controls="RedEdilen" aria-selected="false">Reddedilen Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="OnayIcinGelen-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#OnayIcinGelen" type="button" role="tab" aria-controls="OnayIcinGelen" aria-selected="false">Onay İçin Gelen Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="Onaylanan-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#Onaylanan" type="button" role="tab" aria-controls="Onaylanan" aria-selected="false">Onaylanan Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="Onaylanmayan-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#Onaylanmayan" type="button" role="tab" aria-controls="Onaylanmayan" aria-selected="false">Onaylanmayan Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="Dagitilan-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#Dagitilan" type="button" role="tab" aria-controls="Dagitilan" aria-selected="false">Dağıtılan Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="OnaylanacakTaslak-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#OnaylanacakTaslak" type="button" role="tab" aria-controls="OnaylanacakTaslak" aria-selected="false">Onaylanacak Taslak Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="TumProjeler-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#TumProjeler" type="button" role="tab" aria-controls="TumProjeler" aria-selected="false">Tüm Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ArazideKontrolEdilecek-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#ArazideKontrolEdilecek" type="button" role="tab" aria-controls="ArazideKontrolEdilecek" aria-selected="false">Arazide Kontrol Edilecek Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ArazideKontrolEdilen-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#ArazideKontrolEdilen" type="button" role="tab" aria-controls="ArazideKontrolEdilen" aria-selected="false">Arazide Kontrol Edilmiş Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="UygunlukBelDuzenle-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#UygunlukBelDuzenle" type="button" role="tab" aria-controls="UygunlukBelDuzenle" aria-selected="false">Uygunluk Belgesi Düzenlenen Projeler</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="UygunlukBelImzala-tab" hidden="hidden" data-bs-toggle="pill" data-bs-target="#UygunlukBelImzala" type="button" role="tab" aria-controls="UygunlukBelImzala" aria-selected="false">Uygunluk Belgesi İmzala</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div hidden="hidden" class="tab-pane fade" id="KendiProjelerimTap" role="tabpanel" aria-labelledby="KendiProjelerimTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durumu</th>
+                                        <th>Notlar</th>
+                                        <th>Kazı Durumu</th>
+                                        <th>Kazı İşlem</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata1">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+
+                            @*    <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="fs-9">
+                            <span>Toplam Kayıt</span>
+                            <span id="lblgosterim" class="ms-1 me-1 text-secondary">1-25</span>
+                            <span id="lbltoplamkayit">250</span>
+                            </div>
+                            <div>
+                            <button type="button" class="btn btn-warning btn-sm btnDatOnc"><< Bir Önceki Sayfa</button>
+                            <button type="button" class="btn btn-warning btn-sm btnDatSon">Bir Sonraki Sayfa>> </button>
+                            </div>
+                            </div>*@
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="DagitimdanGelenTap" role="tabpanel" aria-labelledby="DagitimdanGelenTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durumu</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata2">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="YatirimcidanGelenTap" role="tabpanel" aria-labelledby="YatirimcidanGelenTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata3">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="TaslaklarimTap" role="tabpanel" aria-labelledby="TaslaklarimTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata4">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="OlurVerilecekTap" role="tabpanel" aria-labelledby="OlurVerilecekTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th class="wdt-enkucuk" id="chbOlurDrmYe"> </th>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durumu</th>
+                                        <th>Not</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata5">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="OlurVerilenTap" role="tabpanel" aria-labelledby="OlurVerilenTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durum</th>
+                                        <th>Not</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata6">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="IncelenenTap" role="tabpanel" aria-labelledby="IncelenenTap-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durumu</th>
+                                        <th>İnceleme Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata7">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="ReddEdilen" role="tabpanel" aria-labelledby="ReddEdilen-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durumu</th>
+                                        <th>Not</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata8">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="OnayIcinGelen" role="tabpanel" aria-labelledby="OnayIcinGelen-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Birim</th>
+                                        <th>Durum</th>
+                                        <th>İmzalar</th>
+                                        <th>Proje Tipi</th>
+                                        <th>Talep Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata9">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="Onaylanan" role="tabpanel" aria-labelledby="Onaylanan-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Birim</th>
+                                        <th>Durum</th>
+                                        <th>İmzalar</th>
+                                        <th>Proje Tipi</th>
+                                        <th>Talep Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata10">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="Onaylanmayan" role="tabpanel" aria-labelledby="Onaylanmayan-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Birim</th>
+                                        <th>Durum</th>
+                                        <th>İmzalar</th>
+                                        <th>Proje Tipi</th>
+                                        <th>Talep Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata11">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="Dagitilan" role="tabpanel" aria-labelledby="Dagitilan-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th>İnceleme Durum</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata12">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="OnaylanacakTaslak" role="tabpanel" aria-labelledby="OnaylanacakTaslak-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Durum</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata13">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="TumProjeler" role="tabpanel" aria-labelledby="TumProjeler-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Birim</th>
+                                        <th>Durum</th>
+                                        <th>İmzalar</th>
+                                        <th>Proje Tipi</th>
+                                        <th>Talep Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata14">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="ArazideKontrolEdilecek" role="tabpanel" aria-labelledby="ArazideKontrolEdilecek-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Onay Tarihi</th>
+                                        <th>Arazi İnceleme Sonucu</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata15">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="ArazideKontrolEdilen" role="tabpanel" aria-labelledby="ArazideKontrolEdilen-tab" tabindex="0">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-sm btn-primary" id="btnUygTplOlst" onclick="fncToplUygnOlstur(this)">Uygunluk belgesi oluştur</button>
+                        </div>
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th><input type="checkbox" class="chbAllChc" data-id="chbUyBelhf"></th>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Onay Tarihi</th>
+                                        <th>Onay Bitiş Tarihi</th>
+                                        <th>Arazi İnceleme Sonucu</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata16">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="UygunlukBelDuzenle" role="tabpanel" aria-labelledby="UygunlukBelDuzenle-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Onay Tarihi</th>
+                                        <th>Onay Bitiş Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata17">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" class="tab-pane fade" id="UygunlukBelImzala" role="tabpanel" aria-labelledby="UygunlukBelImzala-tab" tabindex="0">
+                        <div>
+                            <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tblhead">
+                                    <tr>
+                                        <th>Proje Numarası</th>
+                                        <th>Yatırımcı Kurum</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Onay Tarihi</th>
+                                        <th>Onay Bitiş Tarihi</th>
+                                        <th class="wdt-kucuk"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div class="position-relative">
+                                <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                    <table class="table fixtbl">
+                                        <tbody id="tdata18">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tblload" hidden="hidden">
+                                    <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="mrdv" id="mrdv">
+                @*          <div class="msrb">
+                <div class="bx bxs-traffic-cone" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<div class='dvtol'>                <div class='dvtolit'>
+                <div class='dvtolit1'>Cadde/ Sokak:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Sahadaki Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen En:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Altyapı Kazı İzni Harcı:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Toplam Maliyet:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div></div>"></div>
+                <div class="dropdown">
+                <div class="lnd dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Meram1
+                </div>
+                <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button">Göster</button></li>
+                <li><button class="dropdown-item" type="button">Haritada Göster</button></li>
+                <li><button class="dropdown-item" type="button">Resim Göster</button></li>
+                </ul>
+                </div>
+
+                </div>
+
+                <div class="msrb">
+                <div class="bx bxs-traffic-cone" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<div class='dvtol'>                <div class='dvtolit'>
+                <div class='dvtolit1'>Cadde/ Sokak:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Sahadaki Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen En:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Altyapı Kazı İzni Harcı:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Toplam Maliyet:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div></div>"></div>
+                <div class="dropdown">
+                <div class="lnd dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Meram1
+                </div>
+                <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button">Göster</button></li>
+                <li><button class="dropdown-item" type="button">Haritada Göster</button></li>
+                <li><button class="dropdown-item" type="button">Resim Göster</button></li>
+                </ul>
+                </div>
+
+                </div>
+
+                <div class="msrb">
+                <div class="bx bxs-traffic-cone" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<div class='dvtol'>                <div class='dvtolit'>
+                <div class='dvtolit1'>Cadde/ Sokak:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Sahadaki Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen En:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Altyapı Kazı İzni Harcı:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Toplam Maliyet:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div></div>"></div>
+                <div class="dropdown">
+                <div class="lnd dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Meram1
+                </div>
+                <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button">Göster</button></li>
+                <li><button class="dropdown-item" type="button">Haritada Göster</button></li>
+                <li><button class="dropdown-item" type="button">Resim Göster</button></li>
+                </ul>
+                </div>
+
+                </div>
+
+                <div class="msrb">
+                <div class="bx bxs-traffic-cone" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<div class='dvtol'>                <div class='dvtolit'>
+                <div class='dvtolit1'>Cadde/ Sokak:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ruhsat Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Sahadaki Kaplama Tipi:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Uzunluk:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen En:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Ölçülen Alan:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Yol Yıpranma Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Birim Fiyat:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Kaplama Bedeli:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Altyapı Kazı İzni Harcı:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div>
+                <div class='dvtolit'>
+                <div class='dvtolit1'>Toplam Maliyet:</div>
+                <div class='dvtolit2'>Değer Deneme</div>
+                </div></div>"></div>
+                <div class="dropdown">
+                <div class="lnd dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Meram1
+                </div>
+                <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button">Göster</button></li>
+                <li><button class="dropdown-item" type="button">Haritada Göster</button></li>
+                <li><button class="dropdown-item" type="button">Resim Göster</button></li>
+                </ul>
+                </div>
+
+                </div> *@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="mdlDagitim" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dağıtım Bilgi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>Dağıtılan Birim</th>
+                                <th>Alan Açıklama</th>
+                                <th>Gönderilen Tarih</th>
+                                <th>İnceleme Tarih</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div class="position-relative">
+                        <div id="dvCustomers" class="overflow-auto tblbotsty">
+                            <table class="table fixtbl">
+                                <tbody id="tdataDagtm">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tblload" hidden="hidden">
+                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOlur" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Olur Bilgi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>Olur Durumu</th>
+                                <th>Olur Durum</th>
+                                <th>Kurum Ad</th>
+                                <th>Birim Ad</th>
+                                <th>Not</th>
+                                <th>İnceleme Tarih</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div class="position-relative">
+                        <div id="dvCustomers" class="overflow-auto tblbotsty">
+                            <table class="table fixtbl">
+                                <tbody id="tdataOlur">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tblload" hidden="hidden">
+                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrjAra" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ara</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row tblsearch">
+                    <div class="col">
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Ref</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtProjeNo" type="text" class="form-control form-control-sm inputIslem" placeholder="Proje No" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Tarihi Başlangıç</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalepTarihiBaslangic" type="date" class="form-control form-control-sm inputIslem" placeholder="Talep Tarihi Başlangıç" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Tarihi Bitiş</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalepTarihiBitis" type="date" class="form-control form-control-sm inputIslem" placeholder="Talep Tarihi Bitiş" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Ilçe</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcIlceID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Belediye</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcBelediyeID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Onay Tarihi Başlangıç</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtOnayTarihiBaslangic" type="date" class="form-control form-control-sm inputIslem" placeholder="Onay Tarihi Başlangıç" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Onay Tarihi Bitiş</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtOnayTarihiBitis" type="date" class="form-control form-control-sm inputIslem" placeholder="Onay Tarihi Bitiş" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Mahalle</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcMahalleID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Cadde Sokak</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcCaddeSokakID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Planlanan Tarihi Başlangıç</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtPlanlananTarihiBaslangic" type="date" class="form-control form-control-sm inputIslem" placeholder="Planlanan Tarihi Başlangıç" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Planlanan Tarihi Bitiş</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtPlanlananTarihiBitis" type="date" class="form-control form-control-sm inputIslem" placeholder="Planlanan Tarihi Bitiş" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Durum</div>
+                            </div>
+                            <div class="ltxt">
+                                <div id="txtProjeListesiAraDurumParams" class="bg-white p-1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalepSahibi" type="text" class="form-control form-control-sm inputIslem" placeholder="Talep Sahibi" data-tip="enter" data-ref="#btnVeriAra" />
+                            </div>
+                        </div>
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcTalepSahibiKurumID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="dcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Birim</div>
+                            </div>
+                            <div class="ltxt">
+                                <select id="slcTalepSahibiBirimID" class="form-select form-select-sm inputIslem" data-tip="select" data-ref="#btnVeriAra">
+                                    <option value="-1">Seç</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col text-end">
+                            <button type="button" class="btn btn-danger btn-sm mt-3" id="btnAraClear"><span class="bx bx-message-alt-x"></span><span>Temizle</span></button>
+                            <button type="button" class="btn btn-info btn-sm mt-3 w-50" id="btnVeriAra"><span class="bx bx-search"></span><span>Bul</span></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-3">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pnlAra-1-tab" data-bs-toggle="pill" data-bs-target="#pnlAra-1" type="button" role="tab" aria-controls="pnlAra-1" aria-selected="true">Proje Bilgileri</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnlAra-2-tab" data-bs-toggle="pill" data-bs-target="#pnlAra-2" type="button" role="tab" aria-controls="pnlAra-2" aria-selected="false">Kazı Bilgileri</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pnlAra-3-tab" data-bs-toggle="pill" data-bs-target="#pnlAra-3" type="button" role="tab" aria-controls="pnlAra-3" aria-selected="false">Kaplama Bilgileri</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pnlAra-1" role="tabpanel" aria-labelledby="pnlAra-1-tab" tabindex="0">
+                            <div>
+                                <div class="position-relative">
+                                    <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                        <table class="table fixtbl">
+                                            <thead class="tblhead">
+                                                <tr>
+                                                    <th>Proje Ref</th>
+                                                    <th>Onay Tarihi</th>
+                                                    <th>Proje Tip</th>
+                                                    <th>Durum</th>
+                                                    <th>Proje Tip</th>
+                                                    <th>Talep Tarihi</th>
+                                                    <th>Amacı</th>
+                                                    <th>İlgili Kişi</th>
+                                                    <th>Başvuru Sahibi</th>
+                                                    <th>Talep Eden</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tdataara1">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tblload" hidden="hidden">
+                                        <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnlAra-2" role="tabpanel" aria-labelledby="pnlAra-2-tab" tabindex="0">
+                            <div>
+
+                                <div class="position-relative">
+                                    <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                        <table class="table fixtbl">
+                                            <thead class="tblhead">
+                                                <tr>
+                                                    <th>Proje Ref.</th>
+                                                    <th>Kazi Num.</th>
+                                                    <th>Ilçe</th>
+                                                    <th>Belediye</th>
+                                                    <th>Mahalle</th>
+                                                    <th>Cadde/Sokak</th>
+                                                    <th>En</th>
+                                                    <th>Derinlik</th>
+                                                    <th>Alan</th>
+                                                    <th>Hacim</th>
+                                                    <th>Pln.Baş.Tar.</th>
+                                                    <th>Pln.Bit.Tar.</th>
+                                                    <th>Onay Baş.Tar.</th>
+                                                    <th>Onay Bit.Tar.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tdataara2">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tblload" hidden="hidden">
+                                        <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pnlAra-3" role="tabpanel" aria-labelledby="pnlAra-3-tab" tabindex="0">
+                            <div>
+                                <div class="position-relative">
+                                    <div id="dvCustomers" class="overflow-auto tblbotsty">
+                                        <table class="table fixtbl">
+                                            <thead class="tblhead">
+                                                <tr>
+                                                    <th>Kazı Ref</th>
+                                                    <th>Kaplama Tipi</th>
+                                                    <th>Bozulacak Miktar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tdataara3">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tblload" hidden="hidden">
+                                        <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrjGost" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Proje Gör</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h2 class="altbaslik">Proje Bilgileri</h2>
+                    <div class="row row-cols-4">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Talep Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtProjeTalepTarihi" type="date" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Yil</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtProjeYil" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Tipi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtProjeTipi" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Numarasi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtProjeNumarasi" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Planlanan Bas Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtPlanlananBasTarihi" type="date" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Proje Amaci</div>
+                            </div>
+                            <div class="ltxt">
+                                <textarea id="txtProjeAmaci" type="text" class="form-control-plaintext form-control-sm"></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Planlanan Bit Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtPlanlananBitTarihi" type="date" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="altbaslik mt-3">Kurum/Birim Bilgileri</h2>
+                    <div class="row row-cols-2">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Dilekce No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtDilekceNo" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Vatandaş Başvuru Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtVatandasBasvuruTarihi" type="date" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-cols-4">
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalepSahibiKurum" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Birim</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalepSahibiBirim" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Talebi Yapan Kişi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtTalebiYapanKisi" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="lblDiv">
+                                <div class="lbll">Başvuru Sahibi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input id="txtBasvuruSahibi" type="text" class="form-control-plaintext form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="altbaslik mt-2">Kazı Bilgileri</h2>
+                    <div>
+                        <div class="row row-cols-3">
+                            <div class="col">
+                                <div class="dcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">İlçe</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtIlce" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="dcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Belediye</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtBelediye" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="dcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Mahalle</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtMahalle" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="dcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Cadde Sokak</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtCaddeSokak" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">En</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtEn" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Boy</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtBoy" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Derinlik</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtDerinlik" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Alan</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtAlan" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Hacim</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtHacim" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Yol Aidiyet</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input id="txtNNYolAidiyet" type="text" class="form-control-plaintext form-control-sm" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table fixtbl mt-3">
+                    <thead class="tblhead">
+                        <tr>
+                            <th>Giydirme Listesi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tdatagst">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlRuhsat" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="canvas"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-sm" onclick="fncYazdir()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncPdfIndr()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlRuhsat2" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="canvas2"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" onclick="prevPage('canvas2')">Önceki Sayfa</button>
+                <button type="button" class="btn btn-success btn-sm" onclick="nextPage('canvas2')">Sonraki Sayfa</button>
+
+                <button type="button" class="btn btn-info btn-sm" onclick="fncprintPDF()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncdownloadPDF()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlIrsaliye2" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="canvasirsaliye"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-sm" onclick="fncprintPDF()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncdownloadPDF()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncIrsaliyeTamam(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Devam Et</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrjResim" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="#" id="imgTrfResim" style="max-width: 100%; max-height: 100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrjResim2" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Plan</h5>
+                <button type="button" class="btn-close" onclick=' fncModalGizle(); fncModalAc("#mdlKaziInfo");' data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="#" id="imgTrfResim2" style="max-width: 100%; max-height: 100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOlurVer" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Olur Vermek</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>Mesaj</label>
+                <textarea id="txtOlurMesaj" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" onclick="fncOlurVer(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Olur Ver</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlReddetmek" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reddetmek</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>Mesaj</label>
+                <textarea id="txtReddetmek" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" onclick="fncRedVer(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Reddetmek</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOnayVer" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsatın Onaylanmasını İstiyor musunuz?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Başlangıç Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBasTarhi">
+                    </div>
+                </div>
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Bitiş Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBitTarhi">
+                    </div>
+                </div>
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Açıklama</div>
+                    </div>
+                    <div class="ltxt">
+                        <textarea class="form-control" id="txtOnayAciklama" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>İptal</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncRuhsatiOnayla(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Evet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOnayVerEk" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ek Ruhsatın Onaylanmasını İstiyor musunuz?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Başlangıç Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBasTarhiEk">
+                    </div>
+                </div>
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Bitiş Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBitTarhiEk">
+                    </div>
+                </div>
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Açıklama</div>
+                    </div>
+                    <div class="ltxt">
+                        <textarea class="form-control" id="txtOnayAciklamaEk" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>İptal</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncRuhsatiOnaylaEk(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Evet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOnyReddetmek" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Onayı Reddetmek</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>Mesaj</label>
+                <textarea id="txtOnyReddetmek" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" onclick="fncOnyRedVer(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Reddetmek</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlPrjDosya" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dosyalar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="lstDosya"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlInceleme" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">İnceleme Notu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                    <thead class="tblhead">
+                        <tr>
+                            <th>Kurum / Birim</th>
+                            <th>Durum</th>
+                            <th>Notu</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="position-relative">
+                    <div id="dvCustomers" class="overflow-auto tblbotsty">
+                        <table class="table fixtbl">
+                            <tbody id="txtIncNothtm">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlIncelemeGst" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dağıtım İncelemesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>Not</label>
+                <textarea id="txtIncNot" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" onclick="fncDagitimIncelendi(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Gönder</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlMakbuz" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Makbuz Bilgi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h2 class="altbas">Proje Bilgileri</h2>
+                    <table class="fixtbl mt-3" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>Cadde Sokak</th>
+                                <th>Planlanan Başlangıç Tar.</th>
+                                <th>Planlanan Bitiş Tar.</th>
+                                @*   <th>Onaylanan Başlangıç Tar.</th>
+                                <th>Onaylanan Bitiş Tar.</th> *@
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div class="position-relative">
+                        <div id="dvCustomers" class="overflow-auto tblbotsty" style="height:125px;">
+                            <table class="table fixtbl">
+                                <tbody id="tdataMakbuz">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 360px;">
+                    <h2 class="altbas mt-3">Makbuz Bilgileri</h2>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Makbuz Tarihi</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="date" class="form-control form-control-sm" id="txtMakbuzTarhi">
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Makbuz Numarası</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtMakbuzNo">
+                        </div>
+                    </div>
+                    <div class="bcol">
+                        <div class="lblDiv">
+                            <div class="lbll">Makbuz Tutarı</div>
+                        </div>
+                        <div class="ltxt">
+                            <input type="text" class="form-control form-control-sm" id="txtMakbuzTutari" data-tip-format="tutar2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>İptal</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncFormAc(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Tamam</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlRuhsatOnayFrm" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat Onay Formu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="altbaslik">Konya Büyükşehir Belediyesi</div>
+
+                        <div class="form-group">
+                            <label for="girisTarihi">Giriş Tarihi</label>
+                            <input type="date" class="form-control" id="txtTalepTArihi" readonly="readonly">
+                        </div>
+
+                        <div class="form-group mt-1">
+                            <label for="girisNumarasi">Proje Numarası</label>
+                            <input type="text" class="form-control" id="txtMakProjeNo" readonly="readonly">
+                        </div>
+
+                        <div class="altbaslik mt-2">UKOME</div>
+
+                        <div class="form-group mt-1">
+                            <label for="ustBirim1">UKOME Açıklama</label>
+                            <textarea class="form-control" id="txtMakMesaj1" rows="3" readonly="readonly"></textarea>
+                        </div>
+
+                        <div class="altbaslik mt-2">Yol Yapım Bakım Şube Müdürlüğü </div>
+                        <div class="form-group">
+                            <label for="ustBirim2">Açıklama</label>
+                            <textarea class="form-control" id="txtMakMesaj2" rows="3" readonly="readonly"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="durum">Ücret Türleri</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="yolYipranma">
+                                <label class="form-check-label" for="yolYipranma">Yol Yıpranma</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="ruhsatBedeli">
+                                <label class="form-check-label" for="ruhsatBedeli">Ruhsat Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="teminatBedeli">
+                                <label class="form-check-label" for="teminatBedeli">Teminat Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="kaziDolguBedeli">
+                                <label class="form-check-label" for="kaziDolguBedeli">Kazı Dolgu Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="kaplamaBedeli">
+                                <label class="form-check-label" for="kaplamaBedeli">Kaplama Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="altyapikaziizinharci">
+                                <label class="form-check-label" for="altyapikaziizinharci">Altyapı Kazı İzin Harcı</label>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <label for="fiyatYili" class="col-6 col-form-label">Fiyat Yılı</label>
+                            <div class="col-6">
+                                <select class="form-control" id="txtRuhstfiyatYili">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="altbaslik mt-2">Yapılan Tetkik neticesinde</div>
+                        <div class="nnbd4">
+                            <label for="txtRuhsRad" class="fs-9"><input type="checkbox" checked="checked" id="txtRuhsRad" />Yukarıda boyut ve yeri belirtilmiş olan tranşe </label>
+                            <div class="d-flex gap-1 mt-2">
+                                <input type="date" class="form-control form-control-sm" id="txtMakgTar1" />
+                                <input type="date" class="form-control form-control-sm" id="txtMakgTar2" />
+                            </div>
+                            <div class="mt-1 fs-9">
+                                tarihleri arasında
+                                <input type="text" id="searchBox" class="form-control form-control-sm" placeholder="Kurum ara..." onkeyup="filterLabels()">
+
+                                <div id="pnlKurLstch">
+                                </div>
+                                kurumları arası yönetmenlikle belirtilen kurallara uygun olarak açılacaktır.
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6"> <label for="txtKazGzrgs" class="fs-9"><input type="checkbox" id="txtKazGzrgs" /> Kazı güzergahında </label></div>
+                                <div class="col-6"> <input type="date" class="form-control form-control-sm" id="txtMakKazGz"></div>
+                            </div>
+                            <div class="mt-1 fs-9"> tarihinde diğer kurumların da çalışması olduğundan ortak programa alınmış olup AYKOME tarafından yapılacaktır.</div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="aciklama">Açıklama</label>
+                            <textarea class="form-control fs-8" id="txtMakaciklamav" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i><span>İptal</span>
+                </button>
+
+                <button type="button" class="btn btn-success btn-sm" onclick="fncRuhsatHesapla(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Ruhsatı Hesapla</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlIrsaliye" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">İrsaliye</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="canvasIrsaliye"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-sm" onclick="fncYazdir()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncPdfIndr()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncIrsaliyeTamam(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Devam Et</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlIrsaliyeEk" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="canvasIrsaliyeEk"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-sm" onclick="fncYazdir()">
+                    <i class='bx bxs-printer'></i>
+                    <span>Yazdır</span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="fncPdfIndr()">
+                    <i class='bx bxs-download'></i>
+                    <span>İndir</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncIrsaliyeTamamEk(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Devam Et</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlAraziKontrol" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content" style="width: 870px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Arazi Kontrol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="landControlForm">
+                    <div class="row">
+                        <label for="projectNo" class="col-4 col-form-label">Proje NO</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="projectNo" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label>Kazı sırasında emniyet tedbirleri</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="ETKONTROL" id="ETKONTROL" onchange="fncDigerKazKontrol(this, '#ETKONTROLnot')" value="1">
+                            <label class="form-check-label" for="ETKONTROL">Yapılmış</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="ETKONTROL" id="ETKONTROLnot" onchange="fncDigerKazKontrol(this, '#ETKONTROL')" value="0">
+                            <label class="form-check-label" for="ETKONTROLnot">Yapılmamış</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kazı kaplama cinsine göre uygun olarak</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="KPKONTROL" onchange="fncDigerKazKontrol(this, '#KPKONTROLnot')" value="1">
+                            <label class="form-check-label" for="KPKONTROL">Yapılmış</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="KPKONTROLnot" onchange="fncDigerKazKontrol(this, '#KPKONTROL')" value="0">
+                            <label class="form-check-label" for="KPKONTROLnot">Yapılmamış</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Çıkan dolgu malzemesinin, yeniden alınıp yerine yeni, uygun dolgu malzemenin serilmesi ve sıkıştırılması</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="YERKONTROL" onchange="fncDigerKazKontrol(this, '#YERKONTROLnot')" value="1">
+                            <label class="form-check-label" for="YERKONTROL">Yapılmış</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="YERKONTROLnot" onchange="fncDigerKazKontrol(this, '#YERKONTROL')" value="0">
+                            <label class="form-check-label" for="YERKONTROLnot">Yapılmamış</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kazı verilen tarihler arası</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="TARIHKONTROL" onchange="fncDigerKazKontrol(this, '#TARIHKONTROLnot')" value="1">
+                            <label class="form-check-label" for="TARIHKONTROL">Yapılmış</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="TARIHKONTROLnot" onchange="fncDigerKazKontrol(this, '#TARIHKONTROL')" value="0">
+                            <label class="form-check-label" for="TARIHKONTROLnot">Yapılmamış</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kazı sonrası, kaplama cinsine göre kaplama tamiri uygun olarak</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="TAMIRKONTROL" onchange="fncDigerKazKontrol(this, '#TAMIRKONTROLnot')" value="1">
+                            <label class="form-check-label" for="TAMIRKONTROL">Yapılmış</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="TAMIRKONTROLnot" onchange="fncDigerKazKontrol(this, '#TAMIRKONTROL')" value="0">
+                            <label class="form-check-label" for="TAMIRKONTROLnot">Yapılmamış</label>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mb-2">
+                        <label for="lblIncelemeSonucu">İnceleme Sonucu</label>
+                        <div id="lblIncelemeSonucu" class="fw-bold"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldNote">Arazi Notu</label>
+                        <textarea class="form-control" name="ACIKLAMA" id="fieldNote" rows="3"></textarea>
+                    </div>
+                    <div class="form-group" hidden="hidden">
+                        <input type="number" name="id" id="txtKaziKontrolID" />
+                    </div>
+                    <div class="form-group">
+                        <label>Resim ve Videolar</label>
+                        <div>
+                            <div class="ffeer5 d-flex gap-1 flex-wrap">
+                            </div>
+                            <div class="mt-3">
+                                <input class="form-control form-control-sm" id="filMusteriFotograf" accept="image/*,video/*" multiple type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="length">Uzunluk</label>
+                            <input type="text" class="form-control" name="Uzunluk" id="txtdlength" readonly="readonly">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="width">En</label>
+                            <input type="text" class="form-control" name="En" id="txtdwidth" readonly="readonly">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="depth">Derinlik</label>
+                            <input type="text" class="form-control" name="Derinlik" id="txtddepth" readonly="readonly">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" id="btnmdlAraziKontrol" onclick='fncAraziKaydetIlKasama(this)'>
+                    <i class='bx bx-check'></i>
+                    <span>Kaydet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlUygunluk" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Uygunluk Belgesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="editableContent" contenteditable="true">
+                    <div style="width: 750px;">
+                        <h5 style="text-align: center;">İŞ BİTİM TEMİNAT İADESİNE ESAS</h5>
+                        <h5 style="text-align: center;"> UYGUNLUK BELGESİ</h5>
+
+                        <div style="border: 1px solid #333; padding: 10px;">
+                            <div style="margin-bottom:20px;">
+                                <strong><span id="lblUygPrjNoLst"></span> nolu ekteki <span id="lblUygPrjIlceLst"></span></strong>
+                                İlçesi Altyapı Kazı Ruhsatları ile bulunan Muhtelif Mahallelerde Muhtelif cadde ve sokaklarda yapılan kazıların
+                                iş bitiminden  ilgili kurumun müracaatı üzerine kat-i kabulünün yapılması ve mutabakat sağlanması istenmiş, bunun üzerine aşağıda imzaları
+                                bulunan UYGUNLUK KOMİSYONU kurulmuş ve aşağıdaki karara varılmıştır.
+                            </div>
+
+                            <div style="margin-bottom:20px;">
+                                Met Enerji Üretim inş.Taah.Turz.San.ve Tic.A.Ş. tarafından yapmış olduğu  Altyapı çalışmalarında  Konya Büyükşehir Belediyesine vermiş olduğu
+                                Geçici Teminatın iadesi için yapılan kontrollerde;
+                            </div>
+                            <div style="margin-bottom:20px;">
+                                Kazı sonrası çıkan harfiyatın alınıp yerine yeni  dolgu malzemesi serilmesi ve sıkıştırılması yerinde incelenmiş ve yapılan işin  uygun oldugu görülmüştür.
+                            </div>
+                            <div style="margin-bottom:20px;">
+                                Yapılan kaplama tamirlerinde her hangi bir çökmeye rastlanmamıştır, asfaltın eski haline getirildiği görülmüştür. Ayrıca bozulan beton Tretuvar (parke) ve Beton Bordürlerinde uygun şekilde döşendiği  tarafımızca görülmüştür.
+                            </div>
+                            <div> Oluşturulan Uygunluk Komisyonu tarafında alınan karar ;   </div>
+                            <div>KARAR : Yukarıdaki görüş doğrultusunda<strong>……A……… </strong>Maddesindeki karar alınmıştır.</div>
+                        </div>
+
+                        <div style="border: 1px solid #333; padding: 10px;">
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <strong class="ccf">A:</strong>
+                                <div>
+                                    Met Enerji Üretim inş.Taah.Turz.San.ve Tic.A:Ş.<strong>10.885,00 TL</strong> geçici teminatın iadesine karar verilmiştir.
+                                    @* Tranşe protokol esaslarına uygun ve aslına uygun olarak açılıp kapatılmış olup, ilgili kurumun bu cadde / sokak için yatırmış olduğu
+                                    <strong>10.885,00 TL</strong> geçici teminatın iadesine karar verilmiştir. *@
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid #333; padding: 10px;">
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <strong>B:</strong>
+                                <div>
+                                    Tranşe üst kaplamasında bazı eksiklikler saptandığından yukarıdaki görüş doğrultusunda ilgili kuruma bu eksiklerin
+                                    tamamlanması için ….. gün süre verilecek ……………. tarihinde  komisyonun tekrar toplanmasına karar verilmiştir.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid #333; padding: 10px;">
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <strong>C:</strong>
+                                <div>
+                                    Tranşe üst kaplamasında bazı eksiklikler saptandığından yukarıdaki görüş doğrultusunda ilgili kurumun teminatından …………..TL kesilerek …………….TL.sinin iadesine karar verilmiştir.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid #333; padding: 10px;">
+                            <div>
+                                Yukarıdaki karar oy çokluğu / birliği ile alınmıştır.
+                            </div>
+
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Üye (1)</th>
+                                        <th>Üye (2)</th>
+                                        <th>Üye (3)</th>
+                                        <th>Üye (4)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>.../.../20...</td>
+                                        <td>.../.../20...</td>
+                                        <td>.../.../20...</td>
+                                        <td>.../.../20...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div>
+                                Üye (1): Yol Yap.Bak.Şb.Md.'lüğü temsilcisi ve/veya Bölge Şefliği Temsilcisi
+                            </div>
+                            <div>
+                                Üye (2): Altyapı Koordinasyon Şb.Müdürlüğünüz tespit ettiği temsilci
+                            </div>
+                            <div>
+                                Üye (3): Ruhsat sahibi kurumun temsilcisi (veya işi yaptırdığı müteahhit firmanın temsilcisi)
+                            </div>
+                            <div>
+                                ÜYE (4): İlgili Belediyeden Fen İşl.Md.'lüğü temsilcisi
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning btn-sm" onclick="downloadAsWord(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Word Olarak İndir</span>
+                </button>
+
+                <button id="btnUyg1" hidden="hidden" type="button" class="btn btn-success btn-sm" onclick="fncUygunlukYayinlaOpn(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Uygunluk Belgesi Yayınlansın Mı?</span>
+                </button>
+                <button id="btnUyg2" hidden="hidden" type="button" class="btn btn-danger btn-sm" onclick="fncUygunlukGeriAlOpn(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Uygunluk Belgesi Güncelle</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlUygunluk2" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Uygunluk Belgesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="pnlUygunlukIki">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning btn-sm" onclick="downloadAsWord(this)">
+                    <i class='bx bxs-show'></i>
+                    <span>Word Olarak İndir</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlGuncelleSecenek" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">RUHSAT GÜNCELLE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-primary w-100 mb-1" id="btnRgsGun001" onclick="fncEkHesapOpn(this)"><span class="bx bx-check"></span><span>Ek Hesap Ekle</span></button>
+                <button type="button" class="btn btn-primary w-100 mb-1" id="btnRgsGun002" onclick="fncHesapGunclOpn(this)"><span class="bx bx-check"></span><span>Hesap Güncelle</span></button>
+                <button type="button" class="btn btn-primary w-100 mb-1" id="btnRgsGun003" onclick="fncHesapTarhOpn(this)"><span class="bx bx-check"></span><span>Tarih Güncelle</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlEkHesapMdl" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">RUHSAT EK HESAP</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="txtProjeNo" class="form-label">Proje No</label>
+                        <input type="text" class="form-control" id="txtRhstGuProjeNo" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtOnayTarihi" class="form-label">Onay Tarihi</label>
+                        <input type="text" class="form-control" id="txtRhstGuOnayTarihi" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtOnayBaslangicTarihi" class="form-label">Onay Başlangıç Tarihi</label>
+                        <input type="text" class="form-control" id="txtRhstGuOnayBaslangicTarihi" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="txtRhstGuProjeTipi" class="form-label">Proje Tipi</label>
+                        <input type="text" class="form-control" id="txtRhstGuProjeTipi" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtRhstGuTalepEdenKurum" class="form-label">Talep Eden Kurum</label>
+                        <input type="text" class="form-control" id="txtRhstGuTalepEdenKurum" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtRhstGuOnayBitisTarihi" class="form-label">Onay Bitiş Tarihi</label>
+                        <input type="text" class="form-control" id="txtRhstGuOnayBitisTarihi" readonly>
+                    </div>
+                </div>
+
+                <!-- Kontrol Eden -->
+                <div class="mb-3">
+                    <label for="txtRhstGuKontrolEden" class="form-label">Kontrol Eden</label>
+                    <input type="text" class="form-control" id="txtRhstGuKontrolEden" readonly>
+                </div>
+
+                <!-- Ek Veri Giriş -->
+
+                <div>
+                    <div class="row mb-3">
+                        <div class="col-md-1 d-flex align-items-center ">
+                            <label>#</label>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center ">
+                            <label class="fw-bold">KAPLAMA TİPİ</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="fw-bold">EN</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="fw-bold">UZUNLUK</label>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="fw-bold">DERİNLİK</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="txtEkAlan" class="fw-bold">ALAN</label>
+                        </div>
+                    </div>
+                    <div id="pnlEkKaplamaLSt">
+                    </div>
+                </div>
+
+
+
+                <!-- Kontrol Eden Notu -->
+                <div class="mb-3">
+                    <label for="txtKontrolEdenNotu" class="form-label">Kontrol Eden Notu</label>
+                    <textarea class="form-control" id="txtKontrolEdenNotu" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" onclick="fncEkHesapHesapKaydet(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Hesapla</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlOnaytarihGunc" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsatın Onay Tarihini Değiştirmek İstiyor musunuz?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Başlangıç Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBasTarhiGn">
+                    </div>
+                </div>
+                <div class="bcol">
+                    <div class="lblDiv">
+                        <div class="lbll">Onay Bitiş Tarihi</div>
+                    </div>
+                    <div class="ltxt">
+                        <input type="date" class="form-control form-control-sm" id="txtOnayBitTarhiGn">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>İptal</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncRuhsatiOnaylaGn(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Evet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlRuhHespGuncelle" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ruhsat Hesap Güncelleme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="altbaslik">Ücret Türleri</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="yolYipranmaGun">
+                                <label class="form-check-label" for="yolYipranmaGun">Yol Yıpranma</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="ruhsatBedeliGun">
+                                <label class="form-check-label" for="ruhsatBedeliGun">Ruhsat Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="teminatBedeliGun">
+                                <label class="form-check-label" for="teminatBedeliGun">Teminat Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="kaziDolguBedeliGun">
+                                <label class="form-check-label" for="kaziDolguBedeliGun">Kazı Dolgu Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="kaplamaBedeliGun">
+                                <label class="form-check-label" for="kaplamaBedeliGun">Kaplama Bedeli</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked="checked" id="altyapikaziizinharciGun">
+                                <label class="form-check-label" for="altyapikaziizinharciGun">Altyapı Kazı İzin Harcı</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div>
+                            <label for="txtRuhstfiyatYiliGun" class="altbaslik">Fiyat Yılı</label>
+                            <div>
+                                <select class="form-control" id="txtRuhstfiyatYiliGun"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>İptal</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="fncHesapGunclKaydet(this)">
+                    <i class='bx bx-check'></i>
+                    <span>Hesap Güncelle</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlKaziInfo" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlKatmanBaslik"></h5>
+                <button type="button" class="btn-close" placeholder="+" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bgt64">
+                <div class="row">
+                    <div class="col-8">
+                        <h2 class="altbaslik">Proje</h2>
+                        <div class="row">
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje No</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" class="form-control form-control-sm" readonly="readonly" id="txtmPrjNo" />
+                                    </div>
+                                </div>
+
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje Ref</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjref" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Talep Tarihi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTalepTarihi" />
+                                    </div>
+                                </div>
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Proje Tipi</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtmPrjTip" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Yıl</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" class="form-control form-control-sm" readonly="readonly" id="txtvYil" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col">
+                                <div class="bcol">
+                                    <div class="lblDiv">
+                                        <div class="lbll">Aktif</div>
+                                    </div>
+                                    <div class="ltxt">
+                                        <input type="text" readonly class="form-control form-control-sm" id="txtvAktif" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bcol">
+                            <div class="lblDiv" style="width: 19.3%;">
+                                <div class="lbll">Proje Amacı</div>
+                            </div>
+                            <div class="ltxt" style="width: 81.7%;">
+                                <textarea class="form-control form-control-sm" readonly id="txtmPrjAmaci"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+
+
+                        <h2 class="altbaslik">Planlanan</h2>
+                        <div class="bcoll">
+                            <div class="lblDiv">
+                                <div class="lbll">Başlama Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtPrjBasTarihi" />
+                            </div>
+                        </div>
+
+                        <div class="bcoll mt-2">
+                            <div class="lblDiv">
+                                <div class="lbll">Bitiş Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtPrjBitTarihi" />
+                            </div>
+                        </div>
+
+                        <h2 class="altbaslik mt-2">Onay</h2>
+                        <div class="bcoll">
+                            <div class="lblDiv">
+                                <div class="lbll">Onay Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" readonly class="form-control form-control-sm" id="txtvOnaytarihi" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="altbaslik mt-3">Proje Başvuru Bilgileri</h2>
+                <div class="row">
+                    <div class="col">
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Vatandaşın Başvuru Tarihi</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtmPrjVatBasTar" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Dilekçe No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvDilekceno" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">Talep Sahibi Kurum</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvKurum" />
+                            </div>
+                        </div>
+
+                        <div class="bcol">
+                            <div class="lblDiv">
+                                <div class="lbll">T.C. No</div>
+                            </div>
+                            <div class="ltxt">
+                                <input type="text" class="form-control form-control-sm" readonly id="txtvTcNo" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="col">
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Talep Sahibi Birim</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvBirim" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">İlgili Kişi</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvIlgilikisi" />
+                                </div>
+                            </div>
+
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Başvuru Yapan</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvBasvurusahibi" />
+                                </div>
+                            </div>
+
+                            <div class="bcol">
+                                <div class="lblDiv">
+                                    <div class="lbll">Kapı No</div>
+                                </div>
+                                <div class="ltxt">
+                                    <input type="text" class="form-control form-control-sm" readonly id="txtvKapiNo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="altbaslik mt-4">Kazı Bilgisi</h2>
+
+                <div>
+                    <table class="fixtbl mt-2" cellpadding="0" cellspacing="0" border="0">
+                        <thead class="tblhead">
+                            <tr>
+                                <th>Kazı ID</th>
+                                <th>Uzunluk</th>
+                                <th>En</th>
+                                <th>Derinlik</th>
+                                <th>Alan</th>
+                                <th>Hacim</th>
+                                <th>İlçe</th>
+                                <th>Mahalle</th>
+                                <th>Cadde</th>
+                                <th>Yol Aidiyet</th>
+                                <th>Traf. Pln. ref</th>
+                                <th>Yol Mal.</th>
+                                <th>Yol Yap. Tar.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="position-relative">
+                        <div id="dvCustomers" class="overflow-auto tblbotsty" style="height:500px;">
+                            <table class="table fixtbl">
+                                <tbody id="tbdIstmm">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tblload" hidden="hidden">
+                            <i class="bx bx-search bx-tada fs-4"></i>Yükleniyor...
+                        </div>
+                    </div>
+                </div>
+                <div id="dvKazInfPnl2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlSor" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog" style="width: 350px;">
+        <div class="modal-content">
+            @*      <div class="modal-header">
+            <h5 class="modal-title" id="mdlSorHed">Dağıtım İncelemesi</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> *@
+            <div class="modal-body" id="mdlSorBod"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                    <span>Hayır</span>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" id="mdlSorBtn">
+                    <i class='bx bx-check'></i>
+                    <span>Evet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="modal fade" id="mdlEImza" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Proje İmzalama</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="custom-group">
+                                    @Html.Label("Cihaz")
+                                    @Html.DropDownList("Cihaz_Id", new List<SelectListItem> { new SelectListItem { Text = "Seçiniz", Value = "0", Selected = true } }, new { @class = "form-control select2_demo_1" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="custom-group">
+                                    @Html.Label("Sertifika")
+                                    @Html.DropDownList("Sertifika_Id", new List<SelectListItem> { new SelectListItem { Text = "Seçiniz", Value = "0", Selected = true } }, new { @class = "form-control select2_demo_1" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Şifre")
+                                @Html.Password("Sifre", "123456", new { @class = "form-control", placeholder = "Şifrenizi Giriniz", required = "required" })
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary w-100" id="btnEimzalama">İmzala</button>
+            </div>
+        </div>
+        <
+    </div>
+</div>
+ *@
+@await Html.PartialAsync("/Views/_PartialView/e_imza_show.cshtml")
+@await Html.PartialAsync("/Views/_PartialView/e_imza_view.cshtml")
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js" integrity="sha512-uVTNNXu6Z1rrgpMLuErTMferac7mGwfA7/oXfuGbpSmBqcopa8jCURWE1rBF3LMg7Zir+avOX807eGwHaL7akA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/vfs_fonts.min.js" integrity="sha512-EFlschXPq/G5zunGPRSYqazR1CMKj0cQc8v6eMrQwybxgIbhsfoO5NAMQX3xFDQIbFlViv53o7Hy+yCWw6iZxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.0.385/build/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    @*     <script src="~/js/apisigner/arksignerhelper.js"></script>
+    <script src="~/js/apisigner/arksignerjs-2.1.0.5.min.js"></script>
+    <script src="~/js/apisigner/arksignerlicence.js"></script>
+    <script src="~/js/apisigner/arksignertextmessage.js"></script> *@
+
+    <script src="~/js/_aykome/proje_listesi2.js?q=CcRF588CJjdQGWcfiM5IkgTT2Gvw4LcHT1K0acFWri8hOWCuePrXAUckRDSlP99PUkxylLmeVCUm4HHgvxEvqSfyXjfAMdbF9AAWiAtgqjyYpSgKg4LBXxGGOwftyrFqXfExV7rxXqr" asp-append-version="true"></script>
+}
