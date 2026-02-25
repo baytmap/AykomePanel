@@ -1,0 +1,1 @@
+# aykome.konya.bel.tr_frontend_v2
